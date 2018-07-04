@@ -1,0 +1,42 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: inherit; }
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box; }
+
+body {
+  background-color: #333;
+  color: #fff;
+  min-height: 50vh;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 10rem; }
+
+.time-box {
+  width: 100vh;
+  margin-top: 20%;
+  margin-left: auto;
+  margin-right: auto; }
+
+.time-box span {
+  position: relative; }
+
+.time-box span:after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/wave.jpg");
+  background-repeat: no-repeat; }
+
+.time-box span + span::before {
+  content: ':';
+  display: inline-block;
+  margin: 20px; }
+
+/*# sourceMappingURL=main.css.map */
