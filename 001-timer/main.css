@@ -53,11 +53,6 @@ body {
 .text {
   line-height: 0.8; }
 
-.time-box span + span::before {
-  content: ':';
-  display: inline-block;
-  margin: 20px; }
-
 @keyframes wave {
   from {
     transform: translateX(0); }
