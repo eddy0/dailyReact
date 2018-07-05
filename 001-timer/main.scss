@@ -10,44 +10,63 @@ html {
 }
 
 body {
-    background-color: #333;
+    background-color: #000;
     color: #fff;
     min-height: 50vh;
     font-family: 'Open Sans', sans-serif;
     font-size: 10rem;
 }
 
-
 .time-box {
-    width: 100vh;
+    width: 100vw;
     margin-top: 20%;
-    margin-left: auto;
-    margin-right: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 
-.time-box span {
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
+    color: #fff;
+    background-color: #000;
 }
 
-.time-box span:after {
+.mask {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 0;
+    background-color: #019cdf;
+    opacity: 1;
+    overflow: hidden;
+    mix-blend-mode: multiply;
+}
+
+.mask::before {
     content: '';
-    display: block;
     position: absolute;
     left: 0;
     top: 0;
-    height: 100%;
-    width: 100%;
-    background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/wave.jpg');
-    background-repeat: no-repeat;
-    //-webkit-background-clip: text;
+    height: 20px;
+    width: 1000px;
+    background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/wave.jpg");
+    animation: wave 10s linear infinite;
 }
 
+.text {
+    line-height: 0.8;
+}
 
-.time-box span + span {
-    &::before {
-        content: ':';
-        display: inline-block;
-        margin: 20px;
+@keyframes wave {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-700px);
     }
 }
-

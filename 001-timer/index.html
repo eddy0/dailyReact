@@ -14,6 +14,19 @@
 </head>
 <body>
 <div id="app"></div>
+
+<script type="text/babel">
+    const Time = (props) => {
+        return (
+            <div className='wrapper'>
+                <div className="mask" style={{height: `${props.percentage}%`}}></div>
+                <div className="text">{props.time}</div>
+            </div>
+        )
+    }
+</script>
+
+
 <script type="text/babel">
     class App extends React.Component {
         constructor() {
@@ -21,49 +34,55 @@
             this.state = {
                 hour: new Date(Date.now()).getHours(),
                 minute:  new Date(Date.now()).getMinutes(),
-                second: new Date(Date.now()).getSeconds()
+                second: new Date(Date.now()).getSeconds(),
             }
         }
-    
+
         fetchData = () => {
-            let  hour = new Date(Date.now()).getHours()
+            let hour = new Date(Date.now()).getHours()
             let minute =  new Date(Date.now()).getMinutes()
             let second = new Date(Date.now()).getSeconds()
-            
+
             this.setState(() => ({
                 hour,
                 minute,
                 second,
             }))
         }
-        
+
+
         componentDidMount() {
             this.interval = window.setInterval(() => {
                 this.fetchData()
             }, 1000)
         }
-        
+
         render() {
             let {hour, minute, second} = this.state
             hour = hour >= 10? `${hour}` : `0${hour}`
             minute = minute >= 10? `${minute}` : `0${minute}`
             second = second >= 10? `${second}` : `0${second}`
+            let hourpercentage = hour / 24 * 100
+            let minutepercentage = minute / 60 * 100
+            let secondpercentarge = second / 60 * 100
             return (
                 <div className="time-box">
-                    <span className="time-hour">{hour}</span>
-                    <span className="time-minute">{minute}</span>
-                    <span className="time-second">{second}</span>
+                    <Time name='hour' percentage={hourpercentage} time={hour}></Time>
+                    <Time name='minute' percentage={minutepercentage}  time={minute}></Time>
+                    <Time name='second' percentage={secondpercentarge} time={second}></Time>
                 </div>
             )
         }
     }
-   
-    
-    
-    
+
+
+
+
     ReactDOM.render(
         <App />, document.getElementById('app'),
     )
+
 </script>
+
 </body>
 </html>
