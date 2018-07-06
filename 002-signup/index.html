@@ -16,34 +16,124 @@
 <body>
     <div id="app"></div>
 
+    <script type="text/babel">
+        class View extends React.Component {
+
+            render() {
+                return (
+                    <div className="box__text">
+                        <div className="box__login">
+                            <h2> Doesnt has an acount? </h2>
+                            <p>click below for easy sign up</p>
+                            <button className="btn btn__switch" onClick={() => this.props.toggleLog(false)}>sign up</button>
+                        </div>
+                        <div className="box__signup">
+                            <h2> Already has an account? </h2>
+                            <p>Come and Join us!</p>
+                            <button className="btn btn__switch" onClick={() => this.props.toggleLog(true)}>sign in</button>
+                        </div>
+                    </div>
+                )
+            }
+        }
+    </script>
+
+    <script type="text/babel">
+        class SingnUpForm extends React.Component {
+            constructor() {
+                super()
+            }
+
+            handleSubmit = (e) => {
+                console.log('ok', e)
+
+                e.preventDefault()
+                console.log('ok')
+            }
+
+            render() {
+                return (
+                    <form className="signup__form" autoComplete="off" onSubmit={this.handleSubmit}>
+                        <div className="form__box">
+                            <label htmlFor="username">name</label>
+                            <input type="text" id='username' placeholder="name" required />
+                        </div>
+                        <div className="form__box">
+                            <label htmlFor="password">password</label>
+                            <input type="password" id='password' placeholder="password" required />
+                        </div>
+                        <div className="form__box">
+                            <label htmlFor="conform-password"> password</label>
+                            <input type="password" id='conform-password' placeholder="conform password" required />
+                        </div>
+                        <button type="submit" className="btn">sign up</button>
+                    </form>
+                )
+            }
+        }
+
+    </script>
+
+    <script type="text/babel">
+        class LoginForm extends React.Component {
+            constructor() {
+                super()
+            }
+
+            handleSubmit = (e) => {
+                e.preventDefault()
+                console.log('ok')
+            }
+
+            render() {
+                return (
+                    <form className="login__form" autoComplete="off" onSubmit={this.handleSubmit}>
+                        <div className="form__box">
+                            <label htmlFor="username">name</label>
+                            <input type="text" id='username' placeholder="name" required />
+                        </div>
+                        <div className="form__box">
+                            <label htmlFor="password">password</label>
+                            <input type="password" id='password' placeholder="password" required />
+                        </div>
+                        <button className="btn">login</button>
+                    </form>
+
+
+                )
+            }
+        }
+
+    </script>
 
     <script type="text/babel">
         class App extends React.Component {
             constructor() {
                 super()
+                this.state = {
+                    'login': true,
+                }
+            }
+
+            changeLogType = (type) => {
+                this.setState(() => {
+                    return {
+                        login: type,
+                    }
+                })
             }
 
             render() {
                 return (
-                    <div className='box'>
-                        <div className="box__login">
-                            <div className="login__text">
-                                <h2> Doesn't Have an account? </h2>
-                                <p>click below for easy sign up</p>
-                                <a className="btn" href="">sign up</a>
-                            </div>
-                            <form className="login__form" autocomplete="off">
-                                <div className="form__box">
-                                    <label htmlFor="username">name</label>
-                                    <input type="text" id='username' placeholder="name" required />
-                                </div>
-                                <div className="form__box">
-                                    <label htmlFor="password">password</label>
-                                    <input type="password" id='password' placeholder="password" required />
-                                </div>
-                                <a href="" className="btn">login</a>
-                            </form>
-                        </div>
+                    <div className='container'>
+                        <View toggleLog={this.changeLogType} />
+                        {
+                            this.state.login === true
+                                                ? <LoginForm />
+                                                : <SingnUpForm />
+                        }
+
+
                     </div>
                 )
         }

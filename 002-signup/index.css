@@ -65,13 +65,20 @@ input:focus:invalid {
     border-radius: 3px;
     margin-top: 2rem;
     box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    cursor: pointer;
     transition: all 0.2s;
+}
+
+.btn__switch {
+    background-color: transparent;
+    border: 1px solid #ddd;
+    color: #ddd;
 }
 
 .btn:hover {
     outline: 0;
     transform: translateY(-2px);
-    /* border: 1px solid lightcoral; */
+
 }
 
 .btn:focus {
@@ -87,32 +94,32 @@ input:focus:invalid {
 h2 {
     font-size: 2.2rem;
     font-weight: 300;
-
 }
 
-.box {
-    min-width: 60rem;
-    min-height: 50vh;
-    margin-left: auto;
-    margin-right: auto;
+#app {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    position: relative;
+    margin: 0 auto;
     background-color: rgba(0,0,0, 0.6);
     border-radius: 5px;
     color: #fff;
     display: flex;
-    align-items: stretch;
-    padding: 0 2rem;
 }
 
-
-.box__login {
-    width: 100%;
+.box__text{
     display: flex;
-    flex-grow: 1;
+    min-height: 50vh;
+    width: 60rem;
 }
 
-.login__text {
+
+.box__login, .box__signup {
     flex: 0 0 50%;
-    padding: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -120,19 +127,28 @@ h2 {
 }
 
 
-
-
-.login__form {
-    flex: 0 0 50%;
+.login__form, .signup__form {
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    /* flex: 0 0 50%; */
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 10rem;
+    justify-content: center;
     background-color: #fff;
     transform: scaleY(1.1);
     box-shadow: 0 2rem 4rem rgba(0,0,0,0.3);
     border-radius: 3px;
     color: #555;
+}
+
+.login__form {
+    right: 2%;
+}
+
+.signup__form {
+    left: 2%;
 }
 
 
