@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+    <link rel="stylesheet" href="index.css">
+    <title>sign up page</title>
+</head>
+
+<body>
+    <div id="app"></div>
+
+
+    <script type="text/babel">
+        class App extends React.Component {
+            constructor() {
+                super()
+            }
+
+            render() {
+                return (
+                    <div className='box'>
+                        <div className="box__login">
+                            <div className="login__text">
+                                <h2> Doesn't Have an account? </h2>
+                                <p>click below for easy sign up</p>
+                                <a className="btn" href="">sign up</a>
+                            </div>
+                            <form className="login__form" autocomplete="off">
+                                <div className="form__box">
+                                    <label htmlFor="username">name</label>
+                                    <input type="text" id='username' placeholder="name" required />
+                                </div>
+                                <div className="form__box">
+                                    <label htmlFor="password">password</label>
+                                    <input type="password" id='password' placeholder="password" required />
+                                </div>
+                                <a href="" className="btn">login</a>
+                            </form>
+                        </div>
+                    </div>
+                )
+        }
+    }
+
+    ReactDOM.render(
+        <App />, document.getElementById('app') )
+    </script>
+
+</body>
+
+</html>
