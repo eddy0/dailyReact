@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700">
+    <link rel="stylesheet" href="index.css">
+    <title>loading</title>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const Home = () => {
+            return (
+                <div>
+                    hello world!!
+                </div>
+            )
+        }
+    </script>
+
+    <script type="text/babel">
+    class Loading extends React.Component{
+        state = {
+            text: this.props.children,
+        }
+
+        componentDidMount() {
+            let text = this.state.text + '...'
+
+            this.interval = window.setInterval(() => {
+                if (this.state.text !== text) {
+                        this.setState((prevState) => ({
+                            text: prevState.text + '.'
+                        }))
+                } else {
+                    this.setState((prevState, props) => ({
+                        text: props.children
+                    }))
+                }
+            }, 100)
+        }
+
+        componentWillUnmount() {
+            window.clearInterval(this.interval)
+        }
+
+        render() {
+            return (
+                <div>
+                    {this.state.text}
+                </div>
+            )
+        }
+    }
+    </script>
+
+    <script type="text/babel">
+        class App extends React.Component{
+            state = {
+                loading: true,
+            }
+
+            componentDidMount() {
+                window.setTimeout(() => {
+                    this.setState(() => {
+                        return {
+                            loading: false
+                        }
+                    })
+                }, 3000)
+            }
+
+
+            render() {
+                return (
+                    <div className='main'>
+                        { this.state.loading === true
+                            ? <Loading>loading</Loading>
+                            : <Home/>
+                        }
+                    </div>
+                )
+            }
+        }
+
+    </script>
+    <script type="text/babel">
+        ReactDOM.render(
+            <App />, document.getElementById('root')
+        )
+
+    </script>
+
+</body>
+</html>
