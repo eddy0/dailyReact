@@ -7,7 +7,6 @@ const Title = (props) => {
     )
 }
 
-
 const Item = (props) => {
     let now = (props.now) ? 'now': null
     return (
@@ -17,6 +16,67 @@ const Item = (props) => {
     )
 }
 
+const CalendarHeader = (props) => {
+    let header = [ 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN' ]
+
+    return (
+        <React.Fragment>
+            {
+                header.map((day, i) => {
+                    return (
+                        <Item date={day} key={i} type='title'  />
+                    )
+                })
+            }
+        </React.Fragment>
+    )
+}
+
+const CalendarLastMonth = (props) => {
+    const {month, ...rest} = props
+    return (
+        <React.Fragment>
+            {
+                month.map((day,i) => {
+                    return (
+                        <Item date={day} key={i} {...rest} />
+                    )
+                })
+            }
+        </React.Fragment>
+    )
+}
+
+const CalendarCurrentMonth = (props) => {
+    const {month, date, ...rest} = props
+    return (
+        <React.Fragment>
+            {
+                month.map((day,i) => {
+                    return (
+                        <Item date={i + 1} key={i} now={date === (i+1)} {...rest} />
+                    )
+                })
+            }
+        </React.Fragment>
+    )
+}
+
+const CalendarNextMonth = (props) => {
+    const {month, ...rest} = props
+    return (
+        <React.Fragment>
+            {
+                month.map((day,i) => {
+                    return (
+                        <Item date={i + 1} key={i}  {...rest} />
+                    )
+                })
+
+            }
+        </React.Fragment>
+    )
+}
 
 class App extends React.Component {
 
@@ -103,6 +163,8 @@ class App extends React.Component {
         const currentDays = dates[this.state.month]
         const lastMonth = this.getLastDays()
         const nextDays = 42 - currentDays - lastMonth.length
+        const currentMonth = new Array(currentDays).fill(null)
+        const nextMonth = new Array(nextDays).fill(null)
 
 
         return (
@@ -111,26 +173,23 @@ class App extends React.Component {
                 <Title {...this.state} />
 
                 <div className='container'>
-                    {
-                        [ 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN' ].map((day,i) => {
-                            return <Item date={day} key={i} type='title' handleClick={this.handleClick} />
-                        })
-                    }
-                    {
-                        lastMonth.map((day,i) => {
-                            return <Item date={day} key={i} type='last' handleClick={this.handleClick} />
-                        })
-                    }
-                    {
-                        (new Array(currentDays).fill(null)).map((day, i) => {
-                            return <Item date={i+1} key={i} type='current' now={this.state.date === (i+1)} handleClick={this.handleClick} />
-                        })
-                    }
-                    {
-                        (new Array(nextDays).fill(null)).map((day, i) => {
-                            return <Item date={i+1} key={i} type='next' handleClick={this.handleClick} />
-                        })
-                    }
+                    <CalendarHeader  />
+
+                    <CalendarLastMonth
+                        month={lastMonth}
+                        handleClick={this.handleClick}
+                        type='last'
+                    />
+
+                    <CalendarCurrentMonth month={currentMonth}
+                        handleClick={this.handleClick}
+                        type='current'
+                        date={this.state.date} />
+
+                    <CalendarNextMonth month={nextMonth}
+                        handleClick={this.handleClick}
+                        type='next'
+                    />
 
 
                 </div>
