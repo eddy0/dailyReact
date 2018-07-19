@@ -8,7 +8,7 @@ const Title = (props) => {
 }
 
 const Item = (props) => {
-    let now = (props.now) ? 'now': null
+    let now = (props.now) ? 'now': ''
     return (
         <div className={`item ${props.type} ${now}`} onClick={() => props.handleClick(props.date, props.type)} >
             {props.date}
@@ -104,7 +104,7 @@ class App extends React.Component {
     }
 
     componentWillMount() {
-        const now = Date.now()
+        const now = this.props.date || Date.now()
         this.getDate(now)
     }
 
@@ -166,7 +166,6 @@ class App extends React.Component {
         const currentMonth = new Array(currentDays).fill(null)
         const nextMonth = new Array(nextDays).fill(null)
 
-
         return (
             <div>
 
@@ -184,7 +183,8 @@ class App extends React.Component {
                     <CalendarCurrentMonth month={currentMonth}
                         handleClick={this.handleClick}
                         type='current'
-                        date={this.state.date} />
+                        date={this.state.date}
+                    />
 
                     <CalendarNextMonth month={nextMonth}
                         handleClick={this.handleClick}
