@@ -1,4 +1,13 @@
 
+const Title = (props) => {
+    return (
+        <div>
+            {props.year}-{props.month+1}-{props.date}
+        </div>
+    )
+}
+
+
 const Item = (props) => {
     let now = (props.now) ? 'now': null
     return (
@@ -10,9 +19,6 @@ const Item = (props) => {
 
 
 class App extends React.Component {
-    constructor() {
-        super()
-    }
 
     getDate = (data) => {
         let year = new Date(data).getFullYear()
@@ -24,14 +30,13 @@ class App extends React.Component {
             month,
             date,
         }))
-
     }
 
     currentDate = () => {
         let dates = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ]
-        if (this.state.year % 400 ) {
+        if (this.state.year % 400 === 0 ) {
             dates[1] = 29
-        } else if (this.state.year % 400 !== 0  && this.state.year % 4 ) {
+        } else if (this.state.year % 400 !== 0  && this.state.year % 4 === 0 ) {
             dates[1] = 29
         }
 
@@ -49,53 +54,86 @@ class App extends React.Component {
             'last': -1,
             'next': +1,
         }
-        let offset = map[type]
-        this.setState((prevState) =>({
-            month: prevState.month + offset,
-            date: date,
-        }))
+
+        if (map[type] !== undefined) {
+            let offset = map[type]
+            this.setState((prevState) =>{
+            let month = prevState.month + offset
+            if (month >= 12) {
+                return {
+                    month: 0,
+                    date: date,
+                    year: prevState.year + 1
+                }
+            } else if (month < 0) {
+                return {
+                    month: 11,
+                    date: date,
+                    year: prevState.year - 1
+                }
+            } else {
+                return {
+                    month: month,
+                    date: date,
+                }
+            }
+            })
+        }
+    }
+
+    getLastDays = () => {
+        const firstDay = new Date(this.state.year, this.state.month, 1).getDay()
+        const dates = this.currentDate()
+        let lastMonth = []
+        let gap = (firstDay <= 2 ) ? 6 + firstDay :  firstDay - 1
+        let index = this.state.month - 1
+        if (index < 0) {
+            index = 11
+        }
+        for (var i = gap - 1; i >= 0 ; i--) {
+            let r = dates[index] - i
+            lastMonth.push(r)
+        }
+
+        return lastMonth
     }
 
     render() {
         const dates = this.currentDate()
-        const totalDays = dates[this.state.month]
-        const firstDay = new Date(this.state.year, this.state.month, 1).getDay()
-
-        let lastMonth = []
-        let gap = (firstDay === 0) ? 6 : firstDay - 1
-
-        for (var i = gap - 1; i >= 0 ; i--) {
-            let r = dates[this.state.month - 1] - i
-            lastMonth.push(r)
-        }
-
-        let lastDays = 42 - totalDays - lastMonth.length
+        const currentDays = dates[this.state.month]
+        const lastMonth = this.getLastDays()
+        const nextDays = 42 - currentDays - lastMonth.length
 
 
         return (
-            <div className='container'>
-                {
-                    [ 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN' ].map((day,i) => {
-                        return <Item date={day} key={i} type='header' handleClick={this.handleClick} />
-                    })
-                }
-                {
-                    lastMonth.map((day,i) => {
-                        return <Item date={day} key={i} type='last' handleClick={this.handleClick} />
-                    })
-                }
-                {
-                    (new Array(totalDays).fill(null)).map((day, i) => {
-                        return <Item date={i+1} key={i} type='current' now={this.state.date === (i+1)} handleClick={this.handleClick} />
-                    })
-                }
-                {
-                    (new Array(lastDays).fill(null)).map((day, i) => {
-                        return <Item date={i+1} key={i} type='next' handleClick={this.handleClick} />
-                    })
-                }
+            <div>
+
+                <Title {...this.state} />
+
+                <div className='container'>
+                    {
+                        [ 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN' ].map((day,i) => {
+                            return <Item date={day} key={i} type='title' handleClick={this.handleClick} />
+                        })
+                    }
+                    {
+                        lastMonth.map((day,i) => {
+                            return <Item date={day} key={i} type='last' handleClick={this.handleClick} />
+                        })
+                    }
+                    {
+                        (new Array(currentDays).fill(null)).map((day, i) => {
+                            return <Item date={i+1} key={i} type='current' now={this.state.date === (i+1)} handleClick={this.handleClick} />
+                        })
+                    }
+                    {
+                        (new Array(nextDays).fill(null)).map((day, i) => {
+                            return <Item date={i+1} key={i} type='next' handleClick={this.handleClick} />
+                        })
+                    }
 
 
+                </div>
             </div>
         )
     }
