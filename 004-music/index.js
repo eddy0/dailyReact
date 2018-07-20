@@ -1,3 +1,4 @@
+const log = console.log.bind(console)
 
 const Img  = (props) => (
     <div className='music__img'>
@@ -54,28 +55,40 @@ const PlayForward = (props) => {
     )
 }
 
-
 class Progress extends React.Component {
     
+    formatTime = (time) => {
+        let minute = Math.floor(time / 60) || 0
+        let second = Math.round(time % 60) || 0
+        log('time', minute, second)
+        minute = minute >= 10 ? String(minute) : `0${minute}`
+        second = second >= 10 ? String(second) : `0${second}`
+        return `${minute}:${second}`
+    }
+    
     render() {
-        
         let {currentTime , duration} = this.props
         let left = window.Math.floor(currentTime / duration * 100)
         left = left ? left : 0
         return (
-            <div className='music__process mt--lg'>
-                <div className="process__bar" style={{width: `${left}%`}} />
-                <div className="process__dot" style={{left: `${left}%`}}
-                    // onMouseUp={}
-                    // onMouseMove={}
-                    // onMouseDown={}
-                />
-                
+            <div className='process__box mt--lg'>
+                <div className="music__current">{this.formatTime(currentTime)}</div>
+    
+                <div className='process__bar'>
+                    <div className="process__done" style={{width: `${left}%`}} />
+                    <div className="process__dot" style={{left: `${left}%`}}
+                        // onMouseUp={}
+                        // onMouseMove={}
+                        // onMouseDown={}
+                    />
+
+                </div>
+                <div className="music__duration">{this.formatTime(duration)}</div>
+
             </div>
         )
     }
 }
-
 
 class Controller extends React.Component {
     render() {
@@ -98,8 +111,8 @@ class Controller extends React.Component {
             super()
             this.state = {
                 img: 'https://wangwenyue.github.io/Music_Player/pics/3.jpg',
-                song: '大地的异乡人',
-                artist: '木小雅',
+                song: 'Chasing Pavement',
+                artist: 'Adele',
                 src: 'https://raw.githubusercontent.com/eddy0/ReactExpress/master/static/music/4.mp3',
                 isPlay: false,
                 mode: 'repeat',

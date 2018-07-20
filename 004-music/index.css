@@ -38,8 +38,8 @@ audio {
 }
 
 .icon {
-    width: 2rem;
-    height: 2rem;
+    width: 3rem;
+    height: 3rem;
     display: block;
     fill: currentColor;
 }
@@ -79,18 +79,26 @@ audio {
     overflow: hidden;
 }
 
-.music__process {
-    margin-left: auto;
-    margin-right: auto;
-    width: 90%;
+.process__box {
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+}
+
+.process__bar {
+    flex: 1;
+    margin: 1rem 2rem;
     height: 5px;
+    border-radius: 5px;
     background-color: #ccc;
     position: relative;
 }
 
-.process__bar {
+.process__done {
     width: 0%;
     height: 5px;
+    border-radius: 5px;
     background-color: lightcoral;
 }
 
