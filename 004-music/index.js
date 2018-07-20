@@ -4,6 +4,50 @@ const Img  = (props) => (
     </div>
 )
 
+const PlayModel = (props) => {
+    return (
+        <div className="controller__play-model">
+            <svg className='icon'>
+                <use xlinkHref='./sprites.svg#icon-loop'></use>
+            </svg>
+        </div>
+    )
+}
+
+const Menu = (props) => {
+    return (
+        <div className="controller__menu">
+            <svg className='icon'>
+                <use xlinkHref='./sprites.svg#icon-menu'></use>
+            </svg>
+        </div>
+    )
+}
+
+const PlayBack = (props) => {
+    return (
+        <svg className='icon'>
+            <use xlinkHref='./sprites.svg#icon-backward'></use>
+        </svg>
+    )
+}
+
+const Play = (props) => {
+    return (
+        <svg className='icon'>
+            <use xlinkHref='./sprites.svg#icon-play'></use>
+        </svg>
+    )
+}
+
+const PlayForward = (props) => {
+    return (
+        <svg className='icon'>
+            <use xlinkHref='./sprites.svg#icon-forward'></use>
+        </svg>
+    )
+}
+
 class Controller extends React.Component {
     constructor() {
         super()
@@ -11,14 +55,14 @@ class Controller extends React.Component {
 
     render() {
         return(
-            <div className="music__controller">
-                <div className="controller__play-model">
-                    <svg className='icon'>
-                        <use xlinkHref='./sprites.svg#icon-loop2'></use>
-                    </svg>
+            <div className="music__controller mt--lg">
+                <PlayModel />
+                <div className="controller__main">
+                    <PlayBack />
+                    <Play />
+                    <PlayForward />
                 </div>
-                <div className="controller__main"></div>
-                <div className="controller__menu"></div>
+                <Menu />
             </div>
         )
     }
@@ -28,7 +72,10 @@ class Controller extends React.Component {
         constructor() {
             super()
             this.state = {
-                img: 'https://wangwenyue.github.io/Music_Player/pics/3.jpg'
+                img: 'https://wangwenyue.github.io/Music_Player/pics/3.jpg',
+                name: '大地的异乡人',
+                artist: '木小雅',
+                src: '',
             }
         }
 
@@ -41,11 +88,10 @@ class Controller extends React.Component {
                     </div>
                     <div className="container">
                         <Img img={this.state.img} />
-                        <div className="music__info mt--lg" >
-                            <div className="info__name">大地的异乡人</div>
-                            <div className="info__artist">木小雅</div>
+                        <div className="music__info mt--md" >
+                            <div className="info__name">{this.state.name}</div>
+                            <div className="info__artist">{this.state.artist}</div>
                         </div>
-
                         <Controller />
                     </div>
                 </React.Fragment>

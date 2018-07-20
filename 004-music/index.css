@@ -29,6 +29,9 @@ img {
 audio {
     display: none;
 }
+.mt--md {
+    margin-top: 2rem
+}
 
 .mt--lg {
     margin-top: 3rem
@@ -50,7 +53,6 @@ audio {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-
     filter: brightness(80%) blur(60px);
     z-index: -1;
 }
@@ -76,6 +78,27 @@ audio {
     font-size: 2.2rem;
 }
 
+.music__controller {
+    padding: 0 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.controller__main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.controller__main svg {
+    margin: 0 2rem;
+}
+
+.controller__menu {
+
+}
 
 
 @keyframes rotate {
