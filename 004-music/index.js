@@ -1,5 +1,34 @@
 const log = console.log.bind(console)
 
+const fetchAlbum = () => {
+    let list = [
+        {
+            img: 'https://wangwenyue.github.io/Music_Player/pics/3.jpg',
+            song: 'Chasing Pavement',
+            artist: 'Adele',
+            src: 'https://raw.githubusercontent.com/eddy0/ReactExpress/master/static/music/4.mp3',
+        },
+        {
+            img: 'https://wangwenyue.github.io/Music_Player/pics/1.jpg',
+            song: '走在冷风中',
+            artist: '周二珂',
+            src: 'https://raw.githubusercontent.com/eddy0/ReactExpress/master/static/music/1.mp3',
+        },
+        {
+            img: 'https://wangwenyue.github.io/Music_Player/pics/2.jpg',
+            song: '夜空中最亮的星',
+            artist: '逃跑计划',
+            src: 'https://raw.githubusercontent.com/eddy0/ReactExpress/master/static/music/3.mp3',
+        },
+    ]
+    
+    return Promise.resolve(list)
+}
+
+const random = (a, b) => {
+    return Math.floor( Math.random() * (b - a + 1) + a )
+}
+
 const Img  = (props) => (
     <div className='music__img'>
         <img src={props.img} alt=""/>
@@ -28,7 +57,7 @@ const Menu = (props) => {
 
 const PlayBack = (props) => {
     return (
-        <svg className='icon'>
+        <svg className='icon' onClick={() => props.handleSwitch(-1)} >
             <use xlinkHref='./sprites.svg#icon-backward'></use>
         </svg>
     )
@@ -49,7 +78,7 @@ const Play = (props) => {
 
 const PlayForward = (props) => {
     return (
-        <svg className='icon'>
+        <svg className='icon' onClick={() => props.handleSwitch(1)}>
             <use xlinkHref='./sprites.svg#icon-forward'></use>
         </svg>
     )
@@ -60,7 +89,6 @@ class Progress extends React.Component {
     formatTime = (time) => {
         let minute = Math.floor(time / 60) || 0
         let second = Math.round(time % 60) || 0
-        log('time', minute, second)
         minute = minute >= 10 ? String(minute) : `0${minute}`
         second = second >= 10 ? String(second) : `0${second}`
         return `${minute}:${second}`
@@ -96,9 +124,9 @@ class Controller extends React.Component {
             <div className="music__controller mt--lg">
                 <PlayModel mode={this.props.mode}  handleMode={this.props.handleMode}  />
                 <div className="controller__main">
-                    <PlayBack  />
+                    <PlayBack handleSwitch={this.props.handleSwitch}  />
                     <Play handlePlay={this.props.handlePlay} isPlay={this.props.isPlay} />
-                    <PlayForward />
+                    <PlayForward handleSwitch={this.props.handleSwitch} />
                 </div>
                 <Menu />
             </div>
@@ -115,8 +143,32 @@ class Controller extends React.Component {
                 artist: 'Adele',
                 src: 'https://raw.githubusercontent.com/eddy0/ReactExpress/master/static/music/4.mp3',
                 isPlay: false,
-                mode: 'repeat',
+                mode: 'normal',
             }
+        }
+        
+        fetchData = () => {
+            let music = window.localStorage.getItem('music')
+            if (music && music.length > 0) {
+                this.setState(() => {
+                    return {
+                        ...music
+                }})
+            }
+    
+            fetchAlbum().then((data) => {
+                this.album = data
+            })
+        }
+        
+        componentWillMount() {
+            this.fetchData()
+        }
+        
+        
+        saveData = () => {
+            let data = JSON.stringify(this.state)
+            localStorage.music = 'ok'
         }
         
         componentDidMount() {
@@ -132,12 +184,14 @@ class Controller extends React.Component {
                     }
                 })
             },1000)
+            window.addEventListener('beforeunload ', this.saveData.bind(this))
           
         }
-        
+    
         componentWillUnmount() {
-            // save in to localStorage
             window.clearInterval(this.interval)
+            window.removeEventListener('beforeunload ', this.saveData.bind(this))
+            this.saveData()
         }
     
         handlePlay = (status) => {
@@ -148,6 +202,20 @@ class Controller extends React.Component {
                 this.audio.play()
             } else {
                 this.audio.pause()
+            }
+        }
+    
+        handleLoad = (e) => {
+            console.log('load', e)
+        }
+    
+        handleSwitch = (offset) => {
+            let index = this.album.findIndex((song) => song.song === this.state.song )
+            if (index > -1) {
+                let nextIndex =(this.album.length + index + offset ) % this.album.length
+                this.setState(() => ({
+                    ...this.album[nextIndex]
+                }))
             }
         }
         
@@ -162,14 +230,44 @@ class Controller extends React.Component {
             }
            
         }
+    
+        autoPlay = () => {
+            log(this.audio.buffered,this.audio.buffered.end(0) )
+            this.setState(() => ({
+                isPlay: true,
+            }))
+            this.audio.play()
+        }
+    
+        handleRepeatMode = () => {
+            this.audio.currentTime = 0
+        }
+    
+        handleNormalMode = () => {
+            let index = this.album.findIndex((song) => song.song === this.state.song )
+            if (index > -1) {
+                let nextIndex =(index + 1 ) % this.album.length
+                this.setState(() => ({
+                    ...this.album[nextIndex]
+                }))
+            }
+        }
+    
+        handleShuffleMode = () => {
+            let index = Math.floor( Math.random() * this.album.length )
+            this.setState(() => ({
+                ...this.album[index]
+            }))
+        }
         
         handleEnd = () => {
-            if (this.state.mode === 'repeat') {
-                this.audio.currentTime = 0
-                this.audio.play()
-            } else if (this.state.mode === 'normal') {
-            
+            const map = {
+                'repeat': this.handleRepeatMode,
+                'normal': this.handleNormalMode,
+                'shuffle': this.handleShuffleMode,
             }
+            let mode = this.state.mode
+            map[mode]()
         }
         
         render() {
@@ -186,9 +284,16 @@ class Controller extends React.Component {
                         <Progress currentTime = {this.state.currentTime} duration={this.state.duration} />
                         <Controller {...this.state} audio={this.state.audio }
                             handlePlay={this.handlePlay}
-                            handleMode={this.handleMode} />
+                            handleMode={this.handleMode}
+                            handleSwitch={this.handleSwitch}
+                        />
                     </div>
-                    <audio src={this.state.src} ref={(audio) => this.audio = audio} onEnded={this.handleEnd}></audio>
+                    <audio src={this.state.src}
+                        ref={(audio) => this.audio = audio}
+                        onEnded={this.handleEnd}
+                        onCanPlay={this.autoPlay}
+                        onLoadedData={this.handleLoad}
+                    />
                 </React.Fragment>
             )
         }
