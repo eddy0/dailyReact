@@ -28,12 +28,12 @@
 <title>forward</title>
 <path d="M5 8.438v-3.125l-3.125 3.125v-6.875l3.125 3.125v-3.125l3.438 3.438z"></path>
 </symbol>
-<symbol id="icon-loop" viewBox="0 0 10 10">
-<title>loop</title>
+<symbol id="icon-normal" viewBox="0 0 10 10">
+<title>normal</title>
 <path d="M1.25 3.125h6.25v1.875l2.5-2.5-2.5-2.5v1.875h-7.5v3.75h1.25zM8.75 6.875h-6.25v-1.875l-2.5 2.5 2.5 2.5v-1.875h7.5v-3.75h-1.25z"></path>
 </symbol>
-<symbol id="icon-loop2" viewBox="0 0 10 10">
-<title>loop2</title>
+<symbol id="icon-repeat" viewBox="0 0 10 10">
+<title>repeat</title>
 <path d="M8.688 1.624c-0.914-0.998-2.228-1.624-3.688-1.624-2.761 0-5 2.239-5 5h0.938c0-2.244 1.819-4.063 4.063-4.063 1.201 0 2.281 0.522 3.024 1.351l-1.462 1.462h3.437v-3.438l-1.312 1.312z"></path>
 <path d="M9.063 5c0 2.244-1.819 4.063-4.063 4.063-1.201 0-2.281-0.522-3.024-1.351l1.462-1.462h-3.438v3.438l1.312-1.312c0.914 0.998 2.228 1.624 3.688 1.624 2.761 0 5-2.239 5-5h-0.938z"></path>
 </symbol>

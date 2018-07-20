@@ -13,7 +13,7 @@ html {
 body {
     font-size: 1.6rem;
     font-weight: 300;
-    font-family:  sans-serif;
+    font-family: 'Lato', sans-serif;
     line-height: 1.6;
     box-sizing: border-box;
     color: #e5e5e5;
@@ -74,8 +74,37 @@ audio {
 .music__info {
     text-align: center;
 }
-.music__info .info__name {
+.music__info .info__song {
     font-size: 2.2rem;
+    overflow: hidden;
+}
+
+.music__process {
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    height: 5px;
+    background-color: #ccc;
+    position: relative;
+}
+
+.process__bar {
+    width: 0%;
+    height: 5px;
+    background-color: lightcoral;
+}
+
+.process__dot {
+    position: absolute;
+    margin-left: -10px;
+    left: 0%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 1px solid #ccc;
 }
 
 .music__controller {
@@ -110,5 +139,16 @@ audio {
     }
     100% {
         transform: scale(1) rotate(360deg);
+    }
+}
+
+
+
+@keyframes move {
+    0% {
+        transform: translateX(-100%);;
+    }
+    100% {
+        transform: translateX(100%);;
     }
 }
