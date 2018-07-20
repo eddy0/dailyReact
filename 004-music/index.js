@@ -160,7 +160,6 @@ class Controller extends React.Component {
         }
         
         render() {
-            console.log('audio', this.audio)
             return(
                 <React.Fragment>
                     <div className='mask' style={{backgroundImage: `url(${this.state.img})`}}>
