@@ -86,8 +86,10 @@ const PlayForward = (props) => {
 
 class Progress extends React.Component {
     state = {
-        isDown: false
+        left: 0,
     }
+    
+    isDown = false
 
     formatTime = (time) => {
         let minute = Math.floor(time / 60) || 0
@@ -98,55 +100,73 @@ class Progress extends React.Component {
     }
 
     componentDidMount() {
-        window.addEventListener('mouseup', this.handleMouseUp )
-    }
-
-    handleMouseDown = (e) => {
-        let x = e.clientX
+        window.addEventListener('touchend', this.handleTouchEnd )
+        window.addEventListener('touchmove', this.handleTouchMove )
+        let {currentTime , duration} = this.props
+        let left = window.Math.floor(currentTime / duration * 100)
+        left = left ? left : 0
         this.setState(() => {
             return {
-                isDown: true,
-                position: x,
+                left: left,
             }
         })
     }
 
-    handleMouseUp = () => {
-        this.setState(() => {
-            return {
-                isDown: false,
-            }
-        })
+    handleTouchStart = (e) => {
+        log('mousedown',)
+        window.clearInterval(this.props.addInterval)
+    
+        let x = e.nativeEvent.touches[0].clientX
+        this.start = x
+        this.isDown = true
+        // this.setState(() => {
+        //     return {
+        //         isDown: true,
+        //         position: x,
+        //     }
+        // })
     }
 
-    handleMouseMove = (e) => {
-        e.preventDefault()
-        if (this.state.isDown) {
-            let x = e.clientX
-            let offset = this.state.position - x
-            let time = this.props.currentTime + offset
-            log(x, offset, time, this.bar.offsetWidth)
-            if (time > 0 && time <= this.bar.offsetWidth ) {
-                this.props.changeBar(offset)
-            }
+    handleTouchEnd = () => {
+        this.isDown = false
+        log('mouseup', this.isDown, this.offset)
+    
+        let limit = this.bar.offsetWidth - this.offset
+        if (limit >= 0 && limit <= this.bar.offsetWidth ) {
+            this.props.changeBar(this.offset)
         }
+    
+        // this.setState(() => {
+        //     return {
+        //         isDown: false,
+        //     }
+        // })
+    }
 
+    handleTouchMove = (e) => {
+        if (this.isDown) {
+            let x = e.touches[0].clientX
+            this.offset = x - this.start
+            this.setState((prev) => {
+                return {
+                    left: prev.left + this.offset
+                }
+            })
+        }
     }
 
     render() {
         let {currentTime , duration} = this.props
-        let left = window.Math.floor(currentTime / duration * 100)
-        left = left ? left : 0
+    
         return (
             <div className='process__box mt--lg'>
                 <div className="music__current">{this.formatTime(currentTime)}</div>
 
                 <div className='process__bar' ref={(bar) => this.bar = bar} >
-                    <div className="process__done" style={{width: `${left}%`}} />
-                    <div className="process__dot" style={{left: `${left}%`}}
-                        onMouseDown={this.handleMouseDown}
-                        onMouseMove={this.handleMouseMove}
-
+                    <div className="process__done" style={{width: `${this.state.left}%`}} />
+                    <div className="process__dot" style={{left: `${this.state.left}%`}}
+                        onTouchStart={this.handleTouchStart}
+                        ref={(dot) => this.dot = dot}
                     />
 
                 </div>
@@ -208,8 +228,8 @@ class App extends React.Component {
         let data = JSON.stringify(this.state)
         localStorage.music = 'ok'
     }
-
-    componentDidMount() {
+    
+    addInterval = () => {
         let audio = this.audio
         this.interval = window.setInterval(() => {
             let currentTime = audio.currentTime
@@ -218,10 +238,15 @@ class App extends React.Component {
                 return {
                     currentTime,
                     duration,
-                    audio: audio,
+                    audio,
                 }
             })
         },1000)
+    }
+
+    componentDidMount() {
+        this.addInterval()
+       
         window.addEventListener('beforeunload ', this.saveData.bind(this))
 
     }
@@ -314,9 +339,14 @@ class App extends React.Component {
     }
 
     changeBar = (offset) => {
-        this.setState((prevState) => ({
-            currentTime: prevState.currentTime + offset
-        }))
+        this.setState((prevState) => {
+            log('offset', offset, prevState.currentTime)
+    
+            return {
+                currentTime: prevState.currentTime + offset
+            }
+        })
+        this.addInterval()
     }
 
     render() {
@@ -330,7 +360,12 @@ class App extends React.Component {
                         <div className="info__song">{this.state.song}</div>
                         <div className="info__artist">{this.state.artist}</div>
                     </div>
-                    <Progress currentTime = {this.state.currentTime} duration={this.state.duration} changeBar={this.changeBar}/>
+                    <Progress currentTime = {this.state.currentTime}
+                        duration={this.state.duration}
+                        changeBar={this.changeBar}
+                        addInterval = {this.addInterval}
+                        
+                    />
                     <Controller {...this.state} audio={this.state.audio }
                         handlePlay={this.handlePlay}
                         handleMode={this.handleMode}
