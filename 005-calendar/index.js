@@ -92,6 +92,11 @@ class App extends React.Component {
         }))
     }
 
+    componentWillMount() {
+        const now = this.props.date || Date.now()
+        this.getDate(now)
+    }
+
     currentDate = () => {
         let dates = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ]
         if (this.state.year % 400 === 0 ) {
@@ -101,11 +106,6 @@ class App extends React.Component {
         }
 
         return dates
-    }
-
-    componentWillMount() {
-        const now = this.props.date || Date.now()
-        this.getDate(now)
     }
 
     handleClick = (date, type) => {
