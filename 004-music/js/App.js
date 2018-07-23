@@ -34,6 +34,7 @@ class App extends React.Component {
 
     saveData = () => {
         let {src,song, currentTime, duration, artist, img, mode} = this.state
+        log('data', artist, song, )
         localStorage.clear()
         let data = JSON.stringify({src, song, currentTime, duration, artist, img, mode})
         if (currentTime !== undefined) {
@@ -42,9 +43,13 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        window.addEventListener( 'beforeunload' , () => {
+        let isOnIOS = navigator.userAgent.match(/iPhone/i)
+        let eventName = isOnIOS ? "pagehide" : "beforeunload";
+        window.addEventListener( eventName , () => {
+            log('event', eventName)
             this.saveData()
         })
+
 
         // window.onbeforeunload = (event) => {
         //     event.preventDefault()
