@@ -16,7 +16,6 @@ class App extends React.Component {
     fetchData = () => {
         let music = window.localStorage.getItem('music')
         if (music && music.length > 0) {
-            log('music', music)
             music = JSON.parse(music)
             this.setState(() => {
                 return {
@@ -43,13 +42,25 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        window.onbeforeunload = (event) => {
-            event.preventDefault()
+        window.addEventListener( 'beforeunload' , () => {
             this.saveData()
+        })
+
+        // window.onbeforeunload = (event) => {
+        //     event.preventDefault()
+        //     this.saveData()
+        // }
+        if (this.state.currentTime ) {
+            let time = this.state.currentTime
+            this.audio.currentTime = time
+            // safari need to download the music fist then currentTime can be set
+            if (this.audio.currentTime === 0 && time !== 0) {
+                this.audio.oncanplay = () => {
+                    this.audio.currentTime = this.state.currentTime
+                }
+            }
         }
-        if (this.state.currentTime) {
-            this.audio.currentTime = this.state.currentTime
-        }
+
     }
 
     componentWillUnmount() {
@@ -76,10 +87,10 @@ class App extends React.Component {
         }))
 
         this.audio.addEventListener('canplay', () => {
-            if (this.state.canPlay === true) {
+            if (this.state.canPlay === true && this.audio.readyState === 4)  {
                 this.audio.play()
                 this.setState((prevState) => ({
-                    isLoading: true,
+                    isLoading: false,
                     isPlay: true,
                 }))
             }
@@ -91,8 +102,9 @@ class App extends React.Component {
         if (index > -1) {
             let nextIndex =(this.album.length + index + offset ) % this.album.length
             this.setState(() => ({
-                ...this.album[nextIndex]
+                ...this.album[nextIndex],
             }))
+            this.audio.currentTime = 0
         }
     }
 
