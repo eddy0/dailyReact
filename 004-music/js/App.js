@@ -191,7 +191,7 @@ class App extends React.Component {
             <React.Fragment>
                 <div className='mask' style={{backgroundImage: `url(${this.state.img})`}}>
                 </div>
-                <div className="container">
+                <div className="container"  >
                     <Img img={this.state.img} />
                     <div className="music__info mt--md" >
                         <div className="info__song">{this.state.song}</div>

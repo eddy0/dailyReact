@@ -22,7 +22,11 @@ body {
 img {
     height: 100%;
     width: 100%;
+    max-height: 28rem;
     display: block;
+    border-radius: 5px;
+    box-shadow: 0px 5px 10px rgba(255,255,255,0.3);
+
 }
 
 
@@ -53,24 +57,34 @@ audio {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    filter: brightness(80%) blur(60px);
+    filter: brightness(80%) blur(60px) grayscale(0.4);
     z-index: -1;
 }
 
 .container {
     width: 100vw;
+    max-width: 40rem;
     min-height: 100vh;
-    background-color: #000;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgba(0,0,0,0.5);
     border-radius: 5px;
     display: flex;
     flex-direction: column;
+
 }
 
 .music__img {
     width: 100%;
     overflow: hidden;
-    height: 370px;
+    min-height: 40rem;
+    padding: 10% 10% 0 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+
 
 .music__info {
     text-align: center;
