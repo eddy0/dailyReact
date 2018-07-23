@@ -9,6 +9,7 @@ class App extends React.Component {
             src: 'https://raw.githubusercontent.com/eddy0/ReactExpress/master/static/music/4.mp3',
             isPlay: false,
             mode: 'normal',
+            canPlay: false,
         }
     }
 
@@ -59,6 +60,7 @@ class App extends React.Component {
         this.setState((prevState) => ({
             isLoading: false,
             isPlay: !prevState.isPlay,
+            canPlay: true,
         }))
         if (status === true) {
             this.audio.play()
@@ -74,11 +76,13 @@ class App extends React.Component {
         }))
 
         this.audio.addEventListener('canplay', () => {
-            this.audio.play()
-            this.setState((prevState) => ({
-                isLoading: true,
-                isPlay: true,
-            }))
+            if (this.state.canPlay === true) {
+                this.audio.play()
+                this.setState((prevState) => ({
+                    isLoading: true,
+                    isPlay: true,
+                }))
+            }
         })
     }
 
