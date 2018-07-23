@@ -46,9 +46,9 @@ class App extends React.Component {
             event.preventDefault()
             this.saveData()
         }
-        log('audio', this.audio)
-        this.audio.currentTime = this.state.currentTime
-        this.audio.pause()
+        if (this.state.currentTime) {
+            this.audio.currentTime = this.state.currentTime
+        }
     }
 
     componentWillUnmount() {
@@ -68,7 +68,6 @@ class App extends React.Component {
     }
 
     handleLoad = () => {
-
         this.setState((prevState) => ({
             isLoading: true,
             isPlay: false,
