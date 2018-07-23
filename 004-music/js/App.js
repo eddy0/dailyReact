@@ -15,6 +15,8 @@ class App extends React.Component {
     fetchData = () => {
         let music = window.localStorage.getItem('music')
         if (music && music.length > 0) {
+            log('music', music)
+            music = JSON.parse(music)
             this.setState(() => {
                 return {
                     ...music
@@ -31,19 +33,23 @@ class App extends React.Component {
     }
 
     saveData = () => {
-        let data = JSON.stringify(this.state)
-        localStorage.music = 'ok'
+        let {src,song, currentTime, duration, artist, img, mode} = this.state
+        localStorage.clear()
+        let data = JSON.stringify({src, song, currentTime, duration, artist, img, mode})
+        localStorage.music = data
     }
 
-
     componentDidMount() {
-        window.addEventListener('beforeunload ', this.saveData.bind(this))
+        window.onbeforeunload = (event) => {
+            event.preventDefault()
+            this.saveData()
+        }
+        this.audio.pause()
+        this.audio.currentTime = this.state.currentTime
     }
 
     componentWillUnmount() {
-        window.clearInterval(this.interval)
-        window.removeEventListener('beforeunload ', this.saveData.bind(this))
-        this.saveData()
+        // this.saveData()
     }
 
     handlePlay = (status) => {
@@ -59,10 +65,19 @@ class App extends React.Component {
     }
 
     handleLoad = () => {
+
         this.setState((prevState) => ({
             isLoading: true,
             isPlay: false,
         }))
+
+        this.audio.addEventListener('canplay', () => {
+            this.audio.play()
+            this.setState((prevState) => ({
+                isLoading: true,
+                isPlay: true,
+            }))
+        })
     }
 
     handleSwitch = (offset) => {
@@ -88,12 +103,13 @@ class App extends React.Component {
     }
 
     autoPlay = () => {
-        this.audio.addEventListener('canplay', () => {
-            this.audio.play()
-            this.setState(() => ({
-                isPlay: true,
-            }))
-        })
+        // if (this.state.isPlay === true) {
+        //     this.audio.play()
+        //     this.setState(() => ({
+        //         isPlay: true,
+        //         isLoading: false,
+        //     }))
+        // }
     }
 
     handleRepeatMode = () => {
@@ -126,7 +142,7 @@ class App extends React.Component {
         let mode = this.state.mode
         map[mode]()
     }
-    
+
     updateTime = () => {
         let audio = this.audio
         let currentTime = audio.currentTime
@@ -159,7 +175,8 @@ class App extends React.Component {
                         duration={this.state.duration}
                         changeBar={this.changeBar}
                     />
-                    <Controller {...this.state} audio={this.state.audio }
+                    <Controller {...this.state}
+                        audio={this.state.audio }
                         handlePlay={this.handlePlay}
                         handleMode={this.handleMode}
                         handleSwitch={this.handleSwitch}
