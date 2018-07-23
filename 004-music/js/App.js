@@ -36,7 +36,9 @@ class App extends React.Component {
         let {src,song, currentTime, duration, artist, img, mode} = this.state
         localStorage.clear()
         let data = JSON.stringify({src, song, currentTime, duration, artist, img, mode})
-        localStorage.music = data
+        if (!song) {
+            localStorage.music = data
+        }
     }
 
     componentDidMount() {
@@ -44,8 +46,8 @@ class App extends React.Component {
             event.preventDefault()
             this.saveData()
         }
-        this.audio.pause()
         this.audio.currentTime = this.state.currentTime
+        this.audio.pause()
     }
 
     componentWillUnmount() {
