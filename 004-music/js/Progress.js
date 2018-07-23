@@ -70,10 +70,11 @@ class Progress extends React.Component {
             <div className='process__box mt--lg'>
                 <div className="music__current">{this.formatTime(currentTime)}</div>
 
-                <div className='process__bar' ref={(bar) => this.bar = bar} >
+                <div className='process__bar'
+                    ref={(bar) => this.bar = bar} >
 
                     <div className="process__done" style={{width: `${this.state.left}%`}} />
-                    <div className="process__dot" style={{left: `${this.state.left}%`}}
+                    <div className={`process__dot ${this.state.isDown? 'active': ''}`} style={{left: `${this.state.left}%`}}
                         onTouchStart={this.handleTouchStart}
                         ref={(dot) => this.dot = dot}
                     />

@@ -113,6 +113,11 @@ audio {
     border-radius: 50%;
     background-color: #fff;
     border: 1px solid #ccc;
+    transform-origin: center;
+}
+
+.process__dot.active {
+    transform: translateY(-50%) scale(1.2);
 }
 
 .music__controller {
