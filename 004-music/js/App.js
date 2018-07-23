@@ -36,7 +36,7 @@ class App extends React.Component {
         let {src,song, currentTime, duration, artist, img, mode} = this.state
         localStorage.clear()
         let data = JSON.stringify({src, song, currentTime, duration, artist, img, mode})
-        if (!song) {
+        if (currentTime !== undefined) {
             localStorage.music = data
         }
     }
@@ -46,6 +46,7 @@ class App extends React.Component {
             event.preventDefault()
             this.saveData()
         }
+        log('audio', audio)
         this.audio.currentTime = this.state.currentTime
         this.audio.pause()
     }
