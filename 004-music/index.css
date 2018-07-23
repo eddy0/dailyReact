@@ -84,6 +84,8 @@ audio {
     align-content: center;
     justify-content: space-between;
     padding: 0 2rem;
+    user-select: none;
+
 }
 
 .process__bar {
@@ -113,11 +115,12 @@ audio {
     border-radius: 50%;
     background-color: #fff;
     border: 1px solid #ccc;
+    cursor: pointer;
     transform-origin: center;
 }
 
 .process__dot.active {
-    transform: translateY(-50%) scale(1.2);
+    transform: translateY(-50%) scale(1.3);
 }
 
 .music__controller {

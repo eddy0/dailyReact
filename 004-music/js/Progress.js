@@ -26,8 +26,11 @@ class Progress extends React.Component {
     }
 
     componentDidMount() {
-        window.addEventListener('touchend', this.handleTouchEnd )
-        window.addEventListener('touchmove', this.handleTouchMove )
+        let isMobile = navigator.userAgent.match(/Mobile/i)
+        let eventName = isMobile ? ['touchend',  'touchmove'] : ['mouseup', 'mousemove']
+        log('eventName', eventName)
+        window.addEventListener(eventName[0], this.handleTouchEnd )
+        window.addEventListener(eventName[1], this.handleTouchMove )
     }
 
     handleTouchStart = (e) => {
@@ -48,7 +51,8 @@ class Progress extends React.Component {
 
     handleTouchMove = (e) => {
         if (this.state.isDown) {
-            let x = e.touches[0].clientX
+            // check if touch event or mouse move event
+            let x = e.touches !== undefined ? e.touches[0].clientX : e.clientX
             let position = this.bar.offsetLeft
             this.offset = x - position
             let limit = this.bar.offsetWidth - this.offset
@@ -76,6 +80,7 @@ class Progress extends React.Component {
                     <div className="process__done" style={{width: `${this.state.left}%`}} />
                     <div className={`process__dot ${this.state.isDown? 'active': ''}`} style={{left: `${this.state.left}%`}}
                         onTouchStart={this.handleTouchStart}
+                        onMouseDown={this.handleTouchStart}
                         ref={(dot) => this.dot = dot}
                     />
 
