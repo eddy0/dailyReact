@@ -8,14 +8,29 @@ class Progress extends React.Component {
 
 
     static getDerivedStateFromProps(props, state) {
+        //  因为父组件 setState 是异步的, 子组件更新之后父组件还没有更新, 所以会弹回去一下
+        //  用一个 lazy 来阻止第一次弹回去
+        if (state.lazy) {
+            return {
+                lazy: false
+            }
+        }
         let {currentTime , duration} = props
         let left = window.Math.floor(currentTime / duration * 100)
         left = state.isDown === false ? left : state.left
-        return {
-            left: left,
-        }
-
+        // log('currentTime', state.isDown, currentTime, state.info)
+            return {
+                left: left,
+            }
     }
+
+    // componentDidUpdate() {
+    //     let {currentTime , duration} = this.props
+    //     let left = window.Math.floor(currentTime / duration * 100)
+    //     left = this.state.isDown === false ? left : this.state.left
+    //     log('update', currentTime)
+    //
+    // }
 
     formatTime = (time) => {
         let minute = Math.floor(time / 60) || 0
@@ -37,14 +52,20 @@ class Progress extends React.Component {
         this.setState(() => {
             return {
                 isDown: true,
+                info: this.props.currentTime
             }
         })
     }
 
     handleTouchEnd = () => {
+        if (this.state.isDown) {
+            this.props.changeBar(this.state.info)
+        }
+
         this.setState(() => {
             return {
                 isDown: false,
+                lazy: true,
             }
         })
     }
@@ -61,8 +82,9 @@ class Progress extends React.Component {
                 this.setState((prev) => {
                     return {
                         left: percentage,
+                        info: this.props.duration * percentage / 100
                     }
-                }, () => this.props.changeBar(percentage))
+                })
             }
         }
     }
@@ -82,7 +104,15 @@ class Progress extends React.Component {
                         onTouchStart={this.handleTouchStart}
                         onMouseDown={this.handleTouchStart}
                         ref={(dot) => this.dot = dot}
-                    />
+                    >
+                        {
+                            this.state.isDown
+                                ? <div className='process__info'>{this.formatTime(this.state.info)}</div>
+                                : null
+                        }
+
+
+                                    </div>
 
                 </div>
                 <div className="music__duration">{this.formatTime(duration)}</div>

@@ -108,6 +108,7 @@ class App extends React.Component {
             let nextIndex =(this.album.length + index + offset ) % this.album.length
             this.setState(() => ({
                 ...this.album[nextIndex],
+                currentTime: 0
             }))
             this.audio.currentTime = 0
         }
@@ -179,8 +180,10 @@ class App extends React.Component {
         })
     }
 
-    changeBar = (offset) => {
-        this.audio.currentTime = this.audio.duration * offset / 100
+    changeBar = (percentage) => {
+        // this.audio.currentTime = this.audio.duration * percentage / 100
+            this.audio.currentTime = percentage
+
     }
 
     render() {
