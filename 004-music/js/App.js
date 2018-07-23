@@ -46,7 +46,7 @@ class App extends React.Component {
             event.preventDefault()
             this.saveData()
         }
-        log('audio', audio)
+        log('audio', this.audio)
         this.audio.currentTime = this.state.currentTime
         this.audio.pause()
     }
