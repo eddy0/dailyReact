@@ -46,15 +46,10 @@ class App extends React.Component {
         let isOnIOS = navigator.userAgent.match(/iPhone/i)
         let eventName = isOnIOS ? "pagehide" : "beforeunload";
         window.addEventListener( eventName , () => {
-            log('event', eventName)
             this.saveData()
         })
 
 
-        // window.onbeforeunload = (event) => {
-        //     event.preventDefault()
-        //     this.saveData()
-        // }
         if (this.state.currentTime ) {
             let time = this.state.currentTime
             this.audio.currentTime = time
@@ -126,16 +121,6 @@ class App extends React.Component {
 
     }
 
-    autoPlay = () => {
-        // if (this.state.isPlay === true) {
-        //     this.audio.play()
-        //     this.setState(() => ({
-        //         isPlay: true,
-        //         isLoading: false,
-        //     }))
-        // }
-    }
-
     handleRepeatMode = () => {
         this.audio.currentTime = 0
     }
@@ -201,6 +186,7 @@ class App extends React.Component {
                         duration={this.state.duration}
                         changeBar={this.changeBar}
                     />
+
                     <Controller {...this.state}
                         audio={this.state.audio }
                         handlePlay={this.handlePlay}
