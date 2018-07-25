@@ -185,6 +185,7 @@ class App extends React.Component {
                     <Progress currentTime = {this.state.currentTime}
                         duration={this.state.duration}
                         changeBar={this.changeBar}
+                        audio={this.state.audio}
                     />
 
                     <Controller {...this.state}

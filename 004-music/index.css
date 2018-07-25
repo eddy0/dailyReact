@@ -112,11 +112,22 @@ audio {
     position: relative;
 }
 
+.process_buffered {
+    position: absolute;
+    width: 0%;
+    height: 100%;
+    border-radius: 5px;
+    left: 0;
+    background-color: #999;
+    z-index: 2;
+}
+
 .process__done {
     width: 0%;
     height: 5px;
     border-radius: 5px;
     background-color: lightcoral;
+    z-index: 3;
 }
 
 .process__dot {
@@ -132,6 +143,7 @@ audio {
     border: 1px solid #ccc;
     cursor: pointer;
     transform-origin: center;
+    z-index: 4;
 }
 
 .process__dot.active {

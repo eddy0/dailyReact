@@ -16,11 +16,17 @@ class Progress extends React.Component {
             }
         }
         let {currentTime , duration} = props
+        let buffered = 0
         let left = window.Math.floor(currentTime / duration * 100)
         left = state.isDown === false ? left : state.left
         // log('currentTime', state.isDown, currentTime, state.info)
+        if (props.audio && props.audio.buffered.length ) {
+            let bufferedTime = props.audio.buffered.end(0)
+            buffered = Math.round(100 * bufferedTime / duration)
+        }
             return {
                 left: left,
+                buffered: buffered,
             }
     }
 
@@ -89,16 +95,28 @@ class Progress extends React.Component {
         }
     }
 
+    handleBuffered = () => {
+        let {currentTime, duration} = props
+        if (this.audio.buffered.length ) {
+            let bufferedTime = this.audio.buffered.end(0)
+            let buffered = Math.round(100 * bufferedTime / this.audio.duration)
+            this.setState(() => {
+                buffered
+            })
+        }
+    }
+
     render() {
         let {currentTime , duration} = this.props
-
         return (
             <div className='process__box mt--lg'>
                 <div className="music__current">{this.formatTime(currentTime)}</div>
 
                 <div className='process__bar'
                     ref={(bar) => this.bar = bar} >
-
+                    <div className="process_buffered"
+                        style={{width: `${this.state.buffered}%`}}
+                    />
                     <div className="process__done" style={{width: `${this.state.left}%`}} />
                     <div className={`process__dot ${this.state.isDown? 'active': ''}`} style={{left: `${this.state.left}%`}}
                         onTouchStart={this.handleTouchStart}
