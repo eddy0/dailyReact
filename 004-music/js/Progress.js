@@ -19,7 +19,6 @@ class Progress extends React.Component {
         let buffered = 0
         let left = window.Math.floor(currentTime / duration * 100)
         left = state.isDown === false ? left : state.left
-        // log('currentTime', state.isDown, currentTime, state.info)
         if (props.audio && props.audio.buffered.length ) {
             let bufferedTime = props.audio.buffered.end(0)
             buffered = Math.round(100 * bufferedTime / duration)
@@ -30,13 +29,6 @@ class Progress extends React.Component {
             }
     }
 
-    // componentDidUpdate() {
-    //     let {currentTime , duration} = this.props
-    //     let left = window.Math.floor(currentTime / duration * 100)
-    //     left = this.state.isDown === false ? left : this.state.left
-    //     log('update', currentTime)
-    //
-    // }
 
     formatTime = (time) => {
         let minute = Math.floor(time / 60) || 0
