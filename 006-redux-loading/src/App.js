@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import handleInitalAction from './action'
 
 class App extends Component {
-    
+
     handleClick = () => {
         this.list.innerHTML = ''
         this.props.dispatch(handleInitalAction())
@@ -16,7 +16,7 @@ class App extends Component {
     return (
       <div className="App">
           <LoadingBar />
-          
+
           <button onClick={this.handleClick} >button</button>
           {JSON.stringify(this.props.data)}
           <ul ref={(list) => this.list = list}>

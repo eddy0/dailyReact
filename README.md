@@ -14,3 +14,7 @@ demo
 1.
 
 ![timer](./001-timer/timer.gif)
+
+6.
+
+![loading](006-redux-loading/loading.gif)
