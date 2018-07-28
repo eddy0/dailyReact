@@ -1,7 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import styled, {css} from 'styled-components';
+import PropTypes from 'prop-types'
 
+// action
 const LOADINGBAR_SHOW = 'LOADINGBAR_SHOW'
 const LOADINGBAR_HIDE = 'LOADINGBAR_HIDE'
 
@@ -19,8 +20,9 @@ const hideLoading = () => {
     }
 }
 
-const loadingReducer = (state=false, action) => {
-    switch (action.type) {
+// reducer
+const loadingReducer = (state = false, action) => {
+    switch(action.type) {
         case LOADINGBAR_SHOW:
             return action.loading
         case LOADINGBAR_HIDE:
@@ -30,83 +32,100 @@ const loadingReducer = (state=false, action) => {
     }
 }
 
-
-const StyledDiv = styled.div`
-    opacity: ${ (props) => props.opacity};
-    width: 100%;
-    transform: scaleX(0);
-    will-change: transform, opacity;
-    height: 3px;
-    position: fixed;
-    background-color: red;
-    transition: transform ${ (props) => props.duration}ms linear, opacity ${ (props) => props.duration+ 100}ms linear;
-    transform-origin: left;
-    ${ props => props.show && css`
-        transform: scaleX(0.9);
-     `};
-
-     ${ props => props.hide && css`
-         transform: scaleX(1);
-      `};
-
-`
-
-
+// component
 class LoadingBar extends React.Component {
-    // static propTypes = {
-    //     className: string,
-    //     loading: number,
-    // }
-
+    static propTypes = {
+        loading: PropTypes.bool,
+    }
+    
     static defaultProps = {
         loading: false,
     }
-
+    
+    initState = {
+        percent: 0,
+        status: 'hide',
+        duration: 3000,
+        opacity: 0,
+        maxLoading: 95,
+        updateTime: 200,
+    }
+    
+    componentWillMount() {
+        this.setState(() => ({
+            ...this.initState,
+        }))
+    }
+    
+    componentDidMount() {
+        if(this.props.loading) {
+            this.start()
+        }
+    }
+    
+    componentDidUpdate() {
+        if(this.props.loading) {
+            this.start()
+        } else if(!this.props.loading && this.state.status === 'show') {
+            this.stop()
+        }
+    }
+    
+    stop = () => {
+        window.setTimeout(() => {
+            this.setState((prevState) => {
+                return {
+                    percent: 100,
+                    duration: 100,
+                }
+            })
+        }, 10)
+        
+        window.setTimeout(() => {
+            this.setState(() => ({
+                ...this.initState,
+            }))
+        }, 200)
+    }
+    
+    start = () => {
+        this.interval = window.setTimeout(() => {
+            this.setState((prevState) => {
+                let {percent, maxLoading} = prevState
+                if(percent <= maxLoading) {
+                    return {
+                        percent: maxLoading,
+                        status: 'show',
+                        opacity: 1,
+                    }
+                }
+            })
+        }, 10)
+    }
+    
     style() {
-        let opacity = this.props.loading? 1 : 1
-        let translate = this.props.loading ? 90 : 100
-        let duration = this.props.loading ? 1000 : 10
+        let transition = this.state.status === 'show'
+            ? `transform ${this.state.duration}ms ease-in-out`
+            : ''
+        
         let t = {
-            opacity: opacity,
+            opacity: this.state.opacity,
             width: '100%',
-            transform: `scaleX(${0 / 100})`,
+            transform: `scaleX(${this.state.percent / 100})`,
             willChange: 'transform, opacity',
             height: 3,
             position: 'fixed',
             backgroundColor: 'red',
-            transition: `transform ${duration}ms linear`,
+            // transition: `transform ${this.state.duration}ms ease-in-out`,
+            transition: `${transition}`,
             transformOrigin: 'left',
         }
         return t
     }
-
-    load() {
-        let opacity = this.props.loading? 1 : 0
-        let translate = this.props.loading ? 90 : 100
-        let duration = this.props.loading ? 1000 : 10
-        let t = {
-            opacity: opacity,
-            transform: `scaleX(${translate / 100})`,
-            transition: `transform ${duration}ms linear, opacity ${duration + 100}ms linear`,
-        }
-        return t
-
-    }
-
-
+    
     render() {
-        let translate = this.props.loading ? 90 : 100
-        let duration = this.props.loading ? 1000 : 10
-        let opacity = this.props.loading? 1 : 1
-
-        return(
-            <StyledDiv
-                duration={duration}
-                loading={this.props.loading}
-                opacity={opacity}
-                show={this.props.loading}
-            />
-
+        return (
+            <div style={this.style()} />
         )
     }
 }
@@ -120,9 +139,9 @@ const mapStateToProps = ({loading}) => {
 
 const ConnectedLoadingBar = connect(mapStateToProps)(LoadingBar)
 
-
 export {
     ConnectedLoadingBar as LoadingBar,
     showLoading,
     hideLoading,
-    loadingReducer,}
+    loadingReducer,
+}

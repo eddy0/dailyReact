@@ -14,7 +14,7 @@ const API = () => {
         return new Promise( (res, rej) => {
             setTimeout(() => {
                 res(data)
-            }, 500)
+            }, 1000)
         })
     }
 
@@ -35,7 +35,6 @@ const handleInitalAction = () => {
         dispatch(showLoading())
         API().fetchData()
         .then((data) => {
-            console.log(data)
             dispatch(handleInitaldata(data))
             dispatch(hideLoading())
         })
