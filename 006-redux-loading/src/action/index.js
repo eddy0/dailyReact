@@ -1,22 +1,21 @@
 import {showLoading, hideLoading} from '../LoadingBar'
 
 const API = () => {
-    let data =[
+    let data = [
         {
         todo: '1'
         },
         {
             todo: '2'
         }
-]
+    ]
 
     const fetchData = () => {
-        return Promise.resolve().
-                then(() => {
-                    setTimeout(() => {
-                        return data
-                    }, 500)
-                })
+        return new Promise( (res, rej) => {
+            setTimeout(() => {
+                res(data)
+            }, 500)
+        })
     }
 
     return {
@@ -33,11 +32,12 @@ const handleInitaldata = (data) => {
 
 const handleInitalAction = () => {
     return (dispatch) => {
-        showLoading()
+        dispatch(showLoading())
         API().fetchData()
         .then((data) => {
+            console.log(data)
             dispatch(handleInitaldata(data))
-            hideLoading()
+            dispatch(hideLoading())
         })
     }
 }

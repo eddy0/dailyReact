@@ -4,7 +4,7 @@ import {loadingReducer} from '../LoadingBar'
 const data = (state=[], action) => {
     switch (action.type) {
         case 'FETCH_DATA':
-            return state.concat([action.data])
+            return state.concat([...action.data])
         default:
             return state
     }

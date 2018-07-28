@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import LoadingBar from './LoadingBar.js'
+import {LoadingBar} from './LoadingBar.js'
 import {connect} from 'react-redux'
 import handleInitalAction from './action'
 
@@ -9,14 +9,26 @@ class App extends Component {
         this.props.dispatch(handleInitalAction())
     }
 
-  render() {
 
+  render() {
+    console.log('props', this.props)
     return (
+
       <div className="App">
-          <button onClick={this.handleLoading}></button>
+          <LoadingBar />
+          
+          <button >button</button>
+          {JSON.stringify(this.props.data)}
       </div>
     );
   }
 }
 
-export default connect()(App);
+const mapStateToProps = ({data, loading}) => {
+    return {
+        data,
+        loading,
+    }
+}
+
+export default connect(mapStateToProps)(App);
