@@ -6,35 +6,32 @@ import handleInitalAction from './action'
 class App extends Component {
 
     handleClick = () => {
-        this.list.innerHTML = ''
         this.props.dispatch(handleInitalAction())
     }
 
 
   render() {
-        console.log(this.props.data)
     return (
       <div className="App">
           <LoadingBar />
 
-          <button onClick={this.handleClick} >button</button>
-          {JSON.stringify(this.props.data)}
+          <button onClick={this.handleClick} >show all todos</button>
           <ul ref={(list) => this.list = list}>
-              {this.props.data
-                  ? this.props.data.map((data) => (
-                      <li key={data.todo}>{data.todo}</li>
+              { this.props.todo
+                  ? Object.values(this.props.todo).map((data) => (
+                      <li key={data.id}>{data.todo}</li>
                   ))
                   : null
               }
-              </ul>
+          </ul>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({data, loading}) => {
+const mapStateToProps = ({todo, loading}) => {
     return {
-        data,
+        todo,
         loading,
     }
 }

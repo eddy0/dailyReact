@@ -1,10 +1,13 @@
 import {combineReducers} from 'redux'
 import {loadingReducer} from '../LoadingBar'
 
-const data = (state=[], action) => {
+const todo = (state={}, action) => {
     switch (action.type) {
         case 'FETCH_DATA':
-            return state.concat(action.data)
+            return {
+                ...state,
+                ...action.todo
+            }
         default:
             return state
     }
@@ -12,6 +15,6 @@ const data = (state=[], action) => {
 
 
 export default combineReducers({
-    data,
+    todo,
     loading: loadingReducer,
 })

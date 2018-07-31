@@ -1,0 +1,64 @@
+*,
+*:after,
+*:before {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 1.6rem;
+    font-weight: 400;
+    font-family: sans-serif;
+    line-height: 1.6;
+    box-sizing: border-box;
+}
+
+ul {
+    list-style: none;
+}
+
+
+.spinner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner li {
+    position: relative;
+    left: -22px;
+    top: -23px;
+    transform-origin: 22px 23px;
+    animation: loading 1.2s ease-in-out infinite;
+}
+
+.spinner li:after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 5px;
+    height: 10px;
+    border-radius: 3px;
+    background-color: #333;
+    left: 19px;
+    opacity: 1;
+}
+
+
+@keyframes loading  {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0.3;
+    }
+}

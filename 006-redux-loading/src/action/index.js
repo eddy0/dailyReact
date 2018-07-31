@@ -1,14 +1,20 @@
 import {showLoading, hideLoading} from '../LoadingBar'
 
 const API = () => {
-    let data = [
-        {
-        todo: '1'
+    let data = {
+        1:{
+            id: '1',
+            todo: 'todo1'
         },
-        {
-            todo: '2'
-        }
-    ]
+        2:{
+            id: '2',
+            todo: 'todo2'
+        },
+        3:{
+            id: '3',
+            todo: 'todo3'
+        },
+    }
 
     const fetchData = () => {
         return new Promise( (res, rej) => {
@@ -23,10 +29,10 @@ const API = () => {
     }
 }
 
-const handleInitaldata = (data) => {
+const handleInitaldata = (todo) => {
     return {
         type: 'FETCH_DATA',
-        data,
+        todo,
     }
 }
 
@@ -34,8 +40,8 @@ const handleInitalAction = () => {
     return (dispatch) => {
         dispatch(showLoading())
         API().fetchData()
-        .then((data) => {
-            dispatch(handleInitaldata(data))
+        .then((todo) => {
+            dispatch(handleInitaldata(todo))
             dispatch(hideLoading())
         })
     }
