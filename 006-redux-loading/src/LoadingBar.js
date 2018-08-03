@@ -37,11 +37,11 @@ class LoadingBar extends React.Component {
     static propTypes = {
         loading: PropTypes.bool,
     }
-    
+
     static defaultProps = {
         loading: false,
     }
-    
+
     initState = {
         percent: 0,
         status: 'hide',
@@ -50,19 +50,19 @@ class LoadingBar extends React.Component {
         maxLoading: 95,
         updateTime: 200,
     }
-    
+
     componentWillMount() {
         this.setState(() => ({
             ...this.initState,
         }))
     }
-    
+
     componentDidMount() {
         if(this.props.loading) {
             this.start()
         }
     }
-    
+
     componentDidUpdate() {
         if(this.props.loading) {
             this.start()
@@ -70,7 +70,7 @@ class LoadingBar extends React.Component {
             this.stop()
         }
     }
-    
+
     stop = () => {
         window.setTimeout(() => {
             this.setState((prevState) => {
@@ -80,14 +80,14 @@ class LoadingBar extends React.Component {
                 }
             })
         }, 10)
-        
+
         window.setTimeout(() => {
             this.setState(() => ({
                 ...this.initState,
             }))
         }, 200)
     }
-    
+
     start = () => {
         this.interval = window.setTimeout(() => {
             this.setState((prevState) => {
@@ -102,12 +102,12 @@ class LoadingBar extends React.Component {
             })
         }, 10)
     }
-    
+
     style() {
         let transition = this.state.status === 'show'
             ? `transform ${this.state.duration}ms ease-in-out`
             : ''
-        
+
         let t = {
             opacity: this.state.opacity,
             width: '100%',
@@ -122,7 +122,7 @@ class LoadingBar extends React.Component {
         }
         return t
     }
-    
+
     render() {
         return (
             <div style={this.style()} />
@@ -140,7 +140,7 @@ const mapStateToProps = ({loading}) => {
 const ConnectedLoadingBar = connect(mapStateToProps)(LoadingBar)
 
 export {
-    ConnectedLoadingBar as LoadingBar,
+    ConnectedLoadingBar as default,
     showLoading,
     hideLoading,
     loadingReducer,

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {LoadingBar} from './LoadingBar.js'
+import LoadingBar from './LoadingBar.js'
 import {connect} from 'react-redux'
 import handleInitalAction from './action'
 
