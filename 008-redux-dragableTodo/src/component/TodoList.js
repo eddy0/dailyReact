@@ -39,17 +39,18 @@ class TodoList extends React.Component {
     handleDrop = (event) => {
         this.element.style.opacity = 1
         event.target.classList.remove('over')
-        let start = Number(this.element.dataset.order)
-        let end = Number(event.target.dataset.order)
+        // let start = Number(this.element.dataset.order)
+        // let end = Number(event.target.dataset.order)
+        let start = [...event.target.parentNode.children].findIndex((node) => node === this.element)
+        let end = [...event.target.parentNode.children].findIndex((node) => node === event.target)
         this.props.dispatch(handleSortTodo(start, end))
     }
     
     render() {
-        
         return (
             <ul >
                 {
-                    this.props.todo.sort((a, b) => a.order - b.order).map((item, i) => (
+                    this.props.todo.map((item, i) => (
                         <li key={item.id}
                             style={{textDecoration: item.done?'line-through': '',}}
                             draggable={true}
