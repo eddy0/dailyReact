@@ -1,5 +1,4 @@
 import React from 'react'
-import * as Svg from '../spinner.svg'
 
 class App extends React.Component {
     render() {

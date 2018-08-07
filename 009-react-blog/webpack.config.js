@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const path = require('path')
 const webpackMerge = require('webpack-merge')
 const modeConfig = (env) => require(`./config/webpack.${env}`)(env)
+const presetsConfig = require('./config/loadPresets')
 
 module.exports = ({mode = 'production', presets = []}) => {
     return webpackMerge({
@@ -36,5 +37,6 @@ module.exports = ({mode = 'production', presets = []}) => {
             ]
         },
         modeConfig(mode),
+        presetsConfig({mode, presets})
     )
 }
