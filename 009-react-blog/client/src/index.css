@@ -1,20 +1,18 @@
 *,
 *:before,
 *:after {
-    margin: 0;
-    padding: 0;
-    box-sizing: inherit;
-}
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit; }
 
 html {
-    font-size: 62.5%;
-}
+  font-size: 62.5%; }
 
 body {
-    box-sizing: border-box;
-    font-size: 1.6rem;
-    line-height: 1.6;
-    font-family: sans-serif;
-    font-weight: 400;
-}
+  box-sizing: border-box;
+  font-size: 1.6rem;
+  line-height: 1.6;
+  font-family: sans-serif;
+  font-weight: 400; }
 
+/*# sourceMappingURL=index.css.map */
