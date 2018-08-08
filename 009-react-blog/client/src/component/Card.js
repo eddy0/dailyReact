@@ -5,7 +5,7 @@ const Author = () => {
     return (
         <div className="feed__author">
             <a href="/user/{{t.uid}}" className="author-avatar">
-                <img src="/user/avatar/{{t.author.avatar}}" alt="img" />
+                <img src="https://vip.kybmig.cc/uploads/avatar/default.gif" alt="img" />
             </a>
             <div className="author-detail">
                 <div className="author-name">
