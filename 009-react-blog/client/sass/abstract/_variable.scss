@@ -3,7 +3,8 @@ $default-font-size: 1.6rem;
 
 // font-family
 $default-font-family: 'Lato',sans-serif;
-$primary-font-family: 'Lato';
+$primary-font-family: 'Josefin Sans', sans-serif;
+$art-font-family: 'Dancing Script', cursive;
 
 
 // distance
@@ -11,4 +12,28 @@ $grid-width: 100rem;
 
 $gutter-vertival: 5rem;
 $gutter-horizontal: 1rem;
+
+
+//color
+$header-color: #00a699;
+$green: #4aa48a;
+$front-end: #2bb5d9;
+$read: #ff955b;
+$back-end:#e8596b;
+$mobile: #857dea;
+
+$primary: #78C2AD;
+$secondary: #F3969A;
+$light-secondary: #f7c0c2;
+$info:#6CC3D5;
+$pink: #e83e8c;
+$warning: #FFCE67;
+$danger:#FF7851;
+$light-grey: #8590a6;
+$grey: #646464;
+$dark-grey:#1e1e1e;
+// 3c3c3c 1e1e1e
+$light-line: #e5e5e5;
+$blue: rgb(43, 120, 193);
+
 

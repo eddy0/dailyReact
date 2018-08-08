@@ -1,0 +1,20 @@
+.nav {
+  &__item {
+
+    cursor: pointer;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    padding: 0 1rem;
+    align-items: center;
+    transition: 0.1s ease;
+
+    &:hover {
+      background-color: lightblue;
+    }
+
+    &--active {
+      color: #fc8c84;
+    }
+  }
+}

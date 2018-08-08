@@ -1,0 +1,12 @@
+.user {
+  &__login {
+    border: 1px solid #f2f2f2;
+    color: lightcoral;
+    margin-right: 2rem;
+  }
+
+  &__signup {
+    border: 1px solid seagreen;
+    color: lightcoral;
+  }
+}

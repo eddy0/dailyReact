@@ -1,0 +1,32 @@
+.header{
+  background-color: #fff;
+  padding: 0 1rem;
+  box-shadow: 0 4px 15px rgba(black, 0.3);
+
+  &__logo {
+
+  }
+
+  &__nav {
+    flex: 1;
+    height: 5rem;
+
+    display: flex;
+    align-items: center;
+
+    & li {
+      align-self: stretch;
+    }
+
+  }
+
+  &__search {
+    flex: 0 0 40%;
+  }
+
+  &__user {
+    display: flex;
+    align-items: center;
+
+  }
+}

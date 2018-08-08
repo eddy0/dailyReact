@@ -15,10 +15,17 @@
 
 
 //component
-
+@import "component/nav";
+@import "component/search";
+@import "component/login";
+@import "component/card";
 
 //layout
+@import "layout/header";
+
 
 
 //page
+@import "page/home";
+
 

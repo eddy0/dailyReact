@@ -1,18 +1,17 @@
 import React from 'react'
+import Nav from './Nav'
+import Search from './Search'
+import User from './User'
 
 class Header extends React.Component {
-    constructor() {
-        super()
-    }
-    
     render() {
         return (
-            <div>
-                this is header
-
-            </div>
-    
-    )
+            <header className='header'>
+                    <Nav/>
+                    <Search/>
+                    <User/>
+            </header>
+        )
     }
 }
 

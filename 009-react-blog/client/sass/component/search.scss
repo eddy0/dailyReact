@@ -1,0 +1,25 @@
+.search {
+  display: flex;
+  align-items: center;
+
+  &__input {
+    font: inherit;
+    color: inherit;
+    width: 80%;
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    border: 1px solid #bbbbbb;
+    outline: 0;
+    transition: 0.2s ease-in-out;
+
+    &:focus {
+      border: 1px solid #333;
+      width: 90%;
+    }
+
+  }
+}
+
+::-webkit-input-placeholder {
+  color: #fc8c84;
+}

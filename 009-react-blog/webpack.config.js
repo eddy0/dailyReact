@@ -9,6 +9,7 @@ module.exports = ({mode = 'production', presets = []}) => {
     return webpackMerge({
             mode: mode,
             entry: './client/src/index.js',
+
             module: {
                 rules: [
                     {
