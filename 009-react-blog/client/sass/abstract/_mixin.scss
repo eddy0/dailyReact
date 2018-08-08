@@ -1,0 +1,43 @@
+@mixin clearfix {
+    &:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+}
+
+@mixin shadow($opacity) {
+    box-shadow: 0 1.5rem 4rem rgba(black, $opacity );
+}
+
+/*
+0-600px phone
+600-900 pad
+900-1200 mac
+1200-1800 normal
+1800px+ pc
+16px  = 1em
+ */
+
+@mixin respond($bp) {
+    @if $bp == phone {
+        @media (max-width: 37.5em) {
+            @content
+        }
+    }
+    @if $bp == pad {
+        @media (max-width: 56.25em) {
+            @content
+        }
+    }
+    @if $bp == mac {
+        @media (max-width: 75em) {
+            @content
+        }
+    }
+    @if $bp == pc {
+        @media (max-width: 112.5em) {
+            @content
+        }
+    }
+}

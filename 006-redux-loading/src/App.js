@@ -10,8 +10,7 @@ class App extends Component {
     }
 
 
-  render() {
-    return (
+  render() {    return (
       <div className="App">
           <LoadingBar />
 

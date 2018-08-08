@@ -1,0 +1,31 @@
+body {
+    font-size: 1.6rem;
+    line-height: 1.6;
+    font-family: $default-font-family;
+    font-weight: 400;
+    color: #333333;
+}
+
+.heading {
+    &__1 {
+
+    }
+
+    &__2 {
+
+    }
+
+    &__3 {
+
+    }
+
+}
+
+.paragraph {
+    font-size: $default-font-size;
+
+    &:not(:last-child) {
+        margin-bottom: 3rem;
+    }
+}
+

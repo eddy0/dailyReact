@@ -1,19 +1,24 @@
-*,
-*:before,
-*:after {
-    margin: 0;
-    padding: 0;
-    box-sizing: inherit;
-}
 
-html {
-    font-size: 62.5%;
-}
+//abstract
 
-body {
-    box-sizing: border-box;
-    font-size: 1.6rem;
-    line-height: 1.6;
-    font-family: sans-serif;
-    font-weight: 400;
-}
+@import './abstract/variable';
+@import './abstract/mixin';
+@import './abstract/function';
+@import './abstract/grid';
+
+
+//basic
+@import "basic/utils";
+@import "basic/animation";
+@import "basic/base";
+@import "basic/typography";
+
+
+//component
+
+
+//layout
+
+
+//page
+
