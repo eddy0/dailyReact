@@ -257,43 +257,43 @@ body {
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
     font-size: 14px; }
 
-.card .card-action {
+.card .card__action {
   display: flex;
   align-items: center;
   cursor: default;
   margin-top: 20px; }
-  .card .card-action > span {
+  .card .card__action > span {
     margin-right: 30px;
     font-size: 15px;
     display: flex;
     align-items: center;
     cursor: pointer;
     color: #646464; }
-    .card .card-action > span .icon-font {
+    .card .card__action > span .icon-font {
       margin-right: 4px; }
-  .card .card-action .action-comments:hover {
+  .card .card__action .action-comments:hover {
     color: #1e1e1e; }
-  .card .card-action .action-mark:hover, .card .card-action .action-mark:hover svg {
+  .card .card__action .action-mark:hover, .card .card__action .action-mark:hover svg {
     color: #1e1e1e; }
-  .card .card-action .action-mark.marked {
+  .card .card__action .action-mark.marked {
     color: #4aa48a; }
-    .card .card-action .action-mark.marked .icon-star {
+    .card .card__action .action-mark.marked .icon-star {
       color: #4aa48a; }
-  .card .card-action .action-like:hover {
+  .card .card__action .action-like:hover {
     color: #1e1e1e; }
-    .card .card-action .action-like:hover .icon-like {
+    .card .card__action .action-like:hover .icon-like {
       color: #f7c0c2; }
-  .card .card-action .action-like.liked {
+  .card .card__action .action-like.liked {
     color: #1e1e1e; }
-    .card .card-action .action-like.liked .icon-like {
+    .card .card__action .action-like.liked .icon-like {
       color: #F3969A; }
-  .card .card-action .action-star:hover {
+  .card .card__action .action-star:hover {
     color: #1e1e1e; }
-    .card .card-action .action-star:hover .icon-like {
+    .card .card__action .action-star:hover .icon-like {
       color: #f7c0c2; }
-  .card .card-action .action-star.starred {
+  .card .card__action .action-star.starred {
     color: #cd8b00; }
-    .card .card-action .action-star.starred .icon-mark {
+    .card .card__action .action-star.starred .icon-mark {
       fill: #cd8b00;
       color: #cd8b00; }
 

@@ -1,5 +1,8 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faStar, faComment, faBookmark} from '@fortawesome/free-solid-svg-icons'
+
 
 const Author = () => {
     return (
@@ -43,22 +46,22 @@ const CTA = () => {
         <div className="card__action">
 
                     <span className="action-star  t.star_status ">
-                    <span className="fas fa-star icon-font icon-star"></span>
+                    <FontAwesomeIcon icon={faStar} className="fas fa-star icon-font icon-star" />
 
                     <span className="star-count">
-                        t.stars&nbsp;Stars
+                        0 &nbsp;Stars
                     </span>
                 </span>
 
             <span className="action-comments">
                         <a href="/topic/t._id#comments">
-                    <span className="fas fa-comments icon-font icon-comments"></span>
-                    <span className="comments-count">t.comments&nbsp;Comments</span>
+                        <FontAwesomeIcon icon={faComment} className="fas fa-star icon-font icon-star" />
+                            <span className="comments-count">1 &nbsp;Comments</span>
                             </a>
                     </span>
 
             <span className="action-mark  t.mark_status ">
-                    <span className="fas fa-bookmark icon-mark"></span>
+                    <FontAwesomeIcon icon={faBookmark} className="fas fa-bookmark icon-mark" />
                 &nbsp;Mark
                 </span>
         </div>

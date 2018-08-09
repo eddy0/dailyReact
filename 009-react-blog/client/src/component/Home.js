@@ -1,8 +1,13 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import Card from './Card'
+import {_getTweets} from '../utils/_DATA'
 
 class Home extends Component {
+
+    componentWillMount() {
+        _getTweets().then(data => console.log(data))
+    }
     render() {
         return (
             <div>
