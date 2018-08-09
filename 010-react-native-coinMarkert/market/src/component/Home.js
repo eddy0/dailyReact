@@ -15,6 +15,7 @@ export default class Home extends React.Component {
         this.setState({
             refreshing: true,
         })
+        
         fetch('https://api.coinmarketcap.com/v1/ticker/')
             .then(data => data.json())
             .then(data => {
