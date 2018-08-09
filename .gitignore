@@ -8,7 +8,7 @@ yarn-error.log*
 */\.sass-cache/
 .map$
 
-# Runtime data
+# Runtime DATA
 pids
 *.pid
 *.seed
