@@ -15,7 +15,7 @@ class Spinner extends React.Component {
                 {
                     [...Array(12).keys()].map((item, i) => {
                         return (
-                            <li key={i} style={this.style(i)}></li>
+                            <li key={i} style={this.style(i)} />
                         )
                     })
                 }
