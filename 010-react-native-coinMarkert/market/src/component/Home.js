@@ -4,7 +4,6 @@ import Card from './Card'
 import {getData} from '../utils/api'
 
 
-
 export default class Home extends React.Component {
     state = {
         data: null,
@@ -73,6 +72,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
+        marginTop: 30.
     },
     list: {
         marginBottom: 20,

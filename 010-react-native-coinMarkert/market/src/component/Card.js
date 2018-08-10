@@ -16,15 +16,15 @@ const Card = ({item}) => {
             </View>
             <View style={styles.trend}>
                 <View style={styles.box}>
-                    <Text style={{fontSize: 18, marginRight: 3}}>HOUR</Text>
+                    <Text style={{fontSize: 18, marginRight: 3}}>1h</Text>
                     <Text style={{fontSize: 18, color: hourColor}}> {item.percent_change_1h} </Text>
                 </View>
                 <View style={styles.box}>
-                    <Text style={{fontSize: 18, marginRight: 3}}>DAY</Text>
-                    <Text style={{fontSize: 18,   color: dayColor}}>{item.percent_change_24h}</Text>
+                    <Text style={{fontSize: 18, marginRight: 3}}>1d</Text>
+                    <Text style={{fontSize: 18, color: dayColor}}>{item.percent_change_24h}</Text>
                 </View>
                 <View style={styles.box}>
-                    <Text style={{fontSize: 18, marginRight: 3}}>WEEK</Text>
+                    <Text style={{fontSize: 18, marginRight: 3}}>7d</Text>
                     <Text style={{fontSize: 18,  color: weekColor}}> {item.percent_change_7d} </Text>
                 </View>
             </View>
@@ -51,10 +51,10 @@ const styles = StyleSheet.create({
     },
     trend: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
     },
     box: {
+        flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
     },
