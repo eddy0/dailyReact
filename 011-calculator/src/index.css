@@ -1,0 +1,131 @@
+ *, *:before, *:after {
+     margin: 0;
+     padding: 0;
+     box-sizing: inherit;
+ }
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    box-sizing: border-box;
+    font-size: 1.6rem;
+    font-weight: 400;
+    font-family: "Lato", sans-serif;
+    line-height: 1.6;
+}
+
+.grid {
+    display: grid;
+    grid-template-rows: 25px 25px repeat(5, 50px) ;
+    grid-template-columns: repeat(4, 50px);
+    grid-template-areas: "process  process  process  process"
+                            "result result result result"
+                            "back division multipy minus"
+                            "seven eight nine plus"
+                            "four five six plus"
+                            "one two three enter"
+                            "zero  zero dot enter";
+
+    justify-content: center;
+    margin-top: 30px;
+}
+
+ .process {
+     border-bottom: 1px solid #ddd;
+ }
+
+ .process, .result {
+     display: flex;
+     align-items: center;
+     justify-content: flex-end;
+     padding-right: 1rem;
+     color: #fff;
+ }
+
+
+
+ .grid .cell {
+     cursor: pointer;
+     user-select: none;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+ }
+
+ .grid .cell:hover {
+     background-color: lightcoral;
+ }
+
+ .grid .cell:active {
+     background-color: darkred;
+ }
+
+.cell {
+    border: 1px solid #f6f6f6;
+    background-color: lightblue;
+}
+
+ .process {
+    grid-area:process;
+    background-color: #59C3C3;
+}
+.result {
+    grid-area: result;
+    background-color: #59C3C3;
+}
+
+
+.back {
+    grid-area: back;
+}
+.division {
+    grid-area: division;
+}
+.multipy {
+    grid-area: multipy;
+}
+.plus {
+    grid-area: plus;
+}
+
+.minus {
+    grid-area: minus;
+}
+.one {
+    grid-area: one;
+}
+.two {
+    grid-area: two;
+}
+.three{
+    grid-area:three;
+}
+.four {
+    grid-area:four;
+}
+.five {
+    grid-area:five;
+}
+.six {
+    grid-area:six;
+}
+.seven {
+    grid-area:seven;
+}
+.eight {
+    grid-area:eight;
+}
+.nine {
+    grid-area:nine;
+}
+.zero {
+    grid-area:zero;
+}
+.dot {
+    grid-area:dot;
+}
+.enter {
+    grid-area:enter;
+}
