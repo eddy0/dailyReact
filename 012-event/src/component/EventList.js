@@ -1,21 +1,22 @@
 import React, {Component} from 'react'
 import {Segment,Item, Icon,Button} from 'semantic-ui-react'
 import EventAttendee from './EventAttendee'
-
+import {Link} from 'react-router-dom'
 
 class EventList extends Component {
     render() {
+        let {id, title, date, description, attendees=[], city, hostedBy, venue, hostPhotoURL, category} = this.props
         return (
-            <div>
+            <div style={{marginBottom: '3rem'}}>
                 <Segment.Group>
                     <Segment>
                         <Item.Group>
                             <Item>
-                            <Item.Image size='tiny' circular src='https://randomuser.me/api/portraits/men/47.jpg' />
+                            <Item.Image size='tiny' circular src={hostPhotoURL} />
                             <Item.Content>
-                                <Item.Header as='a'>Event Title</Item.Header>
+                                <Item.Header as='a'>{title}</Item.Header>
                                 <Item.Description>
-                                    Hosted By <a>Hosted By</a>
+                                    Hosted By <Link to={`/people/${id}`}>{hostedBy}</Link>
                                 </Item.Description>
                             </Item.Content>
                             </Item>
@@ -24,17 +25,21 @@ class EventList extends Component {
                     <Segment>
                         <span>
                             <Icon name='clock'/>
-                            date |
+                            {date} |
                             <Icon name='marker'/>
-                            time
+                            {venue}
                         </span>
                     </Segment>
                     <Segment >
-                        <EventAttendee/>
+                        {
+                            attendees.map((attendee, i) => (
+                                <EventAttendee key={i} attendee={attendee}/>
+                            ))
+                        }
                     </Segment>
                     <Segment clearing>
-                        <span>come and join us</span>
-                        <Button as='a' color='teal' floated='right' content='View'></Button>
+                        <span>{description}</span>
+                        <Button as={Link} to={`event/${id}`} color='teal' floated='right' content='View'></Button>
                     </Segment>
                     
                 </Segment.Group>

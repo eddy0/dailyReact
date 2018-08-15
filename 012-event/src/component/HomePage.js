@@ -26,11 +26,10 @@ class HomePage extends Component {
                     textAlign: 'center',
                 }}>
                     <h2>Come and Join the Event</h2>
-                    <Button inverted icon  textAlign='center' as={Link} to='/event'  >
+                    <Button inverted icon  as={Link} to='/event'  >
                         <span style={{marginRight: '0.5rem'}}>Get Started</span>
                         <Icon name='arrow right' />
                     </Button>
-                    
                 </div>
             </div>
         )
