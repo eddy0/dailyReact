@@ -189,6 +189,14 @@ class DetailPage extends Component {
     }
     render() {
         let event = this.props.event
+        if (event && event.length <= 0) {
+            return (
+                <div>
+                    Loading...
+                </div>
+            )
+        }
+        
         return (
             <Grid>
                 <Grid.Column width={10}>
@@ -207,6 +215,7 @@ class DetailPage extends Component {
 
 
 const mapStateToProps = (state, props) => {
+    debugger
     let {match} = props
     let id = match.params.id
     let event = []

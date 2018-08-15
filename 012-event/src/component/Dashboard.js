@@ -9,12 +9,9 @@ import {handleInitialEvents} from '../action/share'
 
 class Dashboard extends Component {
     
-    // componentDidMount() {
-    //     this.props.dispatch(handleInitialEvents())
-    // }
-    
     render() {
         let {events} = this.props
+        
         return (
             <Grid>
                 <Grid.Column width={10}>
@@ -28,8 +25,7 @@ class Dashboard extends Component {
                 </Grid.Column>
                 
                 <Grid.Column width={6}>
-                    <h2>side bar</h2>
-                    {/*<EventForm />*/}
+                    <h2>recent activites</h2>
                 
                 </Grid.Column>
             
@@ -40,7 +36,6 @@ class Dashboard extends Component {
 
 
 const mapStateToProps = (state) => {
-    console.log(state)
     return {
         events: state.events
     }

@@ -46,10 +46,6 @@ class App extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        loading: state.loading,
-    }
-}
 
-export default connect(mapStateToProps)(App)
+
+export default connect()(App)

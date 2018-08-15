@@ -8,19 +8,6 @@ class EventForm extends Component {
     state = {
         ...this.props.event
     }
-
-    componentWillMount() {
-        let id = this.props.match.params.id
-        if (id) {
-            getEvent(id).then((event) => {
-                this.setState({
-                    event,
-                })
-            }).catch(() => {
-                this.props.history.push('/')
-            })
-        }
-    }
     
     handleInput = (e) => {
         let key = e.target.name
@@ -41,7 +28,7 @@ class EventForm extends Component {
     }
     
     render() {
-        let { title, date, location, hostedBy,} = this.state
+        let { title='', date='', location='', hostedBy=''} = this.state
         return (
             <div>
                 <h1>New Event</h1>
@@ -75,7 +62,9 @@ class EventForm extends Component {
 }
 
 const mapStateToProps = (state, props) => {
+    
     let {id} = props.match.params
+    
     let form = {
         title: '',
         date: '',

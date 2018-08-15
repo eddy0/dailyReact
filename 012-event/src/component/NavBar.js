@@ -40,7 +40,7 @@ class NavBar extends React.Component {
                     {authed
                         ?
                         <Menu.Item>
-                            <Link to='event/new'>
+                            <Link to='/event/new'>
                                 <Button inverted positive float='right' content='create a event'></Button>
                             </Link>
                         </Menu.Item>
