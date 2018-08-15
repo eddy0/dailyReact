@@ -10,6 +10,7 @@ import DetailPage from './DetailPage'
 import {handleInitialEvents} from '../action/share'
 import LoadingBar from 'light-redux-loading'
 import {connect} from 'react-redux'
+import GoogleMap from './GoogleMap'
 
 
 class App extends Component {
@@ -22,6 +23,7 @@ class App extends Component {
             <Router>
                     <Switch>
                         <Route exact path='/' component={HomePage} />
+                        <Route exact path='/google' component={GoogleMap} />
                         {
                             this.props.loading
                             ? <LoadingBar/>
