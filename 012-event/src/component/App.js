@@ -14,7 +14,7 @@ import GoogleMap from './GoogleMap'
 
 
 class App extends Component {
-    componentDidMount() {
+    componentWillMount() {
         this.props.dispatch(handleInitialEvents())
     }
 

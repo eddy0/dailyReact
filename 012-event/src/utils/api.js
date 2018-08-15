@@ -1,3 +1,45 @@
+let events = {
+    '1': {
+        id: '1',
+        title: 'Trip to Tower of London',
+        date: '2018-03-27',
+        category: 'culture',
+        description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.',
+        city: 'London, UK',
+        location: 'Tower of London, St Katharine\'s & Wapping, London',
+        hostedBy: 'a',
+        attendees: ['a', 'b'],
+    },
+    '2': {
+        id: '2',
+        title: 'Trip to Punch and Judy Pub',
+        date: '2018-03-28',
+        category: 'drinks',
+        description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.',
+        city: 'London, UK',
+        location: 'Punch & Judy, Henrietta Street, London, UK',
+        hostedBy: 'b',
+        attendees: ['b', 'a'],
+    }
+}
+
+const users = {
+    'a': {
+        id: 'a',
+        name: 'Bob',
+        photoURL: 'https://randomuser.me/api/portraits/men/20.jpg',
+        events: []
+    },
+    'b': {
+        id: 'b',
+        name: 'Tom',
+        photoURL: 'https://randomuser.me/api/portraits/men/22.jpg',
+        events: []
+    },
+
+}
 
 const data = [
     {
@@ -49,7 +91,6 @@ const data = [
         ],
     },
 ]
-
 
 const fetchData = () => {
     return new Promise((res, rej) => {
