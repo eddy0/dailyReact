@@ -7,7 +7,7 @@ import {Link, Route} from 'react-router-dom'
 class EventList extends Component {
     
     render() {
-        let {id, title, date, description, attendees=[], city, hostedBy, venue, hostPhotoURL, category} = this.props
+        let {id, title, date, description, attendees=[], city, hostedBy, location, hostPhotoURL, category} = this.props
         let {match} = this.props
         return (
             <div style={{marginBottom: '3rem'}}>
@@ -30,7 +30,7 @@ class EventList extends Component {
                             <Icon name='clock'/>
                             {date} |
                             <Icon name='marker'/>
-                            {venue}
+                            {location}
                         </span>
                     </Segment>
                     <Segment >

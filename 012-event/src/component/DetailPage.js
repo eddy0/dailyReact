@@ -3,10 +3,11 @@ import {Grid, Segment, Image, Item, Header, Button, Icon, Comment, Form, List, L
 import image from '../assets/categoryImages/drinks.jpg'
 import avatar from '../assets/images/user.png'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 
 
 const EventHeader = ({event}) => {
-    let {category, date, hostedBy, title} = event
+    let {id,  date, hostedBy, title} = event
     return (
         <Segment.Group>
             <Segment basic attached='top' style={{padding: 0}}>
@@ -22,16 +23,15 @@ const EventHeader = ({event}) => {
                 </Item.Group>
             </Segment>
             <Segment basic attached='bottom'>
-                <Button>Cancel</Button>
                 <Button color='teal'>Join the Event</Button>
-                <Button color='orange'>OK</Button>
+                <Button as={Link} to={`/manage/${id}`} color='orange' floated='right'>Manage</Button>
             </Segment>
         </Segment.Group>
     )
 }
 
 const EventInfo = ({event}) => {
-    let { date, title, venue} = event
+    let { date, title, location} = event
     return (
         <Segment.Group>
             <Segment attached>
@@ -61,7 +61,7 @@ const EventInfo = ({event}) => {
                         <Icon color='teal' size='large' name='marker' />
                     </Grid.Column>
                     <Grid.Column width={11}>
-                        <p>{venue}</p>
+                        <p>{location}</p>
                     </Grid.Column>
                     <Grid.Column width={4}>
                         <Button color='teal' size='tiny' content='show map' />
@@ -149,27 +149,32 @@ const EventComment = (props) => {
     )
 }
 
-const EventSideBar = () => {
+const EventSideBar = ({event}) => {
+    let {attendees, hostedBy } = event
     return (
         <Segment.Group>
             <Segment textAlign='center' attached='top' inverted color='teal'>
-                2 people going
+                {attendees && attendees.length} {attendees && attendees.length === 1 ? 'person': 'people' } going
             </Segment>
             <Segment attached>
                 <List divided>
-                    <Item >
-                        <Label color='blue' ribbon='right'>Hoster</Label>
-                        <Item.Image size='mini' circular src={avatar} />
-                        <Item.Content  verticalAlign='middle'>
-                            <Item.Header as='a' content='aad' />
-                        </Item.Content>
-                    </Item>
-                    <Item>
-                        <Item.Image size='mini' circular src={avatar} />
-                        <Item.Content  verticalAlign='middle' >
-                            <Item.Header as='a' content='aaxd' />
-                        </Item.Content>
-                    </Item>
+                    {
+                        attendees && attendees.map((attendee) => {
+                            return (
+                                <Item key={attendee.id} >
+                                    {attendee.name === hostedBy
+                                        ?  <Label style={{position: 'absolute'}} color='blue' ribbon='right'>Hoster</Label>
+                                        : null
+                                    }
+                                    <Item.Image size='tiny'  src={attendee.photoURL} />
+                                    <Item.Content  verticalAlign='middle'>
+                                        <Item.Header as='a' content={attendee.name} />
+                                    </Item.Content>
+                                </Item>
+                            )
+                        })
+                    }
+
                 </List>
             </Segment>
         </Segment.Group>
@@ -179,6 +184,9 @@ const EventSideBar = () => {
 
 
 class DetailPage extends Component {
+    componentDidMount() {
+            window.scrollTo(0, 0)
+    }
     render() {
         let event = this.props.event
         return (
@@ -201,7 +209,10 @@ class DetailPage extends Component {
 const mapStateToProps = (state, props) => {
     let {match} = props
     let id = match.params.id
-    let event = state.events.find((e) => e.id === id) || []
+    let event = []
+    if (id && state.events.length > 0) {
+        event = state.events.find((e) => e.id === id)
+    }
     return {
         event,
     }

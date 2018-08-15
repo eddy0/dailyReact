@@ -29,7 +29,7 @@ class Dashboard extends Component {
                 
                 <Grid.Column width={6}>
                     <h2>side bar</h2>
-                    <EventForm />
+                    {/*<EventForm />*/}
                 
                 </Grid.Column>
             

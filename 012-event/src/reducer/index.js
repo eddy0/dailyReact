@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux'
 import {ALL_EVENT, DELETE_EVENT} from '../action/event'
-import {loadingReducer} from 'light-redux-loading'
+import {loadingBarReducer} from 'react-redux-loading-bar'
 
 
 
@@ -18,5 +18,5 @@ const events = (state=[], action) => {
 
 export default combineReducers({
     events,
-    loading: loadingReducer,
+    loadingBar: loadingBarReducer,
 })
