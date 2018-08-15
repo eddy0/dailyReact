@@ -9,9 +9,9 @@ import {handleInitialEvents} from '../action/share'
 
 class Dashboard extends Component {
     
-    componentDidMount() {
-        this.props.dispatch(handleInitialEvents())
-    }
+    // componentDidMount() {
+    //     this.props.dispatch(handleInitialEvents())
+    // }
     
     render() {
         let {events} = this.props
@@ -21,11 +21,10 @@ class Dashboard extends Component {
                     <h2>Event List</h2>
                     {
                         events.map((event) => {
-                            return <EventList key={event.id} {...event} />
+                            return <EventList key={event.id} {...event} match={this.props.match} />
                         })
                     }
-                   
-                
+                    
                 </Grid.Column>
                 
                 <Grid.Column width={6}>

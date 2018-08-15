@@ -1,10 +1,12 @@
 import React, {Component} from 'react'
-import {Grid, Segment, Image, Item, Header, Button, Icon, Comment, Form, List} from 'semantic-ui-react'
+import {Grid, Segment, Image, Item, Header, Button, Icon, Comment, Form, List, Label} from 'semantic-ui-react'
 import image from '../assets/categoryImages/drinks.jpg'
 import avatar from '../assets/images/user.png'
+import {connect} from 'react-redux'
 
 
-const EventHeader = (props) => {
+const EventHeader = ({event}) => {
+    let {category, date, hostedBy, title} = event
     return (
         <Segment.Group>
             <Segment basic attached='top' style={{padding: 0}}>
@@ -13,9 +15,9 @@ const EventHeader = (props) => {
             <Segment>
                 <Item.Group>
                     <Item.Content>
-                        <Header size='huge' content='Event Title' />
-                        <p>Date</p>
-                        <p>Hosted By</p>
+                        <Header size='huge' content={title} />
+                        <p>{date}</p>
+                        <p>Hosted By {hostedBy} </p>
                     </Item.Content>
                 </Item.Group>
             </Segment>
@@ -28,7 +30,8 @@ const EventHeader = (props) => {
     )
 }
 
-const EventInfo = (props) => {
+const EventInfo = ({event}) => {
+    let { date, title, venue} = event
     return (
         <Segment.Group>
             <Segment attached>
@@ -37,7 +40,7 @@ const EventInfo = (props) => {
                         <Icon color='teal' size='large' name='info' />
                     </Grid.Column>
                     <Grid.Column width={15}>
-                        <p>Event</p>
+                        <p>{title}</p>
                     </Grid.Column>
                 </Grid>
             </Segment>
@@ -47,7 +50,7 @@ const EventInfo = (props) => {
                         <Icon color='teal' size='large' name='calendar' />
                     </Grid.Column>
                     <Grid.Column width={15}>
-                        <p>date</p>
+                        <p>{date}</p>
                     </Grid.Column>
                 </Grid>
             </Segment>
@@ -58,7 +61,7 @@ const EventInfo = (props) => {
                         <Icon color='teal' size='large' name='marker' />
                     </Grid.Column>
                     <Grid.Column width={11}>
-                        <p>address</p>
+                        <p>{venue}</p>
                     </Grid.Column>
                     <Grid.Column width={4}>
                         <Button color='teal' size='tiny' content='show map' />
@@ -73,7 +76,7 @@ const EventInfo = (props) => {
 const EventComment = (props) => {
     return (
         <Segment.Group>
-            <Header attached='top' inverted textAlign='center' color='gray' size='huge' content='Comment' />
+            <Header attached='top' inverted textAlign='center' color='grey' size='huge' content='Comment' />
             <Segment attached>
                 <Comment.Group>
                     <Comment>
@@ -153,8 +156,9 @@ const EventSideBar = () => {
                 2 people going
             </Segment>
             <Segment attached>
-                <List related divided>
+                <List divided>
                     <Item >
+                        <Label color='blue' ribbon='right'>Hoster</Label>
                         <Item.Image size='mini' circular src={avatar} />
                         <Item.Content  verticalAlign='middle'>
                             <Item.Header as='a' content='aad' />
@@ -176,16 +180,17 @@ const EventSideBar = () => {
 
 class DetailPage extends Component {
     render() {
+        let event = this.props.event
         return (
             <Grid>
                 <Grid.Column width={10}>
-                    <EventHeader />
-                    <EventInfo />
-                    <EventComment />
+                    <EventHeader event={event} />
+                    <EventInfo event={event} />
+                    <EventComment event={event} />
                 </Grid.Column>
                 <Grid.Column width={6}>
                     <h2>sidebar</h2>
-                    <EventSideBar />
+                    <EventSideBar event={event} />
                 </Grid.Column>
             </Grid>
         )
@@ -193,4 +198,13 @@ class DetailPage extends Component {
 }
 
 
-export default DetailPage
+const mapStateToProps = (state, props) => {
+    let {match} = props
+    let id = match.params.id
+    let event = state.events.find((e) => e.id === id) || []
+    return {
+        event,
+    }
+}
+
+export default connect(mapStateToProps)(DetailPage)

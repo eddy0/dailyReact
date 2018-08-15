@@ -2,6 +2,7 @@ const ALL_EVENT = 'ALL_EVENT'
 const CREATE_EVENT = 'CREATE_EVENT'
 const UPDATE_EVENT = 'UPDATE_EVENT'
 const DELETE_EVENT = 'DELETE_EVENT'
+const FETCH_EVENT = 'FETCH_EVENT'
 
 const actionInitEvent = (events) => {
     return {
@@ -9,6 +10,7 @@ const actionInitEvent = (events) => {
         events
     }
 }
+
 
 const actionCreateEvent = (event) => {
     return {
@@ -27,6 +29,13 @@ const actionUpdateEvent = (event) => {
 const actionDeleteEvent = (id) => {
     return {
         type: DELETE_EVENT,
+        id,
+    }
+}
+
+const actionDetailEvent = (id) => {
+    return {
+        type: FETCH_EVENT,
         id,
     }
 }

@@ -1,5 +1,5 @@
 import {actionInitEvent} from './event'
-
+import {hideLoading, showLoading} from 'light-redux-loading'
 
 
 const data = [
@@ -63,8 +63,10 @@ const fetchData = () => {
 
 const handleInitialEvents = () => {
     return (dispatch) => {
+        dispatch(showLoading())
         fetchData().then((data) => {
             dispatch(actionInitEvent(data))
+            dispatch(hideLoading())
         })
     }
 }

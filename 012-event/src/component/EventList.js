@@ -1,11 +1,14 @@
 import React, {Component} from 'react'
-import {Segment,Item, Icon,Button} from 'semantic-ui-react'
+import {Segment, Item, Icon, Button, Container} from 'semantic-ui-react'
 import EventAttendee from './EventAttendee'
-import {Link} from 'react-router-dom'
+import {Link, Route} from 'react-router-dom'
+
 
 class EventList extends Component {
+    
     render() {
         let {id, title, date, description, attendees=[], city, hostedBy, venue, hostPhotoURL, category} = this.props
+        let {match} = this.props
         return (
             <div style={{marginBottom: '3rem'}}>
                 <Segment.Group>
@@ -39,7 +42,8 @@ class EventList extends Component {
                     </Segment>
                     <Segment clearing>
                         <span>{description}</span>
-                        <Button as={Link} to={`event/${id}`} color='teal' floated='right' content='View'></Button>
+                        <Button as={Link} to={`event/${id}`} color='teal' floated='right' content='View'/>
+
                     </Segment>
                     
                 </Segment.Group>
