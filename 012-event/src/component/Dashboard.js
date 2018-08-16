@@ -35,9 +35,12 @@ class Dashboard extends Component {
 }
 
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({events}) => {
+    events = Object.keys(events).map((id) => {
+        return events[id]
+    })
     return {
-        events: state.events
+        events,
     }
 }
 

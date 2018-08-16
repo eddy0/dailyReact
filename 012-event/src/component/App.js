@@ -27,6 +27,11 @@ class App extends Component {
                     <Route render={() => (
                         <Fragment>
                             <NavBar />
+                            {
+                                this.props.loading === true
+                                    ?  null
+                                    :
+                            
                             <Container className="main">
                                 <Route exact path="/event" component={Dashboard} />
                                 <Route path="/event/new" component={EventForm} />
@@ -36,6 +41,7 @@ class App extends Component {
                                 <Route path="/people/:id/profile" component={EventForm} />
                                 <Route path="/setting" component={Setting} />
                             </Container>
+                            }
                         </Fragment>
                     )}
                     />
@@ -46,6 +52,10 @@ class App extends Component {
     }
 }
 
+const mapStateToProps = ({events}) => {
+    return {
+        loading: events.length === 0
+    }
+}
 
-
-export default connect()(App)
+export default connect(mapStateToProps)(App)

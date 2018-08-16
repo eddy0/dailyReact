@@ -1,13 +1,15 @@
-import {actionInitEvent} from './event'
+import {actionInitEvent, actionReceiveEvents} from './event'
 import {hideLoading, showLoading} from 'react-redux-loading-bar'
 import {fetchData} from '../utils/api'
+import {actionReceiveUsers} from './user'
 
 
 const handleInitialEvents = () => {
     return (dispatch) => {
         dispatch(showLoading())
-        fetchData().then((data) => {
-            dispatch(actionInitEvent(data))
+        fetchData().then(({events, users}) => {
+            dispatch(actionReceiveEvents(events))
+            dispatch(actionReceiveUsers(users))
             dispatch(hideLoading())
         })
     }

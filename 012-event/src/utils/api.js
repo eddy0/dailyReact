@@ -1,3 +1,5 @@
+const log = console.log.bind(console)
+
 let events = {
     '1': {
         id: '1',
@@ -92,14 +94,57 @@ const data = [
     },
 ]
 
-const fetchData = () => {
+const _getUsers = () => {
     return new Promise((res, rej) => {
         setTimeout(() => {
-            res(data)
+            res(users)
         }, 1000)
     })
 }
 
+const _getEvents = () => {
+    return new Promise((res, rej) => {
+        setTimeout(() => {
+            res(events)
+        }, 1000)
+    })
+}
+
+
+const flattenEvent = (event, users) => {
+    let attendees = event.attendees
+    let hostedBy = users[event.hostedBy].name
+    attendees = attendees.map((id) => {
+        let user = users[id]
+        return {
+            ...user
+        }
+    })
+    return {
+        ...event,
+        hostedBy,
+        attendees: attendees
+    }
+}
+
+const formateEvents = (events, users) => {
+    let eventsIds = Object.keys(events)
+    let e = eventsIds.reduce((object, id) => {
+        object[id] = flattenEvent(events[id], users)
+        return object
+    },{})
+    return e
+}
+
+const fetchData = () => {
+    return Promise.all([ _getEvents(), _getUsers()])
+        .then(([events, users]) => {
+            return {
+                events: formateEvents(events, users),
+                users,
+            }
+        })
+}
 
 const getEvent = (id) => {
     return new Promise((res, rej) => {
