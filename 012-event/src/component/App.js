@@ -26,6 +26,7 @@ class App extends Component {
                     <Route exact path="/google" component={GoogleMap} />
                     <Route render={() => (
                         <Fragment>
+                            <LoadingBar/>
                             <NavBar />
                             {
                                 this.props.loading === true

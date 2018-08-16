@@ -4,27 +4,15 @@ import {Menu, Container, Button} from 'semantic-ui-react'
 import {NavLink, Link} from 'react-router-dom'
 import SignedInMenu from './SignedInMenu'
 import SignUpMenu from './SignUpMenu'
+import Modal from './Modal'
+import {connect} from 'react-redux'
 
 
 
 class NavBar extends React.Component {
-    state = {
-        authed: true,
-    }
-    handleSignIn = () => {
-        this.setState({
-            authed: true,
-        })
-    }
-    
-    handleSignOut = () => {
-        this.setState({
-            authed: false,
-        })
-    }
     
     render() {
-        let {authed} =  this.state
+        let {auth} =  this.props
         return (
             <Menu inverted fixed='top' style={{background: 'linear-gradient(110deg, lightblue 60%, darkseagreen)'}}>
                 <Container>
@@ -33,11 +21,11 @@ class NavBar extends React.Component {
                         </Menu.Item>
                    
                         <Menu.Item as={NavLink} to='/' name='events'></Menu.Item>
-                    {authed
+                    {auth !== null
                         ? <Menu.Item as={NavLink} to='/people' name='people'></Menu.Item>
                         : null
                     }
-                    {authed
+                    {auth !== null
                         ?
                         <Menu.Item>
                             <Link to='/event/new'>
@@ -47,9 +35,9 @@ class NavBar extends React.Component {
                         : null
                     }
                     {
-                        this.state.authed
-                            ? <SignedInMenu signOut={this.handleSignOut} />
-                            : <SignUpMenu signIn={this.handleSignIn} />
+                        auth !== null
+                            ? <SignedInMenu />
+                            : <SignUpMenu />
                     }
                     
                 </Container>
@@ -59,5 +47,10 @@ class NavBar extends React.Component {
     }
 }
 
+const mapStateToProps = ({auth}) => {
+        return {
+            auth,
+        }
+}
 
-export default NavBar
+export default connect(mapStateToProps)(NavBar)

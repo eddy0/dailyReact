@@ -27,6 +27,10 @@ let events = {
     }
 }
 
+const generateId = () => {
+    return Math.random().toString(36).substring(2,15) + Date.now().toString(36).substring(2, 15)
+}
+
 const users = {
     'a': {
         id: 'a',
@@ -94,6 +98,15 @@ const data = [
     },
 ]
 
+const formatSaveEvent = (event) => {
+    return {
+        id: generateId(),
+        timeStamp: Date.now(),
+        attendees: [],
+        ...event,
+    }
+}
+
 const _getUsers = () => {
     return new Promise((res, rej) => {
         setTimeout(() => {
@@ -110,6 +123,17 @@ const _getEvents = () => {
     })
 }
 
+const _saveEvent = (event) => {
+    let data = formatSaveEvent(event)
+    return new Promise((res, rej) => {
+        setTimeout(() => {
+            res({
+                [data.id]: data
+            })
+        }, 1000)
+    })
+    
+}
 
 const flattenEvent = (event, users) => {
     let attendees = event.attendees
@@ -159,7 +183,31 @@ const getEvent = (id) => {
     })
 }
 
+const saveEvent = (event) => {
+    return _saveEvent(event)
+}
+
+
+const getUser = ({username, password}) => {
+    return new Promise((res, rej) => {
+        setTimeout(() => {
+            let user = Object.values(users).find((user) => {
+                return user.name === username
+            })
+            if (user) {
+                res(user)
+            } else {
+                rej()
+            }
+        }, 1000)
+    })
+}
+
+getUser({username: 'Tom'})
+
 export {
     fetchData,
     getEvent,
+    saveEvent,
+    getUser,
 }

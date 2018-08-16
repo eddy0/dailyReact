@@ -1,4 +1,4 @@
-import {ALL_EVENT, DELETE_EVENT, RECEIVE_EVENTS} from '../action/event'
+import {ALL_EVENT, CREATE_EVENT, DELETE_EVENT, RECEIVE_EVENTS} from '../action/event'
 
 
 const events = (state={}, action) => {
@@ -7,6 +7,11 @@ const events = (state={}, action) => {
             return {
                 ...state,
                 ...action.events
+            }
+        case CREATE_EVENT:
+            return {
+                ...state,
+                ...action.event
             }
         case ALL_EVENT:
             return action.events

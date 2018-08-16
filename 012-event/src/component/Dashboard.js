@@ -3,11 +3,22 @@ import {Grid} from 'semantic-ui-react'
 import EventList from './EventList'
 import EventForm from './EventForm'
 import {connect} from 'react-redux'
-import {handleInitialEvents} from '../action/share'
-
+import {Button} from 'semantic-ui-react'
+import Model from './Modal'
 
 
 class Dashboard extends Component {
+    state = {
+        model: false
+    }
+    
+    handleModel = () => {
+        this.setState((prevState) => {
+            return {
+                model: !prevState.model
+            }
+        })
+    }
     
     render() {
         let {events} = this.props
@@ -26,8 +37,12 @@ class Dashboard extends Component {
                 
                 <Grid.Column width={6}>
                     <h2>recent activites</h2>
-                
+                    <Button positive inverted size='large' onClick={this.handleModel} >open model</Button>
+                    <Model/>
                 </Grid.Column>
+               
+                
+                
             
             </Grid>
         )

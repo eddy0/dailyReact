@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import {Form, Segment, Button} from 'semantic-ui-react'
-import {getEvent} from '../utils/api'
 import {connect} from 'react-redux'
+import {handleCreateEvent} from '../action/event'
+import PlacesAutocomplete from 'react-places-autocomplete';
 
 class EventForm extends Component {
 
@@ -19,16 +20,18 @@ class EventForm extends Component {
     
     handleSubmit = (e) => {
         e.preventDefault()
-        console.log(e, this.props)
+        console.log(e, this.props, this.state)
+        this.props.history.push('/event')
+        this.props.dispatch(handleCreateEvent(this.state))
     }
     
     handleCancel = (e) => {
         e.preventDefault()
-        this.props.history.push('/')
+        this.props.history.push('/event')
     }
     
     render() {
-        let { title='', date='', location='', hostedBy=''} = this.state
+        let { title='', date='', location='', hostedBy='', description=''} = this.state
         return (
             <div>
                 <h1>New Event</h1>
@@ -47,8 +50,12 @@ class EventForm extends Component {
                         <input onChange={this.handleInput} name='location' value={location} placeholder='Enter the venue of event' />
                     </Form.Field>
                     <Form.Field>
+                        <label>Description</label>
+                        <input onChange={this.handleInput} name='description' value={description} placeholder='Enter the description of event' />
+                    </Form.Field>
+                    <Form.Field>
                         <label>Hosted By</label>
-                        <input onChange={this.handleInput} name='host' value={hostedBy} placeholder='Enter the name of Hoster' />
+                        <input onChange={this.handleInput} name='hostedBy' value={hostedBy} placeholder='Enter the name of Host' />
                     </Form.Field>
                    <div style={{marginLeft:'auto', width: 'max-content'}}>
                     <Button positive type='submit' onClick={this.handleSubmit} >Submit</Button>
@@ -70,6 +77,8 @@ const mapStateToProps = (state, props) => {
         date: '',
         location: '',
         hostedBy: '',
+        description: '',
+        attendees: [],
     }
     if (id && state.events.length > 0) {
         form = state.events.filter((event) => event.id === id)[0]

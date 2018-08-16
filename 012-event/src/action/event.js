@@ -1,3 +1,7 @@
+import {hideLoading, showLoading} from 'react-redux-loading-bar'
+import {saveEvent} from '../utils/api'
+
+
 const ALL_EVENT = 'ALL_EVENT'
 const CREATE_EVENT = 'CREATE_EVENT'
 const UPDATE_EVENT = 'UPDATE_EVENT'
@@ -25,6 +29,19 @@ const actionCreateEvent = (event) => {
     return {
         type: CREATE_EVENT,
         event
+    }
+}
+
+const handleCreateEvent = (event) => {
+    return (dispatch, getState) => {
+        dispatch(showLoading())
+        return saveEvent({
+            ...event,
+            hostedBy: 'ok'
+        })
+            .then((event) => dispatch(actionCreateEvent(event)))
+            .then(() => dispatch(hideLoading()))
+        
     }
 }
 
@@ -57,5 +74,6 @@ export {
     DELETE_EVENT,
     ALL_EVENT,
     actionInitEvent,
+    handleCreateEvent,
     actionReceiveEvents,
 }
