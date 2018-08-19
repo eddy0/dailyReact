@@ -10,10 +10,17 @@ import SettingsDashboard from '../../features/user/Settings/SettingsDashboard'
 import EventDetailedPage from '../../features/event/EventDetailed/EventDetailed'
 import ModalManager from '../../features/modal/ModalManager'
 import Test from './test'
+import {handleFetchEvent} from '../redux/actions/events'
+import {connect} from 'react-redux'
 
 
 
 class App extends Component {
+    
+    componentWillMount() {
+        this.props.dispatch(handleFetchEvent())
+    }
+    
     render() {
         return (
             <Router onUpdate={() => window.scrollTo(0, 0)}>
@@ -47,4 +54,4 @@ class App extends Component {
 }
 
 
-export default App
+export default connect()(App)

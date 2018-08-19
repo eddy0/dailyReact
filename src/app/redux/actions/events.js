@@ -1,11 +1,20 @@
 import cuid from 'cuid'
+import {fetchData} from '../../utils/api'
+import {actionLoadingError, actionLoadingFinish, actionLoadingStart} from './loading'
 
 
 
+const FETCH_EVENT = 'FETCH_EVENT'
 const CREATE_EVENT = 'CREATE_EVENT'
 const UPDATE_EVENT = 'UPDATE_EVENT'
 const DELETE_EVENT = 'DELETE_EVENT'
 
+const actionFetchEvent = (event) => {
+    return {
+        type: FETCH_EVENT,
+        event,
+    }
+}
 
 const createEvent = (event) => {
     return {
@@ -25,6 +34,22 @@ const deleteEvent = (id) => {
     return {
         type: DELETE_EVENT,
         id,
+    }
+}
+
+const handleFetchEvent = (event) => {
+    return async (dispatch) => {
+        try {
+            dispatch(actionLoadingStart())
+            let events = await fetchData()
+            dispatch(actionFetchEvent(events))
+            dispatch(actionLoadingFinish())
+            
+        } catch(error) {
+            console.log('fetch error', error)
+            dispatch(actionLoadingError())
+        }
+        
     }
 }
 
@@ -53,12 +78,14 @@ const handleDeleteEvent = (id, cb) => {
 }
 
 export {
+    FETCH_EVENT,
     CREATE_EVENT,
     UPDATE_EVENT,
     DELETE_EVENT,
     createEvent,
     updateEvent,
     deleteEvent,
+    handleFetchEvent,
     handleCreateEvent,
     handleUpdateEvent,
     handleDeleteEvent,

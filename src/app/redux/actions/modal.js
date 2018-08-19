@@ -9,11 +9,9 @@ const openModal = (modalType, modalProps) => {
     }
 }
 
-const closeModal = (modalType, modalProps) => {
+const closeModal = () => {
     return {
         type: MODAL_CLOSE,
-        modalType: modalType,
-        modalProps: modalProps
     }
 }
 

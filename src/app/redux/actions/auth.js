@@ -1,3 +1,7 @@
+import {closeModal} from './modal'
+
+
+
 const LOGIN_USER = 'LOGIN_USER'
 const LOGOUT_USER = 'LOGOUT_USER'
 
@@ -16,10 +20,18 @@ const actionLogout = (creds) => {
 }
 
 
+const handleLogin = (creds) => {
+    return (dispatch)  => {
+        dispatch(actionLogin(creds))
+        dispatch(closeModal())
+    }
+}
+
 
 export {
     LOGIN_USER,
     LOGOUT_USER,
     actionLogin,
     actionLogout,
+    handleLogin,
 }

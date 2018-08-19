@@ -3,13 +3,13 @@ import {Form, Segment, Button} from 'semantic-ui-react'
 import {Field, reduxForm} from 'redux-form'
 import TextInput from '../../event/EventForm/TextInput'
 import {connect} from 'react-redux'
-import {actionLogin} from '../../../app/redux/actions/auth'
+import {handleLogin} from '../../../app/redux/actions/auth'
 
 
 
 const LoginForm = (props) => {
     return (
-        <Form error size="large" onSubmit={props.handleSubmit((values) =>  props.dispatch(actionLogin(values)))} >
+        <Form error size="large" onSubmit={props.handleSubmit((values) =>  props.dispatch(handleLogin(values)))} >
             <Segment>
                 <Field
                     name="email"

@@ -6,6 +6,7 @@ import cuid from 'cuid'
 import {connect} from 'react-redux'
 import {createEvent, handleDeleteEvent, handleUpdateEvent} from '../../../app/redux/actions/events'
 import {openModal} from '../../../app/redux/actions/modal'
+import Loading from '../../../app/layout/Loading'
 
 
 
@@ -15,7 +16,6 @@ class EventDashboard extends Component {
         selectedEvent: null,
     }
     
-    
     handleFormCancel = () => {
         this.setState({
             isOpen: false,
@@ -23,28 +23,30 @@ class EventDashboard extends Component {
         })
     }
     
-    
     handleDeleteEvent = (id) => {
         this.props.handleDeleteEvent(id, () => {
             console.log('ok', this.state)
         })
     }
     
-    
     render() {
-        const {events} = this.props
-        const { selectedEvent} = this.state
-        console.log(this.props)
+        const {events, loading} = this.props
+        // console.log(this.props)
         return (
             <Grid>
                 <Grid.Column width={10}>
-                    <EventList events={events} deleteEvent={this.handleDeleteEvent}  />
+                    {
+                        this.props.loading
+                            ? <Loading />
+                            :  <EventList events={events} deleteEvent={this.handleDeleteEvent} />
+    
+                    }
+                   
                 </Grid.Column>
                 
                 <Grid.Column width={6}>
                     <Button positive content={'Create Event'} onClick={this.handleFormOpen} />
                     <Button positive content={'Open Modal'} onClick={() => this.props.openModal('TestModal', null)} />
-                    
                 
                 </Grid.Column>
             
@@ -53,11 +55,13 @@ class EventDashboard extends Component {
     }
 }
 
-const mapStateToProps = ({events}) => {
+
+const mapStateToProps = ({events, loading}) => {
     return {
-            events,
-        }
+        events,
+        loading,
+        
+    }
 }
 
-
-export default connect(mapStateToProps, { createEvent,handleUpdateEvent,handleDeleteEvent, openModal})(EventDashboard)
+export default connect(mapStateToProps, {createEvent, handleUpdateEvent, handleDeleteEvent, openModal})(EventDashboard)
