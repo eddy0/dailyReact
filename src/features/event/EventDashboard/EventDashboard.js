@@ -5,6 +5,7 @@ import EventForm from '../EventForm/EventForm'
 import cuid from 'cuid'
 import {connect} from 'react-redux'
 import {createEvent, handleDeleteEvent, handleUpdateEvent} from '../../../app/redux/actions/events'
+import {openModal} from '../../../app/redux/actions/modal'
 
 
 
@@ -33,6 +34,7 @@ class EventDashboard extends Component {
     render() {
         const {events} = this.props
         const { selectedEvent} = this.state
+        console.log(this.props)
         return (
             <Grid>
                 <Grid.Column width={10}>
@@ -41,6 +43,7 @@ class EventDashboard extends Component {
                 
                 <Grid.Column width={6}>
                     <Button positive content={'Create Event'} onClick={this.handleFormOpen} />
+                    <Button positive content={'Open Modal'} onClick={() => this.props.openModal('TestModal', null)} />
                     
                 
                 </Grid.Column>
@@ -57,4 +60,4 @@ const mapStateToProps = ({events}) => {
 }
 
 
-export default connect(mapStateToProps, { createEvent,handleUpdateEvent,handleDeleteEvent,})(EventDashboard)
+export default connect(mapStateToProps, { createEvent,handleUpdateEvent,handleDeleteEvent, openModal})(EventDashboard)

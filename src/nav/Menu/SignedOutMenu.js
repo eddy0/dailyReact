@@ -8,7 +8,7 @@ class SignedOutMenu extends Component {
         return (
             <Menu.Item position="right">
                 <Button basic inverted content="Login" onClick={() => this.props.signIn()} />
-                <Button basic inverted content="Sign Up" style={{marginLeft: '0.5em'}} />
+                <Button basic inverted content="Sign Up" onClick={() => this.props.signUp()} style={{marginLeft: '0.5em'}} />
             </Menu.Item>
         )
     }

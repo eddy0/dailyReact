@@ -8,6 +8,7 @@ import PeopleDashboard from '../../features/user/PeopleDashboard/PeopleDashboard
 import EventForm from '../../features/event/EventForm/EventForm'
 import SettingsDashboard from '../../features/user/Settings/SettingsDashboard'
 import EventDetailedPage from '../../features/event/EventDetailed/EventDetailed'
+import ModalManager from '../../features/modal/ModalManager'
 import Test from './test'
 
 
@@ -24,6 +25,7 @@ class App extends Component {
                         <Fragment>
                             <NavBar />
                             <Container className='main'>
+                                <ModalManager/>
                                 <Switch>
                                     <Route path='/events' component={EventDashboard} />
                                     <Route path='/event/new' component={EventForm} />

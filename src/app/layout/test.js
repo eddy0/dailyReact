@@ -1,25 +1,22 @@
-import React from "react"
-import { compose, withProps } from "recompose"
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+import React from 'react'
+import {Modal} from 'semantic-ui-react'
+import {connect} from 'react-redux'
+import {closeModal} from '../redux/actions/modal'
 
-const MapWithAMarker = withGoogleMap(props =>
-    <div>
-    <GoogleMap
-        defaultZoom={8}
-        defaultCenter={{ lat: -34.397, lng: 150.644 }}
-    >
-        <Marker
-            position={{ lat: -34.397, lng: 150.644 }}
-        />
-    </GoogleMap>
-    </div>
-);
 
-const Map = () => (
-    <MapWithAMarker
-        containerElement={<div style={{ height: `400px` }} />}
-        mapElement={<div style={{ height: `100%` }} />}
-    />
-)
 
-export default Map
+const TestModal = props => {
+    return (
+        <Modal closeIcon="close" open={true} onClose={() => props.dispatch(closeModal())} >
+            <Modal.Header>Test Modal</Modal.Header>
+            <Modal.Content>
+                <Modal.Description>
+                    <p>Test Modal... nothing to see here</p>
+                </Modal.Description>
+            </Modal.Content>
+        </Modal>
+    )
+}
+
+
+export default connect()(TestModal)

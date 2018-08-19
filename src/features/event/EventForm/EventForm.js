@@ -70,7 +70,7 @@ class EventForm extends Component {
                             <Header sub color='teal' content='Event Location' />
                             
                             <Field name='city' type='text' component={PlaceInput} options={{types: ['(cities)']}} placeholder="City event is taking place" />
-                            <Field name='venue' type='text' onSelect={this.getLocation} checkChange={this.checkChange}   component={(props) => <PlaceInput {...props} />} options={{types: ['establishment']}} placeholder="Enter the Venue of the event" />
+                            <Field name='venue' type='text' onSelect={this.getLocation} checkChange={this.checkChange} component={PlaceInput}   options={{types: ['establishment']}} placeholder="Enter the Venue of the event" />
                             <Field name='date' type='text' dateFormat='MM-DD-YYYY HH:mm' timeFormat='HH:mm' showTimeSelect component={DateInput} placeholder="Event Date" />
                             
                             <Button positive type="submit" disabled={invalid || submitting || pristine}>

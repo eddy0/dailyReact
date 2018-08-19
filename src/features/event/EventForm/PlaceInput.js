@@ -3,14 +3,11 @@ import {Form, Label} from 'semantic-ui-react'
 import {change} from 'redux-form'
 
 
+
 class PlaceInput extends Component {
     
     componentDidMount() {
         this.initAutocomplete()
-        const {name, value} = this.props.input
-        this.setState({
-            [name]: value
-        })
     }
     
     initAutocomplete = () => {
@@ -27,10 +24,12 @@ class PlaceInput extends Component {
         let lng = place.geometry.location.lng()
         
         this.props.input.onChange(address)
-        if (this.props.input.name ==='venue') {
-            this.props.checkChange({lat, lng})
+    
+        if (this.props.input.name === 'venue' && this.props.input.value.length > 3) {
+            this.props.checkChange({lat: lat, lng: lng})
         }
     }
+    
     
     geolocate = () => {
         if (navigator.geolocation) {
@@ -48,7 +47,6 @@ class PlaceInput extends Component {
         }
     }
     
-    
     render() {
         const {input, width, type, placeholder, meta: {touched, error}} = this.props
         return (
@@ -59,6 +57,7 @@ class PlaceInput extends Component {
                     placeholder={placeholder}
                     type={type}
                     onFocus={this.geolocate}
+                    autoComplete={'off'}
                 />
                 {touched && error && <Label basic>{error}</Label>}
             </Form.Field>
