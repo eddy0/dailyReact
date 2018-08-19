@@ -7,6 +7,7 @@ import {connect} from 'react-redux'
 import {createEvent, handleDeleteEvent, handleUpdateEvent} from '../../../app/redux/actions/events'
 import {openModal} from '../../../app/redux/actions/modal'
 import Loading from '../../../app/layout/Loading'
+import EventActivity from '../EventActivity/EventActivity'
 
 
 
@@ -45,9 +46,9 @@ class EventDashboard extends Component {
                 </Grid.Column>
                 
                 <Grid.Column width={6}>
-                    <Button positive content={'Create Event'} onClick={this.handleFormOpen} />
-                    <Button positive content={'Open Modal'} onClick={() => this.props.openModal('TestModal', null)} />
-                
+                    {/*<Button positive content={'Create Event'} onClick={this.handleFormOpen} />*/}
+                    {/*<Button positive content={'Open Modal'} onClick={() => this.props.openModal('TestModal', null)} />*/}
+                    <EventActivity/>
                 </Grid.Column>
             
             </Grid>

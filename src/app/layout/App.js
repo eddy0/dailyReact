@@ -12,6 +12,7 @@ import ModalManager from '../../features/modal/ModalManager'
 import Test from './test'
 import {handleFetchEvent} from '../redux/actions/events'
 import {connect} from 'react-redux'
+import ReduxToastr from 'react-redux-toastr'
 
 
 
@@ -30,6 +31,16 @@ class App extends Component {
                     
                     <Route render={() => (
                         <Fragment>
+                            <ReduxToastr
+                                timeOut={4000}
+                                newestOnTop={false}
+                                preventDuplicates
+                                position="bottom-right"
+                                transitionIn="fadeIn"
+                                transitionOut="fadeOut"
+                                progressBar
+                                closeOnToastrClick/>
+                            
                             <NavBar />
                             <Container className='main'>
                                 <ModalManager/>

@@ -20,10 +20,11 @@ const actionLogout = (creds) => {
 }
 
 
-const handleLogin = (creds) => {
+const handleLogin = (creds, cb) => {
     return (dispatch)  => {
         dispatch(actionLogin(creds))
         dispatch(closeModal())
+        cb()
     }
 }
 

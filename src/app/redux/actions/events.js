@@ -1,7 +1,7 @@
 import cuid from 'cuid'
 import {fetchData} from '../../utils/api'
 import {actionLoadingError, actionLoadingFinish, actionLoadingStart} from './loading'
-
+import {toastr} from 'react-redux-toastr'
 
 
 const FETCH_EVENT = 'FETCH_EVENT'
@@ -59,6 +59,7 @@ const handleCreateEvent = (event) => {
         event.hostPhotoURL = '/assets/user.png'
         event.attendees = []
         dispatch(createEvent(event))
+        toastr.success('Sucess', 'You have created the events')
         return Promise.resolve()
     }
 }

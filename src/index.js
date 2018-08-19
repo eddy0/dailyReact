@@ -7,6 +7,7 @@ import {createStore, replaceReducer} from 'redux'
 import {Provider} from 'react-redux'
 import middleware from './app/redux/midleware'
 import reducer from './app/redux/reducers'
+import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 
 
 const store = createStore(reducer, middleware)

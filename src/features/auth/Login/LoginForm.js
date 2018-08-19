@@ -4,12 +4,13 @@ import {Field, reduxForm} from 'redux-form'
 import TextInput from '../../event/EventForm/TextInput'
 import {connect} from 'react-redux'
 import {handleLogin} from '../../../app/redux/actions/auth'
+import {toastr} from 'react-redux-toastr'
 
 
 
 const LoginForm = (props) => {
     return (
-        <Form error size="large" onSubmit={props.handleSubmit((values) =>  props.dispatch(handleLogin(values)))} >
+        <Form error size="large" onSubmit={props.handleSubmit((values) => props.dispatch(handleLogin(values, () => toastr.success('Success', 'you have logined in'))))} >
             <Segment>
                 <Field
                     name="email"
@@ -23,7 +24,7 @@ const LoginForm = (props) => {
                     type="password"
                     placeholder="password"
                 />
-                <Button fluid size="large" color="teal">
+                <Button fluid size="large" color="teal"  >
                     Login
                 </Button>
             </Segment>

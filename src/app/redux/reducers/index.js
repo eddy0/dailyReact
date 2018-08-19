@@ -4,6 +4,9 @@ import modal from './modal'
 import {reducer as formReducer} from 'redux-form'
 import auth from './auth'
 import loading from './loading'
+import {reducer as toastr} from 'react-redux-toastr'
+
+
 
 export default combineReducers({
     events,
@@ -11,4 +14,5 @@ export default combineReducers({
     modal,
     auth,
     loading,
+    toastr,
 })
