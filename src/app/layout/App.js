@@ -8,6 +8,7 @@ import PeopleDashboard from '../../features/user/PeopleDashboard/PeopleDashboard
 import EventForm from '../../features/event/EventForm/EventForm'
 import SettingsDashboard from '../../features/user/Settings/SettingsDashboard'
 import EventDetailedPage from '../../features/event/EventDetailed/EventDetailed'
+import Test from './test'
 
 
 
@@ -31,6 +32,7 @@ class App extends Component {
                                     <Route path='/people' component={PeopleDashboard} />
                                     <Route path='/people/:id' component={EventDashboard} />
                                     <Route path='/settings' component={SettingsDashboard} />
+                                    <Route path='/test' component={Test} />
                                 </Switch>
                             </Container>
                         </Fragment>

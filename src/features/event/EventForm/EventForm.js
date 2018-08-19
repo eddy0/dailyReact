@@ -10,6 +10,8 @@ import DateInput from './DateInput'
 import {combineValidators, composeValidators, createValidator, isRequired, hasLengthGreaterThan} from 'revalidate'
 import moment from 'moment'
 
+import PlaceInput from './PlaceInput'
+
 
 
 const category = [
@@ -27,6 +29,7 @@ class EventForm extends Component {
     onFormSubmit = (value) => {
         console.log('e', value, this.props)
         value.date = moment(value.date).format()
+        value.hostedBy= 'Eddy'
         let event = this.props.initialValues
         if (event.id) {
             this.props.dispatch(handleUpdateEvent(value, () => {
@@ -38,8 +41,17 @@ class EventForm extends Component {
                 .then(() => {
                     this.props.history.push('/events')
                 })
-            
         }
+    }
+    
+    
+    checkChange = ({lat, lng}) => {
+        console.log('this.props value on change', lat, lng)
+        this.props.change('venueLatLng', {
+            lat: lat,
+            lng: lng,
+        })
+    
     }
     
     render() {
@@ -57,8 +69,8 @@ class EventForm extends Component {
                             <Field name='description' type='text' rows='3' component={TextArea} placeholder="Event description" />
                             <Header sub color='teal' content='Event Location' />
                             
-                            <Field name='city' type='text' component={TextInput} placeholder="City event is taking place" />
-                            <Field name='venue' type='text' component={TextInput} placeholder="Enter the Venue of the event" />
+                            <Field name='city' type='text' component={PlaceInput} options={{types: ['(cities)']}} placeholder="City event is taking place" />
+                            <Field name='venue' type='text' onSelect={this.getLocation} checkChange={this.checkChange}   component={(props) => <PlaceInput {...props} />} options={{types: ['establishment']}} placeholder="Enter the Venue of the event" />
                             <Field name='date' type='text' dateFormat='MM-DD-YYYY HH:mm' timeFormat='HH:mm' showTimeSelect component={DateInput} placeholder="Event Date" />
                             
                             <Button positive type="submit" disabled={invalid || submitting || pristine}>

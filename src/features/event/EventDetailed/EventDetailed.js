@@ -17,6 +17,7 @@ class EventDetailedPage extends Component {
                     <h1>EventDetailed</h1>
                     <EventDetailedHeader event={event} />
                     <EventDetailedInfo event={event} />
+                   
                     <EventDetailedChat />
                 </Grid.Column>
                 <Grid.Column width={6}>

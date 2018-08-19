@@ -1,11 +1,22 @@
 import React, {Component} from 'react'
-
 import {Grid,  Segment, Button, Icon} from 'semantic-ui-react'
-
+import EventDetailedMap from './EventDetailedMap'
 
 class EventDetailedInfo extends Component {
+    state={
+        showMap: false
+    }
+    
+    toggleShowMap = () => {
+        this.setState((prevState) => {
+            return {
+                showMap: !prevState.showMap
+            }
+        })
+    }
+    
     render() {
-        let {description, date, venue} = this.props.event
+        let {description, date, venue, venueLatLng} = this.props.event
     
         return (
             <Segment.Group>
@@ -38,10 +49,15 @@ class EventDetailedInfo extends Component {
                             <span>{venue}</span>
                         </Grid.Column>
                         <Grid.Column width={4}>
-                            <Button color="teal" size="tiny" content="Show Map" />
+                            <Button color="teal" size="tiny" content={this.state.showMap ? 'Hide Map' : "Show Map"} onClick={this.toggleShowMap} />
                         </Grid.Column>
                     </Grid>
                 </Segment>
+                {
+                    this.state.showMap &&
+                    <EventDetailedMap location={venueLatLng} />
+    
+                }
             </Segment.Group>
         )
     }
