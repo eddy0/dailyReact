@@ -1,10 +1,11 @@
 import React from 'react'
-import {Form, Segment, Button, Label} from 'semantic-ui-react'
+import {Form, Segment, Button, Label, Divider} from 'semantic-ui-react'
 import {Field, reduxForm} from 'redux-form'
 import TextInput from '../../event/EventForm/TextInput'
 import {connect} from 'react-redux'
 import {handleRegister} from '../../../app/redux/actions/auth'
 import {combineValidators, isRequired} from 'revalidate'
+import SocialLogin from '../SocialLogin/SocialLogin'
 
 
 
@@ -40,6 +41,10 @@ const RegisterForm = (props) => {
                     <Button disabled={invalid || submitting } fluid size="large" color="teal">
                         Register
                     </Button>
+                    <Divider horizontal>
+                        OR
+                    </Divider>
+                    <SocialLogin/>
                 </Segment>
             </Form>
         </div>

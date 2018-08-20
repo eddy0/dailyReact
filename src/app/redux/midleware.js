@@ -9,6 +9,7 @@ const rrfConfig = {
     userProfile: 'users',
     attachAuthIsReady: true,
     useFirestoreForProfile: true,
+    updateProfileOnLogin: false,
     // useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
 }
 

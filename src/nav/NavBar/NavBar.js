@@ -26,7 +26,7 @@ class NavBar extends Component {
     }
     
     render() {
-        const {auth} = this.props
+        const {auth, profile} = this.props
         let authenticated = auth.isLoaded && !auth.isEmpty
     
         return (
@@ -47,7 +47,7 @@ class NavBar extends Component {
                     }
                     {
                         authenticated
-                            ? <SignedInMenu auth={auth} signOut={this.handleSignOut} />
+                            ? <SignedInMenu profile={profile} signOut={this.handleSignOut} />
                             : <SignedOutMenu signUp={this.handleSignUp} signIn={this.handleSignIn} />
                     }
                 
@@ -57,9 +57,12 @@ class NavBar extends Component {
     }
 }
 
+
+// 用 profile 的原因是 第一次register的时候 auth 里面没有需要的信息
 const mapStateToProps = (state) => {
     return {
         auth: state.firebase.auth,
+        profile: state.firebase.profile,
     }
 }
 
