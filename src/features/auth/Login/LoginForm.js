@@ -1,5 +1,5 @@
 import React from 'react'
-import {Form, Segment, Button} from 'semantic-ui-react'
+import {Form, Segment, Button, Label} from 'semantic-ui-react'
 import {Field, reduxForm} from 'redux-form'
 import TextInput from '../../event/EventForm/TextInput'
 import {connect} from 'react-redux'
@@ -9,8 +9,9 @@ import {toastr} from 'react-redux-toastr'
 
 
 const LoginForm = (props) => {
+    const {error, handleSubmit} = props
     return (
-        <Form error size="large" onSubmit={props.handleSubmit((values) => props.dispatch(handleLogin(values, () => toastr.success('Success', 'you have logined in'))))} >
+        <Form error size="large" onSubmit={handleSubmit((values) => props.dispatch(handleLogin(values)))} >
             <Segment>
                 <Field
                     name="email"
@@ -24,6 +25,8 @@ const LoginForm = (props) => {
                     type="password"
                     placeholder="password"
                 />
+                {error &&  <Label  color='red' content={error} />}
+                
                 <Button fluid size="large" color="teal"  >
                     Login
                 </Button>

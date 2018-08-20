@@ -1,14 +1,21 @@
 import React from 'react'
-import {Form, Segment, Button} from 'semantic-ui-react'
+import {Form, Segment, Button, Label} from 'semantic-ui-react'
 import {Field, reduxForm} from 'redux-form'
 import TextInput from '../../event/EventForm/TextInput'
+import {connect} from 'react-redux'
+import {handleRegister} from '../../../app/redux/actions/auth'
+import {combineValidators, isRequired} from 'revalidate'
 
 
 
-const RegisterForm = () => {
+
+const RegisterForm = (props) => {
+    
+    const {handleSubmit, handleRegister, error, invalid, submitting} = props
+    
     return (
         <div>
-            <Form size="large">
+            <Form size="large" onSubmit={handleSubmit(handleRegister)}>
                 <Segment>
                     <Field
                         name="displayName"
@@ -28,7 +35,9 @@ const RegisterForm = () => {
                         component={TextInput}
                         placeholder="Password"
                     />
-                    <Button fluid size="large" color="teal">
+                    {error &&  <Label  color='red' content={error} />}
+    
+                    <Button disabled={invalid || submitting } fluid size="large" color="teal">
                         Register
                     </Button>
                 </Segment>
@@ -37,4 +46,10 @@ const RegisterForm = () => {
     )
 }
 
-export default reduxForm({form: 'registerForm'})(RegisterForm)
+const validate = combineValidators({
+    displayName: isRequired('displayName'),
+    email: isRequired('email'),
+    password: isRequired('password'),
+})
+
+export default connect(null, {handleRegister})(reduxForm({form: 'registerForm', validate} )(RegisterForm))
