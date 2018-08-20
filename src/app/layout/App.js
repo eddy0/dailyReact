@@ -13,13 +13,14 @@ import Test from './test'
 import {handleFetchEvent} from '../redux/actions/events'
 import {connect} from 'react-redux'
 import ReduxToastr from 'react-redux-toastr'
+import {firestoreConnect} from 'react-redux-firebase'
 
 
 
 class App extends Component {
     
     componentWillMount() {
-        this.props.dispatch(handleFetchEvent())
+        // this.props.dispatch(handleFetchEvent())
     }
     
     render() {
@@ -65,4 +66,6 @@ class App extends Component {
 }
 
 
-export default connect()(App)
+export default connect()(
+    firestoreConnect([{collection: 'events'}])(App)
+)

@@ -10,6 +10,7 @@ class EventList extends Component {
             <div>
                 <h1>Event List</h1>
                 {
+                    events &&
                     events.map((event) => {
                         return (
                             <EventItem key={event.id} event={event} deleteEvent={this.props.deleteEvent} />

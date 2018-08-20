@@ -57,11 +57,17 @@ class EventDashboard extends Component {
 }
 
 
-const mapStateToProps = ({events, loading}) => {
+const mapStateToProps = (state) => {
+    const {loading} = state
+    let events = state.firestore.ordered.events || []
+    
+    events = Object.keys(events).map((id) => {
+        return events[id]
+    })
+    
     return {
         events,
         loading,
-        
     }
 }
 
