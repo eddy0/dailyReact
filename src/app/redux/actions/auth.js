@@ -104,8 +104,6 @@ const updatePassword = (creds) => async (dispatch, getState, {getFirebase,}) => 
         throw new SubmissionError({_error: error.message})
     
     }
-    
-    
 }
 
 
