@@ -8,7 +8,7 @@ import PhotosPage from './PhotosPage'
 import AccountPage from './AccountPage'
 import {updatePassword} from '../../../app/redux/actions/auth'
 import {connect} from 'react-redux'
-import updateProfile from '../../../app/redux/actions/user'
+import {updateProfile} from '../../../app/redux/actions/user'
 
 
 
@@ -48,6 +48,7 @@ const mapStateToProps = (state) => {
     return {
         providerId,
         user,
+       
     }
 }
 
