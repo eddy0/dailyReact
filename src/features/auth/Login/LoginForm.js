@@ -3,8 +3,7 @@ import {Form, Segment, Button, Label, Divider} from 'semantic-ui-react'
 import {Field, reduxForm} from 'redux-form'
 import TextInput from '../../event/EventForm/TextInput'
 import {connect} from 'react-redux'
-import {handleLogin, handleSocialLogin} from '../../../app/redux/actions/auth'
-import {toastr} from 'react-redux-toastr'
+import {handleLogin} from '../../../app/redux/actions/auth'
 import SocialLogin from '../SocialLogin/SocialLogin'
 
 

@@ -1,11 +1,14 @@
 import React, {Component} from 'react'
-import {List, Item, Label, Segment, Button, Header} from 'semantic-ui-react'
+import {List, Item, Label, Segment} from 'semantic-ui-react'
+import {withFirestore} from 'react-redux-firebase'
 
 
 
 class EventDetailedSidebar extends Component {
+    
+    
     render() {
-        const {attendees} = this.props
+        const {attendees, hostUid, hostBy} = this.props
         return (
             <div>
                 <Segment
@@ -22,9 +25,10 @@ class EventDetailedSidebar extends Component {
                     <List relaxed divided>
                         
                         {attendees &&
-                            this.props.attendees.map((attendee) => {
+                            Object.keys(attendees).map((id) => {
+                                let attendee = attendees[id]
                                 return (
-                                    <Item style={{position: 'relative'}} key={attendee.id}>
+                                    <Item style={{position: 'relative'}} key={id}>
                                         {
                                             attendee.name === this.props.hostedBy
                                                 ? <Label
@@ -58,4 +62,4 @@ class EventDetailedSidebar extends Component {
 
 
 
-export default EventDetailedSidebar
+export default withFirestore(EventDetailedSidebar)

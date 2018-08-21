@@ -7,17 +7,18 @@ import format from 'date-fns/format'
 
 class EventItem extends Component {
     render() {
-        let {id, title, hostedBy, date, hostPhotoURL, description, venue, attendees} = this.props.event
+        let {id, title,  date, photoURL, hostUid, hostedBy, description, venue, attendees} = this.props.event
+        
         return (
             <Segment.Group>
                 <Segment>
                     <Item.Group>
                         <Item>
-                            <Item.Image size="tiny" circular src={hostPhotoURL} />
+                            <Item.Image size="tiny" circular src={photoURL} />
                             <Item.Content>
                                 <Item.Header as="a">{title}</Item.Header>
                                 <Item.Description>
-                                    Hosted by <a>{hostedBy}</a>
+                                    Hosted by <Link to={`/profile/${hostUid}`}>{hostedBy}</Link>
                                 </Item.Description>
                             </Item.Content>
                         </Item>
@@ -25,7 +26,7 @@ class EventItem extends Component {
                 </Segment>
                 <Segment>
               <span>
-                <Icon name="clock" />  {format(date.toDate(), 'dddd Do MMMM')} at {format(date.toDate(), 'HH:mm' )} |
+                <Icon name="clock" />  {format(Date(date), 'dddd Do MMMM')} at {format(Date(date), 'HH:mm' )} |
                 <Icon name="marker" /> {venue}
               </span>
                 </Segment>
@@ -33,8 +34,8 @@ class EventItem extends Component {
                     <List horizontal>
                         {
                             attendees &&
-                            Object.values(attendees).map((attendee) => (
-                                <EventAttendee key={attendee.id} attendee={attendee} />
+                            Object.keys(attendees).map((id) => (
+                                <EventAttendee key={id} attendee={attendees[id]} />
                             ))
                         }
                     </List>

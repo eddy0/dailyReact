@@ -37,7 +37,7 @@ class EventDetailedInfo extends Component {
                             <Icon name="calendar" size="large" color="teal" />
                         </Grid.Column>
                         <Grid.Column width={15}>
-                            <span> {format(date, 'dddd Do MMMM')} at {format(date, 'HH:mm' )}</span>
+                            <span> {format(Date(date), 'dddd Do MMMM')} at {format(Date(date), 'HH:mm' )}</span>
                         </Grid.Column>
                     </Grid>
                 </Segment>
@@ -57,7 +57,6 @@ class EventDetailedInfo extends Component {
                 {
                     this.state.showMap &&
                     <EventDetailedMap location={venueLatLng} />
-    
                 }
             </Segment.Group>
         )

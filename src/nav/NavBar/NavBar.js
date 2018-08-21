@@ -5,7 +5,6 @@ import SignedOutMenu from '../Menu/SignedOutMenu'
 import SignedInMenu from '../Menu/SignedInMenu'
 import {connect} from 'react-redux'
 import {openModal} from '../../app/redux/actions/modal'
-import {actionLogout} from '../../app/redux/actions/auth'
 import {withFirebase} from 'react-redux-firebase'
 
 

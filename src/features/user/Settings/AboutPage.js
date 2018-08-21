@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React from 'react'
 import { Button, Divider, Form, Header, Segment } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import RadioInput from '../../event/EventForm/RadioInput'
@@ -6,7 +6,6 @@ import TextInput from '../../event/EventForm/TextInput'
 import TextArea from '../../event/EventForm/TextArea'
 import PlaceInput from '../../event/EventForm/PlaceInput'
 import SelectInput from '../../event/EventForm/SelectInput'
-import BasicPage from './BasicPage'
 
 
 const interests = [

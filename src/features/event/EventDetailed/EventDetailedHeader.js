@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React from 'react'
 import {Header, Segment, Item, Image, Button} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import format from "date-fns/format"
@@ -20,7 +20,7 @@ const eventImageTextStyle = {
 
 const EventDetailedHeader = ({event}) => {
     
-    let {date, hostedBy, title, category, id} = event
+    let {date, hostUid, hostBy, title, category, id} = event
     return (
         <Segment.Group>
             <Segment basic attached="top" style={{padding: '0'}}>
@@ -35,9 +35,9 @@ const EventDetailedHeader = ({event}) => {
                                     content={title}
                                     style={{color: 'white'}}
                                 />
-                                <p>{format(date, 'dddd Do MMMM')} at {format(date, 'HH:mm' )}</p>
+                                <p>{format(Date(date), 'dddd Do MMMM') }</p>
                                 <p>
-                                    Hosted by <strong>{hostedBy}</strong>
+                                    Hosted by <strong>{hostBy || hostUid}</strong>
                                 </p>
                             </Item.Content>
                         </Item>

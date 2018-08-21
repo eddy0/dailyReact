@@ -1,7 +1,7 @@
-import cuid from 'cuid'
-import {fetchData} from '../../utils/api'
+import {createNewEvent, fetchData} from '../../utils/api'
 import {actionLoadingError, actionLoadingFinish, actionLoadingStart} from './loading'
 import {toastr} from 'react-redux-toastr'
+
 
 
 const FETCH_EVENT = 'FETCH_EVENT'
@@ -53,21 +53,45 @@ const handleFetchEvent = (event) => {
     }
 }
 
-const handleCreateEvent = (event) => {
-    return (dispatch) => {
-        event.id = cuid()
-        event.hostPhotoURL = '/assets/user.png'
-        event.attendees = []
-        dispatch(createEvent(event))
+const handleCreateEvent = (event) => async (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firebase = getFirebase()
+    const firestore = getFirestore()
+    const user = firebase.auth().currentUser
+    
+    const {photoURL, displayName} = getState().firebase.profile
+    
+    let newEvent = createNewEvent({user, photoURL, displayName, event})
+    console.log('newEvent', newEvent)
+    
+    try {
+        let createEvent = await firestore.add(`events`, newEvent)
+        console.log('createEvent', createEvent)
+    
+        // await firestore.add(`events/${createEvent.id}`, {
+        //     id: createEvent.id
+        // })
+        await firestore.set(`attendees/${createEvent.id}_${user.uid}`, {
+            eventId: createEvent.id,
+            userUid: user.uid,
+            eventDate: event.date,
+            host: true,
+        })
         toastr.success('Sucess', 'You have created the events')
-        return Promise.resolve()
+    } catch(e) {
+        console.log('e', e)
+        
     }
 }
 
-const handleUpdateEvent = (event, cb) => {
-    return (dispatch) => {
-        dispatch(updateEvent(event))
+const handleUpdateEvent = (event, cb) => async (dispatch, getState, { getFirestore}) => {
+    const firestore = getFirestore()
+    
+    try {
+       await firestore.update(`events/${event.id}`, event)
+        toastr.success('Sucess', 'You have updated the events')
         cb()
+    } catch(e) {
+        console.log('e', e)
     }
 }
 
@@ -75,6 +99,24 @@ const handleDeleteEvent = (id, cb) => {
     return (dispatch) => {
         dispatch(deleteEvent(id))
         cb()
+    }
+}
+
+const handleToggleCancelEvent = (event, cb)=> async (dispatch, getState, { getFirestore}) => {
+    const firestore = getFirestore()
+    let cancelled = event.cancelled
+    if (cancelled === undefined) {
+        cancelled = false
+    }
+    
+    try {
+        await firestore.update(`events/${event.id}`, {
+            cancelled: !cancelled
+        })
+        toastr.success('Sucess', 'You have cacelled the events')
+        cb()
+    } catch(e) {
+        console.log('e', e)
     }
 }
 
@@ -90,4 +132,5 @@ export {
     handleCreateEvent,
     handleUpdateEvent,
     handleDeleteEvent,
+    handleToggleCancelEvent,
 }

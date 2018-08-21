@@ -1,16 +1,15 @@
 import React, {Component} from 'react'
 import {Form, Segment, Button, Grid, Header} from 'semantic-ui-react'
 import {connect} from 'react-redux'
-import {handleCreateEvent, handleUpdateEvent} from '../../../app/redux/actions/events'
+import {handleCreateEvent, handleUpdateEvent, handleToggleCancelEvent} from '../../../app/redux/actions/events'
 import {reduxForm, Field} from 'redux-form'
 import TextInput from './TextInput'
 import TextArea from './TextArea'
 import SelectInput from './SelectInput'
 import DateInput from './DateInput'
-import {combineValidators, composeValidators, createValidator, isRequired, hasLengthGreaterThan} from 'revalidate'
-import moment from 'moment'
-
+import {combineValidators, composeValidators, isRequired, hasLengthGreaterThan} from 'revalidate'
 import PlaceInput from './PlaceInput'
+import {withFirestore} from 'react-redux-firebase'
 
 
 
@@ -26,11 +25,23 @@ const category = [
 
 class EventForm extends Component {
     
+    async componentDidMount() {
+        const {match, firestore} = this.props
+        let id = match.params.id
+        if (id) {
+            await firestore.get({collection: 'events', doc: id, storeAs: 'event'})
+        }
+    }
+    
+    // async componentWillUnmount() {
+    //     const {firestore, match} = this.props
+    //     await firestore.unsetListener(`events/${match.params.id}`)
+    // }
+    
     onFormSubmit = (value) => {
-        console.log('e', value, this.props)
-        value.date = moment(value.date).format()
-        value.hostedBy= 'Eddy'
         let event = this.props.initialValues
+        console.log('event', event)
+        
         if (event.id) {
             this.props.dispatch(handleUpdateEvent(value, () => {
                 this.props.history.goBack()
@@ -38,12 +49,10 @@ class EventForm extends Component {
             
         } else {
             this.props.dispatch(handleCreateEvent(value))
-                .then(() => {
-                    this.props.history.push('/events')
-                })
+            this.props.history.push('/events')
         }
+        
     }
-    
     
     checkChange = ({lat, lng}) => {
         console.log('this.props value on change', lat, lng)
@@ -51,13 +60,14 @@ class EventForm extends Component {
             lat: lat,
             lng: lng,
         })
-    
+        
     }
     
     render() {
-        // console.log(this.props)
+        console.log(this.props.initialValues, )
         // const {title, city, venue, hostedBy, date} = this.props.event
         const {invalid, submitting, pristine} = this.props
+        const {initialValues, handleToggleCancelEvent} = this.props
         return (
             <Grid>
                 <Grid.Column width={10}>
@@ -70,13 +80,23 @@ class EventForm extends Component {
                             <Header sub color='teal' content='Event Location' />
                             
                             <Field name='city' type='text' component={PlaceInput} options={{types: ['(cities)']}} placeholder="City event is taking place" />
-                            <Field name='venue' type='text' onSelect={this.getLocation} checkChange={this.checkChange} component={PlaceInput}   options={{types: ['establishment']}} placeholder="Enter the Venue of the event" />
+                            <Field name='venue' type='text' onSelect={this.getLocation} checkChange={this.checkChange} component={PlaceInput} options={{types: ['establishment']}} placeholder="Enter the Venue of the event" />
                             <Field name='date' type='text' dateFormat='MM-DD-YYYY HH:mm' timeFormat='HH:mm' showTimeSelect component={DateInput} placeholder="Event Date" />
                             
                             <Button positive type="submit" disabled={invalid || submitting || pristine}>
                                 Submit
                             </Button>
                             <Button type="button" onClick={() => this.props.history.goBack()}>Cancel</Button>
+                            {
+                                initialValues && Object.keys(initialValues).length > 0 &&
+                                <Button
+                                    type="button"
+                                    onClick={() => handleToggleCancelEvent(initialValues, () => this.props.history.goBack())}
+                                    color={initialValues.cancelled ? 'green' : 'red'}
+                                    content={initialValues.cancelled ? 'retrieve' : 'cancel'}
+                                    floated='right'
+                                />
+                            }
                         </Form>
                     </Segment>
                 </Grid.Column>
@@ -99,15 +119,19 @@ const validate = combineValidators({
 })
 
 const mapStateToProps = (state, props) => {
+    const {match} = props
+    let id = match.params.id
     let event = {}
-    let {id} = props.match.params
-    if (id && state.events.length > 0) {
-        event = state.events.filter((event) => event.id === id)[0]
-        event = Object.assign({}, event)
+    let firestoreEvent = state.firestore.ordered.event
+    if (id && firestoreEvent && firestoreEvent[0]) {
+        event = firestoreEvent[0]
     }
+    
     return {
         initialValues: event,
     }
 }
 
-export default connect(mapStateToProps)(reduxForm({form: 'eventForm', enableReinitialize: true, validate})(EventForm))
+export default withFirestore(connect(mapStateToProps, {handleToggleCancelEvent})(reduxForm({
+    form: 'eventForm', enableReinitialize: true, validate,
+})(EventForm)))
