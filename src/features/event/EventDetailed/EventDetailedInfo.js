@@ -1,7 +1,8 @@
-import React, {Component} from 'react'
+import React, {Component, Fragment} from 'react'
 import {Grid,  Segment, Button, Icon} from 'semantic-ui-react'
 import EventDetailedMap from './EventDetailedMap'
 import format from "date-fns/format"
+import Script from 'react-load-script'
 
 class EventDetailedInfo extends Component {
     state={
@@ -21,6 +22,9 @@ class EventDetailedInfo extends Component {
     
         return (
             <Segment.Group>
+                <Script
+                    url="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYVHNqmifVNgbn_Rzm1SLViGST1YOlfFg&libraries=places&language=en"
+                />
                 <Segment attached="top">
                     <Grid>
                         <Grid.Column width={1}>

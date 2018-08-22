@@ -29,14 +29,14 @@ class EventForm extends Component {
         const {match, firestore} = this.props
         let id = match.params.id
         if (id) {
-            await firestore.get({collection: 'events', doc: id, storeAs: 'event'})
+            await firestore.setListener(`events/${match.params.id}`)
         }
     }
     
-    // async componentWillUnmount() {
-    //     const {firestore, match} = this.props
-    //     await firestore.unsetListener(`events/${match.params.id}`)
-    // }
+    async componentWillUnmount() {
+        const {firestore} = this.props
+        await firestore.unsetListener(`events`)
+    }
     
     onFormSubmit = (value) => {
         let event = this.props.initialValues
@@ -64,7 +64,7 @@ class EventForm extends Component {
     }
     
     render() {
-        console.log(this.props.initialValues, )
+        console.log(this.props.initialValues)
         // const {title, city, venue, hostedBy, date} = this.props.event
         const {invalid, submitting, pristine} = this.props
         const {initialValues, handleToggleCancelEvent} = this.props
@@ -122,7 +122,7 @@ const mapStateToProps = (state, props) => {
     const {match} = props
     let id = match.params.id
     let event = {}
-    let firestoreEvent = state.firestore.ordered.event
+    let firestoreEvent = state.firestore.ordered.events
     if (id && firestoreEvent && firestoreEvent[0]) {
         event = firestoreEvent[0]
     }
@@ -132,6 +132,8 @@ const mapStateToProps = (state, props) => {
     }
 }
 
-export default withFirestore(connect(mapStateToProps, {handleToggleCancelEvent})(reduxForm({
-    form: 'eventForm', enableReinitialize: true, validate,
-})(EventForm)))
+export default withFirestore(
+    connect(mapStateToProps, {handleToggleCancelEvent})
+    (reduxForm({
+        form: 'eventForm', enableReinitialize: true, validate,
+    })(EventForm)))

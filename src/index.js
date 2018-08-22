@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import 'semantic-ui-css/semantic.min.css'
 import App from './app/layout/App'
-import {createStore} from 'redux'
+import {createStore, replaceReducer} from 'redux'
 import {Provider} from 'react-redux'
 import middleware from './app/redux/midleware'
 import reducer from './app/redux/reducers'
@@ -24,12 +24,11 @@ if (module.hot) {
     module.hot.accept('./app/layout/App', () => {
         setTimeout(render)
     })
-    
+
     module.hot.accept('./app/redux/reducers', () => {
         const newReducer = require('./app/redux/reducers').default
-        console.log('newReducer', newReducer)
         store.replaceReducer(newReducer)
-    
+
     })
 }
 

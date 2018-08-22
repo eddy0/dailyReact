@@ -1,14 +1,13 @@
 import React, {Component} from 'react'
 import {List, Item, Label, Segment} from 'semantic-ui-react'
-import {withFirestore} from 'react-redux-firebase'
-
+import { Link } from 'react-router-dom'
 
 
 class EventDetailedSidebar extends Component {
     
-    
     render() {
-        const {attendees, hostUid, hostBy} = this.props
+        const {attendees, hostUid} = this.props
+        
         return (
             <div>
                 <Segment
@@ -30,7 +29,7 @@ class EventDetailedSidebar extends Component {
                                 return (
                                     <Item style={{position: 'relative'}} key={id}>
                                         {
-                                            attendee.name === this.props.hostedBy
+                                            attendee.host
                                                 ? <Label
                                                     style={{position: 'absolute'}}
                                                     color="orange"
@@ -45,7 +44,7 @@ class EventDetailedSidebar extends Component {
                                         <Item.Image size="tiny" src={attendee.photoURL} />
                                         <Item.Content verticalAlign="middle">
                                             <Item.Header as="h3">
-                                                <a>{attendee.name}</a>
+                                                <Link to={`/people/${id}`}>{attendee.displayName}</Link>
                                             </Item.Header>
                                         </Item.Content>
                                     </Item>
@@ -62,4 +61,4 @@ class EventDetailedSidebar extends Component {
 
 
 
-export default withFirestore(EventDetailedSidebar)
+export default EventDetailedSidebar

@@ -66,7 +66,7 @@ const handleCreateEvent = (event) => async (dispatch, getState, {getFirebase, ge
     try {
         let createEvent = await firestore.add(`events`, newEvent)
         console.log('createEvent', createEvent)
-    
+        
         // await firestore.add(`events/${createEvent.id}`, {
         //     id: createEvent.id
         // })
@@ -83,11 +83,11 @@ const handleCreateEvent = (event) => async (dispatch, getState, {getFirebase, ge
     }
 }
 
-const handleUpdateEvent = (event, cb) => async (dispatch, getState, { getFirestore}) => {
+const handleUpdateEvent = (event, cb) => async (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore()
     
     try {
-       await firestore.update(`events/${event.id}`, event)
+        await firestore.update(`events/${event.id}`, event)
         toastr.success('Sucess', 'You have updated the events')
         cb()
     } catch(e) {
@@ -102,23 +102,86 @@ const handleDeleteEvent = (id, cb) => {
     }
 }
 
-const handleToggleCancelEvent = (event, cb)=> async (dispatch, getState, { getFirestore}) => {
+const handleToggleCancelEvent = (event, cb) => async (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore()
     let cancelled = event.cancelled
     if (cancelled === undefined) {
         cancelled = false
     }
-    
     try {
-        await firestore.update(`events/${event.id}`, {
-            cancelled: !cancelled
+        let message = cancelled === false ? 'are you sure to cancel?' : 'are your sure to retrieve?'
+        
+        toastr.confirm(message, {
+            onOk: async () => {
+                await firestore.update(`events/${event.id}`, {
+                    cancelled: !cancelled,
+                })
+                toastr.success('Sucess', 'You have cacelled the events')
+                cb()
+            },
         })
-        toastr.success('Sucess', 'You have cacelled the events')
-        cb()
+        
     } catch(e) {
-        console.log('e', e)
     }
 }
+
+const handleJoinEvent = (event) =>
+    async (dispatch, getState, {getFirebase, getFirestore}) => {
+        const firestore = getFirestore()
+        const firebase = getFirebase()
+        const user = await firebase.auth().currentUser
+        const {displayName, photoURL} = getState().firebase.profile
+        const attendee = {
+            going: true,
+            joinDate: Date.now(),
+            photoURL: photoURL || '/assets/user.png',
+            displayName: displayName,
+            host: false,
+        }
+        
+        try {
+            console.log('attendee, event.id, user.uid', attendee, event.id, user.uid)
+            
+            await firestore.update(`events/${event.id}`, {
+                [`attendees.${user.uid}`]: attendee,
+            })
+            
+            await firestore.set(`attendees/${event.id}_${user.uid}`, {
+                eventId: event.id,
+                userUid: user.uid,
+                eventDate: event.date,
+                host: false,
+            })
+            
+            toastr.success('Sucess', 'You have join the events')
+            
+        } catch(e) {
+            console.log('e', e)
+            
+        }
+        
+    }
+
+const handleCancelJoinEvent = (event) =>
+    async (dispatch, getState, {getFirebase, getFirestore}) => {
+        const firestore = getFirestore()
+        const firebase = getFirebase()
+        const user = firebase.auth().currentUser
+        try {
+            
+            await firestore.update(`events/${event.id}`, {
+                [`attendees.${user.uid}`]: firestore.FieldValue.delete(),
+            })
+            
+            await firestore.delete(`attendees/${event.id}_${user.uid}`)
+            
+            toastr.success('Sucess', 'You have cancel joining the events')
+            
+        } catch(e) {
+            console.log('e', e)
+        }
+        
+    }
 
 export {
     FETCH_EVENT,
@@ -129,6 +192,8 @@ export {
     updateEvent,
     deleteEvent,
     handleFetchEvent,
+    handleJoinEvent,
+    handleCancelJoinEvent,
     handleCreateEvent,
     handleUpdateEvent,
     handleDeleteEvent,

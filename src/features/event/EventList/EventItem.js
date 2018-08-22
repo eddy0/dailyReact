@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Segment, Item, Icon, List, Button} from 'semantic-ui-react'
+import {Segment, Item, Icon, List, Button, Label} from 'semantic-ui-react'
 import EventAttendee from './EventAttendee'
 import {Link, withRouter} from 'react-router-dom'
 import format from 'date-fns/format'
@@ -7,19 +7,27 @@ import format from 'date-fns/format'
 
 class EventItem extends Component {
     render() {
-        let {id, title,  date, photoURL, hostUid, hostedBy, description, venue, attendees} = this.props.event
+        let {id, title,  date, photoURL, hostUid,  hostBy, description, venue, attendees, cancelled} = this.props.event
         
         return (
             <Segment.Group>
                 <Segment>
                     <Item.Group>
                         <Item>
-                            <Item.Image size="tiny" circular src={photoURL} />
+                            {
+                                cancelled &&
+                                <Label style={{position: 'absolute', marginLeft: '-13px'}} ribbon='right' color='red' content='cancelled'/>
+                            }
+                           
+    
+                            <Item.Image size="tiny" as={Link} to={`/people/${hostUid}`} circular src={photoURL} />
                             <Item.Content>
-                                <Item.Header as="a">{title}</Item.Header>
+                                <Item.Header as={Link} to={`/event/${id}`}>{title}</Item.Header>
                                 <Item.Description>
-                                    Hosted by <Link to={`/profile/${hostUid}`}>{hostedBy}</Link>
+                                    Hosted by <Link to={`/people/${hostUid}`}>{hostBy}</Link>
+                                   
                                 </Item.Description>
+                               
                             </Item.Content>
                         </Item>
                     </Item.Group>
@@ -35,7 +43,7 @@ class EventItem extends Component {
                         {
                             attendees &&
                             Object.keys(attendees).map((id) => (
-                                <EventAttendee key={id} attendee={attendees[id]} />
+                                <EventAttendee key={id} id={id} attendee={attendees[id]} />
                             ))
                         }
                     </List>

@@ -65,7 +65,6 @@ const actions = {
     handleDeleteEvent
 }
 
-
 export default compose(
     firestoreConnect(['events']),
     connect(mapStateToProps)

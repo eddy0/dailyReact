@@ -1,19 +1,19 @@
-import React from 'react'
-import { withGoogleMap, GoogleMap, Marker} from 'react-google-maps'
+import React, {Fragment} from 'react'
+import {withGoogleMap, GoogleMap, Marker} from 'react-google-maps'
 
 
 
 const Map = withGoogleMap((props) => {
     const {lat, lng} = props.location
     return (
-        <GoogleMap
-            defaultZoom={12}
-            defaultCenter={{lat: lat, lng: lng}}
-        >
-            <Marker
-                position={{lat: lat, lng:lng}}
-            />
-        </GoogleMap>
+            <GoogleMap
+                defaultZoom={12}
+                defaultCenter={{lat: lat, lng: lng}}
+            >
+                <Marker
+                    position={{lat: lat, lng: lng}}
+                />
+            </GoogleMap>
     )
 })
 

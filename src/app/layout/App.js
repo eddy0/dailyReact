@@ -47,8 +47,8 @@ class App extends Component {
                                     <Route path='/event/new' component={EventForm} />
                                     <Route path='/event/:id' component={EventDetailedPage} />
                                     <Route path='/manage/:id' component={EventForm} />
-                                    <Route path='/people' component={PeopleDashboard} />
-                                    <Route path='/people/:id' component={EventDashboard} />
+                                    <Route exact path='/people' component={PeopleDashboard} />
+                                    <Route path='/people/:id' component={PeopleDashboard} />
                                     <Route path='/settings' component={SettingsDashboard} />
                                     <Route path='/test' component={Test} />
                                 </Switch>
@@ -62,7 +62,9 @@ class App extends Component {
     }
 }
 
+export default connect()(App)
 
-export default connect()(
-    firestoreConnect([{collection: 'events'}])(App)
-)
+
+// export default connect()(
+//     firestoreConnect([{collection: 'events'}])(App)
+// )

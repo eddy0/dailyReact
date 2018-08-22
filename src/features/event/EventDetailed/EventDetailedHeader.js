@@ -1,7 +1,8 @@
 import React from 'react'
 import {Header, Segment, Item, Image, Button} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
-import format from "date-fns/format"
+import format from 'date-fns/format'
+import {handleJoinEvent} from '../../../app/redux/actions/events'
 
 
 
@@ -18,9 +19,12 @@ const eventImageTextStyle = {
     color: 'white',
 }
 
-const EventDetailedHeader = ({event}) => {
+const EventDetailedHeader = ({event, auth, handleJoinEvent, handleCancelJoinEvent}) => {
     
-    let {date, hostUid, hostBy, title, category, id} = event
+    const {date, hostUid, hostBy, title, category, id, attendees} = event
+    let isHost = auth === hostUid
+    let joined = Object.keys(attendees).some((id) => id === auth)
+    
     return (
         <Segment.Group>
             <Segment basic attached="top" style={{padding: '0'}}>
@@ -35,7 +39,7 @@ const EventDetailedHeader = ({event}) => {
                                     content={title}
                                     style={{color: 'white'}}
                                 />
-                                <p>{format(Date(date), 'dddd Do MMMM') }</p>
+                                <p>{format(Date(date), 'dddd Do MMMM')}</p>
                                 <p>
                                     Hosted by <strong>{hostBy || hostUid}</strong>
                                 </p>
@@ -46,12 +50,29 @@ const EventDetailedHeader = ({event}) => {
             </Segment>
             
             <Segment attached="bottom">
-                <Button>Cancel My Place</Button>
-                <Button color="teal">JOIN THIS EVENT</Button>
                 
-                <Button as={Link} to={`/manage/${id}`} color="orange" floated="right">
-                    Manage Event
-                </Button>
+                {
+                    !isHost &&
+                    <div>
+                        {
+                            joined
+                                ? <Button onClick={() => handleCancelJoinEvent(event)}>Cancel My Place</Button>
+                                : <Button color="teal" onClick={() => handleJoinEvent(event)}>JOIN THIS EVENT</Button>
+                        }
+                    
+                    </div>
+                }
+                
+                {
+                    isHost &&
+                    <div style={{textAlign: 'right'}}>
+                        <Button as={Link} to={`/manage/${id}`} color="orange">
+                            Manage Event
+                        </Button>
+                    </div>
+                    
+                }
+            
             </Segment>
         </Segment.Group>
     )
