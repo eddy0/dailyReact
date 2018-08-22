@@ -16,7 +16,7 @@ import {firestoreConnect} from 'react-redux-firebase'
 class PeopleDashboard extends Component {
     
     render() {
-        const {user} = this.props
+        const {user, photos} = this.props
         if (!user) {
             return <Loading />
         }
@@ -28,7 +28,7 @@ class PeopleDashboard extends Component {
                 <Grid>
                     <Grid.Column width={12}>
                         <UserDetailedInfo />
-                        <UserDetailedPhoto />
+                        <UserDetailedPhoto  photos={photos}/>
                         <UserDetailedEvents />
                     
                     </Grid.Column>
@@ -45,18 +45,18 @@ class PeopleDashboard extends Component {
 
 const mapStateToProps = (state, props) => {
     const id = props.match.params.id
-    console.log('ok', id)
     let user = {}
-    let users = state.firestore.data.users
-    if (users && Object.keys(users).length > 0) {
-        user = Object.keys(users).map((usersId) => {
-            if (usersId === id) {
-                return users[usersId]
-            }
-        })[0]
+    let users = state.firestore.ordered.user
+    if (users && users[0]) {
+        // user = Object.keys(users).map((usersId) => {
+        //     if (usersId === id) {
+        //         return users[usersId]
+        //     }
+        // })[0]
+        user = users[0]
     }
-    console.log('user', user, users)
     
+
     return {
         user,
         photos: state.firestore.ordered.photos,
@@ -72,7 +72,13 @@ const query = (id) => {
             'collection': 'photos',
         }],
         storeAs: 'photos'
-    }]
+    },
+        {
+            'collection': 'users',
+            doc: id,
+            storeAs: 'user'
+        }
+    ]
 }
 
 export default compose(
