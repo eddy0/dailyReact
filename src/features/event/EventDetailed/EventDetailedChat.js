@@ -7,8 +7,27 @@ import {Link} from 'react-router-dom'
 
 
 class EventDetailedChat extends Component {
+    
+    state = {
+        showReplyForm: false,
+        selectedCommentId: null,
+    }
+    
+    handleOpenReplyForm = (id) => {
+        this.setState({
+            showReplyForm: true,
+            selectedCommentId: id
+        })
+    }
+    
+    handleCancelReplyForm = () => {
+        this.setState({
+            showReplyForm: false,
+            selectedCommentId: null,
+        })
+    }
+    
     render() {
-        
         const {addEventComment, eventId, eventChat} = this.props
         return (
             <div>
@@ -37,7 +56,11 @@ class EventDetailedChat extends Component {
                                             </Comment.Metadata>
                                             <Comment.Text>{chat.text}</Comment.Text>
                                             <Comment.Actions>
-                                                <Comment.Action>Reply</Comment.Action>
+                                                <Comment.Action onClick={() => this.handleOpenReplyForm(chat.id)}>Reply</Comment.Action>
+                                                {
+                                                    this.state.showReplyForm && this.state.selectedCommentId === chat.id &&
+                                                    <EventDetailedChatForm parentId={chat.id} handleCancelReplyForm={this.handleCancelReplyForm} form={`reply_${chat.id}`} addEventComment={addEventComment} eventId={eventId} />
+                                                }
                                             </Comment.Actions>
                                         </Comment.Content>
                                     </Comment>
@@ -45,22 +68,7 @@ class EventDetailedChat extends Component {
                             })
                         }
                         
-                        
-                        <Comment>
-                            <Comment.Avatar src="/assets/user.png" />
-                            <Comment.Content>
-                                <Comment.Author as="a">Joe Henderson</Comment.Author>
-                                <Comment.Metadata>
-                                    <div>5 days ago</div>
-                                </Comment.Metadata>
-                                <Comment.Text>Dude, this is awesome. Thanks so much</Comment.Text>
-                                <Comment.Actions>
-                                    <Comment.Action>Reply</Comment.Action>
-                                </Comment.Actions>
-                            </Comment.Content>
-                        </Comment>
-                        
-                        <EventDetailedChatForm addEventComment={addEventComment} eventId={eventId} />
+                        <EventDetailedChatForm parentId={0} addEventComment={addEventComment} eventId={eventId} form={`new_comment}`} />
                     </Comment.Group>
                 </Segment>
             </div>

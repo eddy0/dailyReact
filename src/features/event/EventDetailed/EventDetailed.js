@@ -53,6 +53,7 @@ class EventDetailedPage extends Component {
 }
 
 
+
 const mapStateToProps = (state, props) => {
     let event = {}
     const {match} = props
@@ -67,10 +68,11 @@ const mapStateToProps = (state, props) => {
     let firebaseChat = state.firebase.data.chat
     if (!isEmpty(firebaseChat)) {
         let chats = firebaseChat[id]
-        chat = Object.entries(chats).map(([id, value]) => {
+\        chat = !isEmpty(firebaseChat[id]) && Object.entries(chats).map(([id, value]) => {
             return {...value, id:id }
         })
     }
+ 
     
     return {
         event,
@@ -90,7 +92,8 @@ export default compose(
     withFirestore,
     connect(mapStateToProps, actions),
     firebaseConnect((props) => ([`chat/${props.match.params.id}`]))
-)
-    (EventDetailedPage)
+)(EventDetailedPage)
 
 // export default withFirestore(connect(mapStateToProps)(EventDetailedPage))
+
+
