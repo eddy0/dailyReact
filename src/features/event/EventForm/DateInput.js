@@ -7,7 +7,7 @@ import {Form, Label} from 'semantic-ui-react'
 
 
 const DateInput = (props) => {
-    let {input: {value, onChange, ...restInput}, width, placeholder, meta: {touched, error}, ...rest} = props
+    let {input: {value, onChange, onBlur,...restInput}, width, placeholder, meta: {touched, error}, ...rest} = props
     if (value) {
         value = moment(value, 'X')
     }

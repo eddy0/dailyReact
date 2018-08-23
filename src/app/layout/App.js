@@ -13,6 +13,7 @@ import Test from './test'
 import {connect} from 'react-redux'
 import ReduxToastr from 'react-redux-toastr'
 import {firestoreConnect} from 'react-redux-firebase'
+import ScrollToTop from './ScrollToTop'
 
 
 
@@ -22,13 +23,15 @@ class App extends Component {
     
     render() {
         return (
-            <Router onUpdate={() => window.scrollTo(0, 0)}>
-                
+            <Router>
+                <ScrollToTop>
                 <Switch>
+                   
                     <Route exact path='/' component={Home} />
                     
                     <Route render={() => (
                         <Fragment>
+                            
                             <ReduxToastr
                                 timeOut={4000}
                                 newestOnTop={false}
@@ -56,7 +59,7 @@ class App extends Component {
                         </Fragment>
                     )} />
                 </Switch>
-            
+            </ScrollToTop>
             </Router>
         )
     }

@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Grid} from 'semantic-ui-react'
 import EventList from '../EventList/EventList'
 import {connect} from 'react-redux'
-import { handleDeleteEvent} from '../../../app/redux/actions/events'
+import { handleDeleteEvent, getEventForDashBoard} from '../../../app/redux/actions/events'
 import Loading from '../../../app/layout/Loading'
 import EventActivity from '../EventActivity/EventActivity'
 import {firestoreConnect, isEmpty, isLoaded} from 'react-redux-firebase'
@@ -14,6 +14,10 @@ class EventDashboard extends Component {
     state = {
         isOpen: false,
         selectedEvent: null,
+    }
+    
+    componentDidMount() {
+        this.props.dispatch(getEventForDashBoard())
     }
     
     
@@ -54,10 +58,11 @@ class EventDashboard extends Component {
 
 
 const mapStateToProps = (state) => {
-    let events = state.firestore.ordered.events
+    let events = state.events
   
     return {
         events,
+        loading: state.loading,
     }
 }
 

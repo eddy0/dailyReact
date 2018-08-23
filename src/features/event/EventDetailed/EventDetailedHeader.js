@@ -2,7 +2,6 @@ import React from 'react'
 import {Header, Segment, Item, Image, Button} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import format from 'date-fns/format'
-import {handleJoinEvent} from '../../../app/redux/actions/events'
 
 
 

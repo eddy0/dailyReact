@@ -5,6 +5,7 @@ import {Grid, Header, Icon, List, Segment} from 'semantic-ui-react'
 
 class UserDetailedInfo extends Component {
     render() {
+    
         return (
             <Segment>
                 <Grid>

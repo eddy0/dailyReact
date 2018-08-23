@@ -53,6 +53,28 @@ const handleFetchEvent = (event) => {
     }
 }
 
+const getEventForDashBoard = () =>  async (dispatch, getState, { getFirestore}) => {
+    let today = new Date(Date.now())
+    const firestore = getFirestore()
+    const query = firestore.collection('events').where('date', '>=', today)
+    try {
+        dispatch(actionLoadingStart())
+        let querySnap = await query.get()
+        let events = []
+        for (let i = 0; i < querySnap.docs.length; i++) {
+            let event = {...querySnap.docs[i].data(), id: querySnap.docs[i].id}
+            events.push(event)
+        }
+        dispatch(actionFetchEvent(events))
+        dispatch(actionLoadingFinish())
+    } catch(e) {
+        console.log('e', e)
+    
+    }
+    
+}
+
+
 const handleCreateEvent = (event) => async (dispatch, getState, {getFirebase, getFirestore}) => {
     const firebase = getFirebase()
     const firestore = getFirestore()
@@ -191,6 +213,7 @@ export {
     createEvent,
     updateEvent,
     deleteEvent,
+    getEventForDashBoard,
     handleFetchEvent,
     handleJoinEvent,
     handleCancelJoinEvent,

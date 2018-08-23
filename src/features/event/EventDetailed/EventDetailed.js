@@ -60,6 +60,7 @@ const mapStateToProps = (state, props) => {
     let firestoreEvent = state.firestore.data.events
     if (firestoreEvent && Object.keys(firestoreEvent).length > 0 ) {
         event = firestoreEvent[id]
+        event.id = id
     }
     let auth = state.firebase.auth.uid || ''
     console.log('event', event)

@@ -16,10 +16,13 @@ import {firestoreConnect} from 'react-redux-firebase'
 class PeopleDashboard extends Component {
     
     render() {
-        const {user, photos} = this.props
-        if (!user) {
-            return <Loading />
-        }
+        const {user, photos, auth, id, requesting} = this.props
+        let isLoading = Object.keys(requesting).some((a) => a === false)
+        // if (isLoading) {
+        //     return <Loading />
+        // }
+        
+        const isCurrentUser = auth.uid === id
         
         return (
             <div style={{marginBottom: '50px'}}>
@@ -33,7 +36,7 @@ class PeopleDashboard extends Component {
                     
                     </Grid.Column>
                     <Grid.Column width={4}>
-                        <UserDetailedSidebar />
+                        <UserDetailedSidebar isCurrentUser={isCurrentUser} />
                     </Grid.Column>
                 </Grid>
             </div>
@@ -60,7 +63,9 @@ const mapStateToProps = (state, props) => {
     return {
         user,
         photos: state.firestore.ordered.photos,
-        id
+        id,
+        auth: state.firebase.auth,
+        requesting: state.firestore.status.requesting,
     }
 }
 

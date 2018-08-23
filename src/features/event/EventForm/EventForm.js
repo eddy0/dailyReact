@@ -40,8 +40,6 @@ class EventForm extends Component {
     
     onFormSubmit = (value) => {
         let event = this.props.initialValues
-        console.log('event', event)
-        
         if (event.id) {
             this.props.dispatch(handleUpdateEvent(value, () => {
                 this.props.history.goBack()
@@ -55,7 +53,6 @@ class EventForm extends Component {
     }
     
     checkChange = ({lat, lng}) => {
-        console.log('this.props value on change', lat, lng)
         this.props.change('venueLatLng', {
             lat: lat,
             lng: lng,
@@ -126,7 +123,6 @@ const mapStateToProps = (state, props) => {
     if (id && firestoreEvent && firestoreEvent[0]) {
         event = firestoreEvent[0]
     }
-    
     return {
         initialValues: event,
     }
