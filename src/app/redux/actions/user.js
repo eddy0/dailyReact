@@ -1,4 +1,6 @@
 import {actionLoadingFinish, actionLoadingStart} from './loading'
+import {toastr} from 'react-redux-toastr'
+import {actionFetchEvent} from './events'
 
 
 const updateProfile = (user) => async (dispatch, getState, {getFirebase}) => {
@@ -92,10 +94,52 @@ const deletePhoto = (photo) => async (dispatch, getState, {getFirebase, getFires
     }
 }
 
+const getUserEvent = (userId, activeTab) => async (dispatch, getState, {getFirebase, getFirestore}) => {
+    let today = new Date(Date.now())
+    const firestore = getFirestore()
+   
+        dispatch(actionLoadingStart())
+        let ref = firestore.collection('attendees')
+        let query
+        switch(activeTab) {
+            case 'past':
+                query = ref.where('userUid', '==', userId).where('eventDate', '<=', today).orderBy('eventDate', 'desc')
+                break
+            case 'future':
+                query = ref.where('userUid', '==', userId).where('eventDate', '>=', today).orderBy('eventDate')
+                break
+            case 'host':
+                query = ref.where('userUid', '==', userId).where('host', '==', true).orderBy('eventDate', 'desc')
+                break
+            default:
+                query = ref.where('userUid', '==', userId).orderBy('eventDate', 'desc')
+        }
+        
+        try {
+            let querySnap = await query.get()
+            console.log('querySnap', querySnap)
+            let events = []
+            for (let i = 0; i < querySnap.docs.length; i++) {
+                let data = querySnap.docs[i].data()
+                let event = await firestore.collection('events').doc(data.eventId).get()
+                events.push({...event.data(), id: event.id})
+            }
+            console.log('events', events)
+    
+            dispatch(actionFetchEvent(events))
+            dispatch(actionLoadingFinish())
+        }
+     catch(e) {
+        console.log('e', e)
+        
+    }
+}
+
 export  {
     updateProfile,
     uploadPhoto,
     updateProfilePhoto,
     deletePhoto,
+    getUserEvent,
 }
 

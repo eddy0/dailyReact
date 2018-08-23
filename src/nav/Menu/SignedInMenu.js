@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom'
 
 class SignedInMenu extends Component {
     render() {
-        const {profile} = this.props
+        const {profile, auth} = this.props
         return (
             <Menu.Item position="right">
                 <Image avatar spaced="right" src={profile.photoURL ? profile.photoURL : '/assets/user.png' } />
@@ -15,7 +15,7 @@ class SignedInMenu extends Component {
                         <Dropdown.Item text="Create Event" icon="plus" />
                         <Dropdown.Item text="My Events" icon="calendar" />
                         <Dropdown.Item text="My Network" icon="users" />
-                        <Dropdown.Item text="My Profile" icon="user" />
+                        <Dropdown.Item text="My Profile"  as={Link} to={`/people/${auth.uid}`}  icon="user" />
                         <Dropdown.Item text="Settings" as={Link} to='/settings' icon="settings" />
                         <Dropdown.Item text="Sign Out" icon="power" onClick={() => this.props.signOut()} />
                     </Dropdown.Menu>

@@ -10,19 +10,25 @@ import Loading from '../../../app/layout/Loading'
 import {connect} from 'react-redux'
 import {compose} from 'redux'
 import {firestoreConnect} from 'react-redux-firebase'
+import {getUserEvent} from '../../../app/redux/actions/user'
 
 
 
 class PeopleDashboard extends Component {
     
+    async componentDidMount() {
+        let events = await this.props.getUserEvent(this.props.uid)
+    
+    }
+    
     render() {
-        const {user, photos, auth, id, requesting} = this.props
+        const {user, photos, auth, uid, requesting, events, loading, getUserEvent} = this.props
         let isLoading = Object.keys(requesting).some((a) => a === false)
-        // if (isLoading) {
-        //     return <Loading />
-        // }
+        if (isLoading) {
+            return <Loading />
+        }
         
-        const isCurrentUser = auth.uid === id
+        const isCurrentUser = auth.uid === uid
         
         return (
             <div style={{marginBottom: '50px'}}>
@@ -32,7 +38,7 @@ class PeopleDashboard extends Component {
                     <Grid.Column width={12}>
                         <UserDetailedInfo />
                         <UserDetailedPhoto  photos={photos}/>
-                        <UserDetailedEvents />
+                        <UserDetailedEvents uid={uid} loading={loading} getUserEvent={getUserEvent} events={events} />
                     
                     </Grid.Column>
                     <Grid.Column width={4}>
@@ -47,7 +53,7 @@ class PeopleDashboard extends Component {
 
 
 const mapStateToProps = (state, props) => {
-    const id = props.match.params.id
+    const uid = props.match.params.id
     let user = {}
     let users = state.firestore.ordered.user
     if (users && users[0]) {
@@ -63,9 +69,11 @@ const mapStateToProps = (state, props) => {
     return {
         user,
         photos: state.firestore.ordered.photos,
-        id,
+        uid,
         auth: state.firebase.auth,
         requesting: state.firestore.status.requesting,
+        events: state.events,
+        loading: state.loading,
     }
 }
 
@@ -86,9 +94,14 @@ const query = (id) => {
     ]
 }
 
+
+const actions = {
+    getUserEvent
+}
+
 export default compose(
-    connect(mapStateToProps),
-    firestoreConnect(({id}) => query(id)),
+    connect(mapStateToProps, actions),
+    firestoreConnect(({uid}) => query(uid)),
  
 )(PeopleDashboard)
 

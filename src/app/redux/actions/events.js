@@ -53,13 +53,26 @@ const handleFetchEvent = (event) => {
     }
 }
 
-const getEventForDashBoard = () =>  async (dispatch, getState, { getFirestore}) => {
+const getEventForDashBoard = (lastEvent) =>  async (dispatch, getState, { getFirestore}) => {
     let today = new Date(Date.now())
     const firestore = getFirestore()
-    const query = firestore.collection('events').where('date', '>=', today)
     try {
         dispatch(actionLoadingStart())
+        let startAfter = lastEvent && await firestore.collection('events').doc(lastEvent.id).get()
+        let query
+        
+        if (lastEvent) {
+            query = firestore.collection('events').where('date', '>=', today).orderBy('date').startAfter(startAfter).limit(2)
+        } else {
+            query = firestore.collection('events').where('date', '>=', today).orderBy('date').limit(2)
+        }
+        
         let querySnap = await query.get()
+    
+        if (!querySnap && querySnap.docs.length === 0) {
+            dispatch(actionLoadingFinish())
+            return
+        }
         let events = []
         for (let i = 0; i < querySnap.docs.length; i++) {
             let event = {...querySnap.docs[i].data(), id: querySnap.docs[i].id}
@@ -67,6 +80,7 @@ const getEventForDashBoard = () =>  async (dispatch, getState, { getFirestore}) 
         }
         dispatch(actionFetchEvent(events))
         dispatch(actionLoadingFinish())
+        return querySnap
     } catch(e) {
         console.log('e', e)
     
@@ -202,8 +216,10 @@ const handleCancelJoinEvent = (event) =>
         } catch(e) {
             console.log('e', e)
         }
-        
     }
+    
+    
+   
 
 export {
     FETCH_EVENT,
@@ -212,6 +228,7 @@ export {
     DELETE_EVENT,
     createEvent,
     updateEvent,
+    actionFetchEvent,
     deleteEvent,
     getEventForDashBoard,
     handleFetchEvent,

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Grid} from 'semantic-ui-react'
+import {Grid, Button, Loader} from 'semantic-ui-react'
 import EventList from '../EventList/EventList'
 import {connect} from 'react-redux'
 import { handleDeleteEvent, getEventForDashBoard} from '../../../app/redux/actions/events'
@@ -12,12 +12,42 @@ import {compose} from 'redux'
 
 class EventDashboard extends Component {
     state = {
-        isOpen: false,
-        selectedEvent: null,
+        moreEvents: false,
+        initial:true,
+        loadedEvents: [],
     }
     
-    componentDidMount() {
-        this.props.dispatch(getEventForDashBoard())
+    async componentDidMount() {
+        let next = await this.props.getEventForDashBoard()
+        if (next && next.docs && next.docs.length > 1) {
+            this.setState({
+                moreEvents: true,
+                initial:false,
+         
+            })
+        }
+    }
+    
+    getNextEvents = async () => {
+        const {events} = this.props
+        let lastEvent = events && events[events.length - 1]
+        let next = await this.props.getEventForDashBoard(lastEvent)
+        console.log('next',lastEvent, next)
+    
+        if (next && next.docs && next.docs.length <= 1) {
+            this.setState({
+                moreEvents: false
+            })
+        }
+    }
+    
+    componentDidUpdate(props) {
+        if ( props.events !== this.props.events ) {
+            this.setState({
+                loadedEvents: [ ...this.state.loadedEvents, ...this.props.events]
+            })
+        }
+    
     }
     
     
@@ -35,20 +65,35 @@ class EventDashboard extends Component {
     }
     
     render() {
-        const {events} = this.props
+        const { loading} = this.props
+        const {moreEvents, loadedEvents} = this.state
         
-        if (isLoaded(events) === false && isEmpty(events) === true) {
+        if (loading && this.state.initial) {
             return <Loading />
         }
         
         return (
             <Grid>
                 <Grid.Column width={10}>
-                    <EventList events={events}  deleteEvent={this.handleDeleteEvent} />
+                    <EventList
+                        events={loadedEvents}
+                        deleteEvent={this.handleDeleteEvent}
+                        getNextEvents={this.getNextEvents}
+                        loading={loading}
+                        moreEvents={moreEvents}
+                    />
+                    
+                    {/*<div>*/}
+                        {/*<Button color='teal' loading={loading} disabled={this.state.moreEvents === false} onClick={this.getNextEvents}>more events</Button>*/}
+                    {/*</div>*/}
                 </Grid.Column>
                 
                 <Grid.Column width={6}>
                     <EventActivity/>
+                </Grid.Column>
+                <Grid.Column width={10}>
+                    <Loader active={loading}/>
+
                 </Grid.Column>
             
             </Grid>
@@ -67,10 +112,11 @@ const mapStateToProps = (state) => {
 }
 
 const actions = {
-    handleDeleteEvent
+    handleDeleteEvent,
+    getEventForDashBoard
 }
 
 export default compose(
     firestoreConnect(['events']),
-    connect(mapStateToProps)
+    connect(mapStateToProps, actions)
 )(EventDashboard)
