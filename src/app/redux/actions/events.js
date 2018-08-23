@@ -53,7 +53,7 @@ const handleFetchEvent = (event) => {
     }
 }
 
-const getEventForDashBoard = (lastEvent) =>  async (dispatch, getState, { getFirestore}) => {
+const getEventForDashBoard = (lastEvent) => async (dispatch, getState, {getFirestore}) => {
     let today = new Date(Date.now())
     const firestore = getFirestore()
     try {
@@ -68,7 +68,7 @@ const getEventForDashBoard = (lastEvent) =>  async (dispatch, getState, { getFir
         }
         
         let querySnap = await query.get()
-    
+        
         if (!querySnap && querySnap.docs.length === 0) {
             dispatch(actionLoadingFinish())
             return
@@ -83,11 +83,10 @@ const getEventForDashBoard = (lastEvent) =>  async (dispatch, getState, { getFir
         return querySnap
     } catch(e) {
         console.log('e', e)
-    
+        
     }
     
 }
-
 
 const handleCreateEvent = (event) => async (dispatch, getState, {getFirebase, getFirestore}) => {
     const firebase = getFirebase()
@@ -204,22 +203,35 @@ const handleCancelJoinEvent = (event) =>
         const firebase = getFirebase()
         const user = firebase.auth().currentUser
         try {
-            
             await firestore.update(`events/${event.id}`, {
                 [`attendees.${user.uid}`]: firestore.FieldValue.delete(),
             })
-            
             await firestore.delete(`attendees/${event.id}_${user.uid}`)
-            
             toastr.success('Sucess', 'You have cancel joining the events')
-            
         } catch(e) {
             console.log('e', e)
         }
     }
-    
-    
-   
+
+const addEventComment = (eventId, values) =>
+    async (dispatch, getState, {getFirebase}) => {
+        const firebase = getFirebase()
+        const profile = getState().firebase.profile
+        const user = firebase.auth().currentUser
+        let newComment = {
+            displayName: profile.displayName,
+            photoURL: profile.photoURL || '/assets/user.png',
+            uid: user.uid,
+            text: values.comment,
+            date: Date.now(),
+        }
+        try {
+            await firebase.push(`chat/${eventId}`, newComment)
+        } catch(e) {
+            console.log('e', e)
+            toastr.error('oops', 'something wrong')
+        }
+    }
 
 export {
     FETCH_EVENT,
@@ -238,4 +250,5 @@ export {
     handleUpdateEvent,
     handleDeleteEvent,
     handleToggleCancelEvent,
+    addEventComment,
 }
