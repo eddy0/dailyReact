@@ -68,7 +68,7 @@ const mapStateToProps = (state, props) => {
     let firebaseChat = state.firebase.data.chat
     if (!isEmpty(firebaseChat)) {
         let chats = firebaseChat[id]
-\        chat = !isEmpty(firebaseChat[id]) && Object.entries(chats).map(([id, value]) => {
+       chat = !isEmpty(firebaseChat[id]) && Object.entries(chats).map(([id, value]) => {
             return {...value, id:id }
         })
     }
