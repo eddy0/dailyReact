@@ -28,6 +28,8 @@ class EventDashboard extends Component {
         }
     }
     
+    handleContextRef = (contextRef) => this.setState({ contextRef })
+    
     getNextEvents = async () => {
         const {events} = this.props
         let lastEvent = events && events[events.length - 1]
@@ -65,9 +67,9 @@ class EventDashboard extends Component {
     }
     
     render() {
-        const { loading} = this.props
+        const { loading, activities} = this.props
         const {moreEvents, loadedEvents} = this.state
-        
+        const { contextRef } = this.state
         if (loading && this.state.initial) {
             return <Loading />
         }
@@ -75,6 +77,7 @@ class EventDashboard extends Component {
         return (
             <Grid>
                 <Grid.Column width={10}>
+                    <div   ref={this.handleContextRef}>
                     <EventList
                         events={loadedEvents}
                         deleteEvent={this.handleDeleteEvent}
@@ -82,14 +85,11 @@ class EventDashboard extends Component {
                         loading={loading}
                         moreEvents={moreEvents}
                     />
-                    
-                    {/*<div>*/}
-                        {/*<Button color='teal' loading={loading} disabled={this.state.moreEvents === false} onClick={this.getNextEvents}>more events</Button>*/}
-                    {/*</div>*/}
+                    </div>
                 </Grid.Column>
                 
                 <Grid.Column width={6}>
-                    <EventActivity/>
+                    <EventActivity contextRef={contextRef}  activites={activities}/>
                 </Grid.Column>
                 <Grid.Column width={10}>
                     <Loader active={loading}/>
@@ -108,6 +108,7 @@ const mapStateToProps = (state) => {
     return {
         events,
         loading: state.loading,
+        activities: state.firestore.ordered.activity
     }
 }
 
@@ -116,7 +117,15 @@ const actions = {
     getEventForDashBoard
 }
 
+const query = [
+    {
+        collection: 'activity',
+        orderBy: ['timestamp', 'desc'],
+        limit: 5
+    },
+]
+
 export default compose(
-    firestoreConnect(['events']),
+    firestoreConnect(query),
     connect(mapStateToProps, actions)
 )(EventDashboard)

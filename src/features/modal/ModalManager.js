@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import TestModal from '../../app/layout/test'
 import RegisterModal from './RegisterModal'
 import LoginModal from './LoginModal'
+import UnauthedModal from './UnauthedModal'
 
 
 
@@ -10,6 +11,7 @@ const modalMap = {
     TestModal,
     RegisterModal,
     LoginModal,
+    UnauthedModal,
 }
 
 

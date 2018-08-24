@@ -14,7 +14,7 @@ import {connect} from 'react-redux'
 import ReduxToastr from 'react-redux-toastr'
 import {firestoreConnect} from 'react-redux-firebase'
 import ScrollToTop from './ScrollToTop'
-
+import {userIsAuthenticated} from '../../features/auth/authWrapper'
 
 
 class App extends Component {
@@ -47,12 +47,12 @@ class App extends Component {
                                 <ModalManager/>
                                 <Switch>
                                     <Route path='/events' component={EventDashboard} />
-                                    <Route path='/event/new' component={EventForm} />
-                                    <Route path='/event/:id' component={EventDetailedPage} />
-                                    <Route path='/manage/:id' component={EventForm} />
-                                    <Route exact path='/people' component={PeopleDashboard} />
-                                    <Route path='/people/:id' component={PeopleDashboard} />
-                                    <Route path='/settings' component={SettingsDashboard} />
+                                    <Route path='/event/new' component={userIsAuthenticated(EventForm)} />
+                                    <Route path='/event/:id' component={userIsAuthenticated(EventDetailedPage)} />
+                                    <Route path='/manage/:id' component={userIsAuthenticated(EventForm)} />
+                                    <Route exact path='/people' component={userIsAuthenticated(PeopleDashboard)} />
+                                    <Route path='/people/:id' component={userIsAuthenticated(PeopleDashboard)} />
+                                    <Route path='/settings' component={userIsAuthenticated(SettingsDashboard)} />
                                     <Route path='/test' component={Test} />
                                 </Switch>
                             </Container>
