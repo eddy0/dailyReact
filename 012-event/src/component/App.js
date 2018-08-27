@@ -3,35 +3,28 @@ import {firestoreConnect} from 'react-redux-firebase'
 import {connect} from 'react-redux'
 import {compose} from 'redux'
 import Loading from './Loading'
-
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import Navbar from './Navbar'
+import Dashboard from './Dashboard'
 
 
 class App extends Component {
     render() {
-        const {events} = this.props
-        if (events === null ) {
-            return <Loading/>
-        }
-
         return (
-            <div>
-                {JSON.stringify(events)}
-            </div>
+            <Router>
+                <Fragment>
+                    <Navbar/>
+                <Switch>
+                    <Route exact path='/events' component={Dashboard} />
+                </Switch>
+                </Fragment>
+            </Router>
         )
+
     }
 }
 
 
-const mapStateToProps = (state) => {
-    let events = null
-    let storeEvent = state.firestore.ordered.events
-    if (storeEvent) {
-        events = storeEvent
-    }
-    return {
-        events: events
-    }
-}
 
 export default compose(
     firestoreConnect([{collection: 'events'}]),

@@ -5,7 +5,6 @@ class Loading extends Component {
     render() {
         return (
                 <Loader active  />
-
         )
     }
 }
