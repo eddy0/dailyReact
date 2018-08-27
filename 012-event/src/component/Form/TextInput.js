@@ -5,8 +5,6 @@ import {Form, Input} from 'semantic-ui-react'
 // meta: active, asyncValidating: autofilled error
 
 const TextInput = (props) => {
-    console.log('props', props)
-    
     const {input, type, placeholder, label, required} = props
     return (
         

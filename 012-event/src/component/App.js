@@ -8,6 +8,7 @@ import Navbar from './Navbar'
 import Dashboard from './Dashboard'
 import Home from './Home'
 import LoginForm from './Form/LoginForm'
+import ModalHoc from './Modal/ModalHoc'
 
 
 class App extends Component {
@@ -15,6 +16,7 @@ class App extends Component {
         return (
             <Router>
                 <Fragment>
+                    <ModalHoc/>
                     <Navbar/>
                 <Switch>
                     <Route exact path='/' component={Home} />

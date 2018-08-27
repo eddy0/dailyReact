@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {Container, Image, Menu, Button} from 'semantic-ui-react'
 import {NavLink} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {actionOpenModal} from '../action/modal'
 
 
 
@@ -23,8 +25,8 @@ class Navbar extends Component {
                         name='Test'
                     />
                     <Menu.Item position='right'>
-                        <Button compact inverted >Sign up</Button>
-                        <Button basic compact inverted style={{marginLeft: '0.5rem'}}>Sign in</Button>
+                        <Button onClick={() => this.props.dispatch(actionOpenModal('register'))} compact inverted >Sign up</Button>
+                        <Button onClick={() => this.props.dispatch(actionOpenModal('login'))} basic compact inverted style={{marginLeft: '0.5rem'}}>Sign in</Button>
                     </Menu.Item>
                 </Container>
             </Menu>
@@ -32,4 +34,4 @@ class Navbar extends Component {
     }
 }
 
-export default Navbar
+export default connect()(Navbar)
