@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const webpack = require('webpack')
 module.exports = () => {
     return {
         mode: 'development',
@@ -13,6 +14,7 @@ module.exports = () => {
             contentBase: path.resolve(__dirname, 'dist'),
             historyApiFallback: true,
             compress: true,
+            hot: true,
         },
         module: {
             rules: [
@@ -29,6 +31,8 @@ module.exports = () => {
             new HtmlWebpackPlugin({
                 template: './src/index.html',
             }),
+            new webpack.NamedModulesPlugin(),
+            new webpack.HotModuleReplacementPlugin(),
         ],
     }
 }

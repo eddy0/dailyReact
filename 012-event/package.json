@@ -15,6 +15,7 @@
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.0",
     "redux-firestore": "^0.3.2",
+    "redux-form": "^7.4.2",
     "redux-thunk": "^2.3.0",
     "semantic-ui-css": "^2.3.3",
     "semantic-ui-react": "^0.82.3",
@@ -29,7 +30,7 @@
     "webpack-dashboard": "^2.0.0"
   },
   "scripts": {
-    "dev": "webpack-dev-server --hot --inline",
+    "dev": "webpack-dev-server",
     "webpack": "webpack"
   }
 }

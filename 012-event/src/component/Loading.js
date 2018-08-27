@@ -4,7 +4,7 @@ import {Loader, Dimmer} from 'semantic-ui-react'
 class Loading extends Component {
     render() {
         return (
-                <Loader active  />
+                <Loader active />
         )
     }
 }
