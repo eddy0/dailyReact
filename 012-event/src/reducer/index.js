@@ -3,8 +3,8 @@ import {firebaseReducer} from 'react-redux-firebase'
 import {firestoreReducer} from 'redux-firestore'
 import modal from './modalReducer'
 import {reducer as formReducer} from 'redux-form'
-import {auth} from './auth'
-
+import auth from './authReducer'
+import loading from './loadingReducer'
 
 
 export default combineReducers({
@@ -13,5 +13,6 @@ export default combineReducers({
     firestore: firestoreReducer,
     form: formReducer,
     modal: modal,
+    loading: loading,
 
 })

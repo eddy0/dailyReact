@@ -1,7 +1,7 @@
 import {LOG_OUT, LOGIN_IN} from '../action/auth'
 
 
-export const auth = (state = {auth: false}, action) => {
+ const auth = (state = {auth: false}, action) => {
     switch (action.type) {
         case LOGIN_IN:
             return {
@@ -19,3 +19,6 @@ export const auth = (state = {auth: false}, action) => {
             return state
     }
 }
+
+
+export {auth as default}
