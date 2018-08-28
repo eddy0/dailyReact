@@ -13,7 +13,7 @@ const RegisterForm = (props) => {
     
     return (
         <div>
-            <Form size="large" >
+            <Form size="small" >
                 <Segment>
                     <Field
                         name="displayName"

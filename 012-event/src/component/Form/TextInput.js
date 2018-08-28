@@ -1,18 +1,30 @@
 import React from 'react'
-import {Form, Input} from 'semantic-ui-react'
+import {Form, Input,Label, Icon} from 'semantic-ui-react'
 
 // input: name, onBlur, onchange, onDrageStart, onDrop, onFocus, value
 // meta: active, asyncValidating: autofilled error
 
 const TextInput = (props) => {
-    const {input, type, placeholder, label, required} = props
+    const {input, type, placeholder, label, required, meta: { touched, error, warning }} = props
+    console.log('error', touched, error, warning)
     return (
         
-        <Form.Field required={required}>
+        <Form.Field  required={required} >
+
             <label>{label}</label>
-            <Input {...input} placeholder={placeholder} type={type} />
+            <Input style={{width: 200, marginRight: '1rem'}} {...input} placeholder={placeholder} type={type} />
+            {
+                touched &&
+                ( (error && <Label color='red' pointing='left'>{error}</Label>) ||
+                (warning && <Label color='orange' pointing='left'>{warning}</Label>))
+            }
+            {
+                touched && !error && !warning &&
+                    <Icon name='check circle' color='green'/>
+            }
+
         </Form.Field>
-    
+
     )
 }
 

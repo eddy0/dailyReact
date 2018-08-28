@@ -24,7 +24,7 @@ const EventItem = (props) => {
                 </Item.Group>
             
             </Segment>
-            <Segment style={{boxShadow: '0 5px 10px rgba(0,0,0,0.6)'}}>
+            <Segment >
                 <List>
                     <List.Item>
                         <Icon name="clock" />
@@ -39,18 +39,8 @@ const EventItem = (props) => {
                         <List.Content style={{color: 'lightcoral'}}>
                             4 people is going | only 4 spot left!!
                         </List.Content>
-                       
                     </List.Item>
                 </List>
-                <Item>
-                
-                </Item>
-                <Item>
-                
-                </Item>
-                <Item>
-                
-                </Item>
             </Segment>
             
             <Segment secondary>
@@ -60,7 +50,7 @@ const EventItem = (props) => {
                         Object.keys(event.attendees).map((id) => {
                             const attendee = event.attendees[id]
                             return (
-                                <List.Item>
+                                <List.Item key={id}>
                                     <Image circular size='mini' key={id} src={attendee.photoURL} />
                                 </List.Item>
                             )

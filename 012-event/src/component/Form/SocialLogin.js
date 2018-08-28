@@ -1,7 +1,7 @@
 import React from 'react'
 import {Icon, Button} from 'semantic-ui-react'
-// import {handleSocialLogin} from '../../../app/redux/actions/auth'
 import {connect} from 'react-redux'
+import {handleSocialLogin} from '../../action/auth'
 
 
 
