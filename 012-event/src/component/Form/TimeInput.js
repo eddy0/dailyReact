@@ -11,6 +11,7 @@ class TimeInput extends Component {
         let {input: {value, onChange, onBlur,...restInput},  label, required, meta: { touched, error, warning }, ...rest} = this.props
         return (
             <Form.Field required={required}   >
+                <label >{label}</label>
                 <TimePicker
                     {...rest}
                     use12Hours

@@ -1,13 +1,21 @@
 import React, {Component, Fragment} from 'react'
 import {Form, Icon, Label} from 'semantic-ui-react'
-import Script from 'react-load-script'
-
 
 
 class PlaceInput extends Component {
     
+    componentWillMount() {
+        let url=`https://maps.googleapis.com/maps/api/js?key=AIzaSyAYVHNqmifVNgbn_Rzm1SLViGST1YOlfFg&libraries=places&language=en`
+        this.tag = document.createElement('script');
+        this.tag.src = url
+        this.tag.onload = this.initAutocomplete
+        document.body.appendChild(this.tag)
+    
+    }
+    
     componentWillUnmount() {
-        new window.google.maps.event.clearInstanceListeners(this.autocomplete)
+        this.tag.remove()
+        window.google.maps.event.clearListeners(this.autocomplete);
     }
     
     initAutocomplete = () => {
@@ -50,10 +58,6 @@ class PlaceInput extends Component {
         const {input, width, label, type, placeholder, meta: {touched, error, warning}} = this.props
         return (
             <Fragment>
-                <Script
-                    url="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYVHNqmifVNgbn_Rzm1SLViGST1YOlfFg&libraries=places&language=en"
-                    onLoad={this.initAutocomplete}
-                />
                 <Form.Field error={touched && !!error} width={width}>
                     <label>{label}</label>
                     <input

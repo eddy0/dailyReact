@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Form, Segment, Button, Grid, Header} from 'semantic-ui-react'
 import {reduxForm, Field} from 'redux-form'
+import {connect} from 'react-redux'
 import TextInput from './TextInput'
 import SelectInput from './SelectInput'
 import TextArea from './TextArea'
@@ -8,20 +9,46 @@ import DateInput from './DateInput'
 import TimeInput from './TimeInput'
 import {Values} from 'redux-form-website-template'
 import PlaceInput from './PlaceInput'
+import {handleCreateEvent} from '../../action/event'
+
 
 
 
 class EventForm extends Component {
+    
+    onFormSubmit = (values) => {
+        let event = this.props.initialValues
+        if (event.id) {
+            // this.props.handleUpdateEvent(value, () => {
+            //     this.props.history.goBack()
+            // })
+            //
+        } else {
+            this.props.handleCreateEvent(values)
+            this.props.history.push('/events')
+        }
+    }
+    
+    checkChange = ({lat, lng}) => {
+        this.props.change('geocode', {
+            lat: lat,
+            lng: lng,
+        })
+    }
+    
     render() {
-        const {invalid,  submitting,  pristine} = this.props
+        const {invalid, submitting, pristine} = this.props
         return (
             <Grid>
                 <Grid.Column width={10}>
                     <Segment>
-                        <Header textAlign='center' dividing>
+                        <Header as='h2' textAlign='center'>
                             New Event
                         </Header>
-                        <Form>
+                        <Form onSubmit={this.onFormSubmit}>
+                            <Header as='h4' dividing>
+                                About Event
+                            </Header>
                             <Field
                                 name="title"
                                 label="Title"
@@ -37,7 +64,8 @@ class EventForm extends Component {
                                 multiple={true}
                                 required={true}
                             />
-                            <Field name="description"
+                            <Field
+                                name="description"
                                 type="text"
                                 rows="2"
                                 label="Description"
@@ -45,7 +73,8 @@ class EventForm extends Component {
                                 placeholder="Event brief description, less than 140 words"
                                 required={true}
                             />
-                            <Field name="details"
+                            <Field
+                                name="details"
                                 type="text"
                                 rows="4"
                                 label="Details"
@@ -54,6 +83,17 @@ class EventForm extends Component {
                                 required={true}
                             />
                             <Field
+                                name="capacity"
+                                type="text"
+                                label="People capacity"
+                                placeholder="enter the how many people"
+                                component={TextInput}
+                                required={true}
+                            />
+                            <Header as='h4' dividing>
+                                About Date
+                            </Header>
+                            <Field
                                 name="date"
                                 label="please enter the date of the event"
                                 component={DateInput}
@@ -61,36 +101,48 @@ class EventForm extends Component {
                                 onBlur={e => e.preventDefault()}
                                 required={true}
                             />
-                            <Form.Group inline>
-                                <Field
-                                    name="timeStart"
-                                    type="text"
-                                    label="From"
-                                    component={TimeInput}
-                                    placeholder="from"
-                                    required={true}
-                                />
-                                <Field
-                                    name="timeEnd"
-                                    type="text"
-                                    label="To"
-                                    component={TimeInput}
-                                    placeholder="to"
-                                    required={true}
-                                />
-                            </Form.Group>
+                            
+                            <Field
+                                name="timeStart"
+                                type="text"
+                                label="Start time"
+                                component={TimeInput}
+                                placeholder="from"
+                                required={true}
+                            />
+                            <Field
+                                name="timeEnd"
+                                type="text"
+                                label="End time"
+                                component={TimeInput}
+                                placeholder="to"
+                                required={true}
+                            />
+                            <Header as='h4' dividing>
+                                About Address
+                            </Header>
+                            <Field
+                                name="company"
+                                label="Business name"
+                                placeholder="the business address name"
+                                component={TextInput}
+                                required={true}
+                            />
                             <Field
                                 label="Add the address"
-                                name='city'
+                                name='address'
                                 type='text'
                                 component={PlaceInput}
+                                checkChange={this.checkChange}
                                 options={{types: ['(cities)']}}
                                 placeholder="City event is taking place"
                             />
-                            <Button positive type="submit" disabled={invalid || submitting || pristine}>
-                                Submit
-                            </Button>
-                            <Button type="button" onClick={() => this.props.history.goBack()}>Cancel</Button>
+                            <div>
+                                <Button positive type="submit" disabled={invalid || submitting || pristine}>
+                                    Submit
+                                </Button>
+                                <Button type="button" onClick={() => this.props.history.goBack()}>Cancel</Button>
+                            </div>
                         </Form>
                     </Segment>
                     <Segment>
@@ -104,4 +156,15 @@ class EventForm extends Component {
 }
 
 
-export default reduxForm({form: 'eventForm'})(EventForm)
+const mapStateToProps = (state, props) => {
+    let event = {}
+    return {
+        event
+    }
+}
+
+const actions = {
+    handleCreateEvent
+}
+
+export default connect(mapStateToProps, actions)(reduxForm({form: 'eventForm'})(EventForm))
