@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Form, Segment, Button, List, Message, Label, Divider} from 'semantic-ui-react'
+import {Form, Segment, Button, List, Message, Label, Divider, Header} from 'semantic-ui-react'
 import {Field, reduxForm} from 'redux-form'
 import {connect} from 'react-redux'
 import TextInput from './TextInput'
@@ -29,6 +29,8 @@ class LoginForm extends Component {
         const {error, submitting, pristine, invalid, handleSubmit} = this.props
         return (
             <Segment style={{boxShadow: '0 0.3rem 1rem rgba(0,0,0,0.3)'}}>
+
+
                 <Form size="small" onSubmit={handleSubmit(handleActionLogin)} >
                     <Field
                         name="email"
