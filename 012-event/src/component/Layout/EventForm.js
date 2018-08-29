@@ -1,14 +1,18 @@
 import React, {Component} from 'react'
 import {Form, Segment, Button, Grid, Header} from 'semantic-ui-react'
 import {reduxForm, Field} from 'redux-form'
+import {compose} from 'redux'
+import {withFirestore} from 'react-redux-firebase'
+import {combineValidators, composeValidators, isRequired, hasLengthGreaterThan} from 'revalidate'
+
 import {connect} from 'react-redux'
-import TextInput from './TextInput'
-import SelectInput from './SelectInput'
-import TextArea from './TextArea'
-import DateInput from './DateInput'
-import TimeInput from './TimeInput'
+import TextInput from '../Form/TextInput'
+import SelectInput from '../Form/SelectInput'
+import TextArea from '../Form/TextArea'
+import DateInput from '../Form/DateInput'
+import TimeInput from '../Form/TimeInput'
 import {Values} from 'redux-form-website-template'
-import PlaceInput from './PlaceInput'
+import PlaceInput from '../Form/PlaceInput'
 import {handleCreateEvent} from '../../action/event'
 
 
@@ -25,7 +29,7 @@ class EventForm extends Component {
             //
         } else {
             this.props.handleCreateEvent(values)
-            this.props.history.push('/events')
+            // this.props.history.push('/events')
         }
     }
     
@@ -37,15 +41,15 @@ class EventForm extends Component {
     }
     
     render() {
-        const {invalid, submitting, pristine} = this.props
+        const {invalid, submitting, pristine, handleSubmit} = this.props
         return (
             <Grid>
-                <Grid.Column width={10}>
+                <Grid.Column width={15}>
                     <Segment>
                         <Header as='h2' textAlign='center'>
                             New Event
                         </Header>
-                        <Form onSubmit={this.onFormSubmit}>
+                        <Form onSubmit={handleSubmit(this.onFormSubmit) }>
                             <Header as='h4' dividing>
                                 About Event
                             </Header>
@@ -61,7 +65,7 @@ class EventForm extends Component {
                                 label="Category"
                                 placeholder="enter the title"
                                 component={SelectInput}
-                                multiple={true}
+                                multiple={false}
                                 required={true}
                             />
                             <Field
@@ -84,7 +88,7 @@ class EventForm extends Component {
                             />
                             <Field
                                 name="capacity"
-                                type="text"
+                                type="number"
                                 label="People capacity"
                                 placeholder="enter the how many people"
                                 component={TextInput}
@@ -155,11 +159,21 @@ class EventForm extends Component {
     }
 }
 
+const validate = combineValidators({
+    title: isRequired({message: 'the title is required'}),
+    category: isRequired({message: 'the title is required'}),
+    description: composeValidators(
+        isRequired({message: 'the title is required'}),
+        hasLengthGreaterThan(4)({message: 'the description more than 4'}),
+    )(),
+    address: isRequired('address'),
+})
+
 
 const mapStateToProps = (state, props) => {
     let event = {}
     return {
-        event
+        initialValues: event,
     }
 }
 
@@ -167,4 +181,8 @@ const actions = {
     handleCreateEvent
 }
 
-export default connect(mapStateToProps, actions)(reduxForm({form: 'eventForm'})(EventForm))
+export default compose(
+    withFirestore,
+    connect(mapStateToProps, actions),
+)
+(reduxForm({form: 'eventForm', enableReinitialize: true, validate,})(EventForm))

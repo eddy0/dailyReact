@@ -1,10 +1,11 @@
 
 const createNewEvent = ({user, photoURL, displayName, event}) => {
     event.date = new Date(event.date)
+    displayName =  displayName || user.displayName
     return {
         ...event,
         hostUid: user.uid,
-        hostBy: displayName || user.displayName ,
+        hostBy: displayName,
         photoURL: photoURL || '/assets/user.png',
         created: Date.now(),
         attendees: {
@@ -12,7 +13,7 @@ const createNewEvent = ({user, photoURL, displayName, event}) => {
                 going: true,
                 joinDate: Date.now(),
                 photoURL: photoURL || '/assets/user.png',
-                displayName: user.displayName,
+                displayName: displayName,
                 host: true,
             }
         }

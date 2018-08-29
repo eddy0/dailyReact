@@ -33,7 +33,7 @@ class PlaceInput extends Component {
         
         this.props.input.onChange(address)
         
-        if (this.props.input.name === 'venue' && this.props.input.value.length > 3) {
+        if (this.props.input.name === 'address' && this.props.input.value.length > 3) {
             this.props.checkChange({lat: lat, lng: lng})
         }
     }

@@ -23,6 +23,7 @@
     "redux-firestore": "^0.3.2",
     "redux-form": "^7.4.2",
     "redux-thunk": "^2.3.0",
+    "revalidate": "^1.2.0",
     "semantic-ui-css": "^2.3.3",
     "semantic-ui-react": "^0.82.3",
     "style-loader": "^0.22.1",

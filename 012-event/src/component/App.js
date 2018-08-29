@@ -7,7 +7,7 @@ import Dashboard from './Layout/Dashboard'
 import Home from './Layout/Home'
 import ModalHoc from './Modal/ModalHoc'
 import EventDetail from './Layout/EventDetail'
-import EventForm from './Form/EventForm'
+import EventForm from './Layout/EventForm'
 
 
 

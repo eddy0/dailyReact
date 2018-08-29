@@ -1,5 +1,6 @@
 
 import {actionLoadingError, actionLoadingFinish, actionLoadingStart} from './loading'
+import {createNewEvent} from '../utils/helpers'
 
 const ALL_EVENT = 'ALL_EVENT'
 const CREATE_EVENT = 'CREATE_EVENT'
@@ -29,17 +30,6 @@ const actionCreateEvent = (event) => {
     }
 }
 
-const handleCreateEvent = (event) => async (dispatch, getState, {getFirebase, getFirestore}) => {
-    const firebase = getFirebase
-    const firestore = getFirestore
-    const user = firebase.auth().currentUser
-    const {photoURL, displayName} = getState().firebase.profile
-    let newEvent = createNewEvent({user, photoURL, displayName, event})
-    
-    dispatch(showLoading())
-    
-}
-
 const actionUpdateEvent = (event) => {
     return {
         type: UPDATE_EVENT,
@@ -60,6 +50,35 @@ const actionDetailEvent = (id) => {
         id,
     }
 }
+
+
+const handleCreateEvent = (event) => async (dispatch, getState, {getFirebase, getFirestore}) => {
+    dispatch(actionLoadingStart())
+    const firebase = getFirebase()
+    const firestore = getFirestore()
+    const user = firebase.auth().currentUser
+    const {photoURL, displayName} = getState().firebase.profile
+    let newEvent = createNewEvent({user, photoURL, displayName, event})
+    console.log('newEvent', newEvent)
+    try {
+        let createEvent = await firestore.add(`events`, newEvent)
+        await firestore.set(`event_user/${createEvent.id}_${user.uid}`, {
+            eventId: createEvent.id,
+            userUid: user.uid,
+            eventDate: event.date,
+            host: true,
+        })
+        
+        dispatch(actionLoadingFinish())
+    
+    } catch(e) {
+        console.log('e', e)
+    }
+   
+    
+}
+
+
 
 export {
     RECEIVE_EVENTS,
