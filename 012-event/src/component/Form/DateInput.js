@@ -1,26 +1,21 @@
 import React, {Component} from 'react'
-import { DatePicker } from 'antd';
+import {DatePicker, TimePicker} from 'antd'
 import {Form, Input,Label, Icon} from 'semantic-ui-react'
 import moment from 'moment'
 
 
 class DateInput extends Component {
-     onChange = (value) => {
-        console.log(value)
-    }
-
+  
     render() {
         let {input: {value, onChange, onBlur,...restInput},  label, required, meta: { touched, error, warning }, ...rest} = this.props
         if (value) {
             value = moment(value, 'X')
         }
         return (
-
                 <Form.Field  required={required} >
-
                     <label>{label}</label>
                     <DatePicker
-                        onChange={onChange}
+                        onChange={(val) => onChange(new Date(val).getTime())}
                         {...rest}
                     />
                     {
@@ -32,10 +27,8 @@ class DateInput extends Component {
                         touched && !error && !warning &&
                         <Icon name='check circle' color='green'/>
                     }
-
                 </Form.Field>
         )
-
     }
 
 }

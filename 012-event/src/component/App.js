@@ -1,6 +1,5 @@
 import React, {Component, Fragment} from 'react'
 import {Container} from 'semantic-ui-react'
-
 import Loading from './Layout/Loading'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import Navbar from './Layout/Navbar'
@@ -9,6 +8,8 @@ import Home from './Layout/Home'
 import ModalHoc from './Modal/ModalHoc'
 import EventDetail from './Layout/EventDetail'
 import EventForm from './Form/EventForm'
+
+
 
 
 class App extends Component {
