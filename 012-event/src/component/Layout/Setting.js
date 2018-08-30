@@ -1,58 +1,43 @@
 import React, {Component} from 'react'
-import {Segment, Form, Header, Divider, Button} from 'semantic-ui-react';
-import {Field, reduxForm} from 'redux-form';
+import {Grid} from 'semantic-ui-react'
+import {Route, Switch, Redirect} from 'react-router-dom'
+import {connect} from 'react-redux'
 
 
-class BasicPage extends Component {
-    
+
+
+class SettingsDashboard extends Component {
     render() {
-        const {pristine, submitting, handleSubmit, updateProfile} = this.props
-        
+        const {updatePassword, providerId, user, updateProfile} = this.props
         return (
-            <Segment>
-                <Header dividing size='large' content='Basics' />
-                <Form onSubmit={handleSubmit(updateProfile)} >
-                    <Field
-                        width={8}
-                        name='displayName'
-                        type='text'
-                        component={TextInput}
-                        placeholder='Known As'
-                    />
-                    <Form.Group inline>
-                        <label >Gendar:</label>
-                        <Field
-                            name='gender'
-                            type='radio'
-                            value='male'
-                            label='Male'
-                            component={RadioInput}
-                        />
-                        <Field
-                            name='gender'
-                            type='radio'
-                            value='female'
-                            label='Female'
-                            component={RadioInput}
-                        />
-                    </Form.Group>
-                    <Field
-                        name='city'
-                        placeholder='Home Town'
-                        options={{types: ['(cities)']}}
-                        label='Female'
-                        component={PlaceInput}
-                        width={8}
-                    />
-                    <Divider/>
-                    <Button disabled={pristine || submitting} size='large' positive content='Update Profile'/>
-                </Form>
-            </Segment>
-        );
+            <Grid>
+                <Grid.Column width={10}>
+                    setting
+
+                </Grid.Column>
+                <Grid.Column width={6}>
+                    navbar
+                </Grid.Column>
+            </Grid>
+        )
     }
 }
 
 
 
-export default reduxForm({form: 'userProfile', enableReinitialize:true, destroyOnUnmount: false} )(BasicPage)
 
+const mapStateToProps = (state) => {
+    // const providerId = state.firebase.auth.providerData[0].providerId
+    // const user = state.firebase.profile
+    // console.log('providerId', providerId)
+    return {
+        // providerId,
+        // user,
+
+    }
+}
+
+const actions = {
+
+}
+export default connect(mapStateToProps, actions)(SettingsDashboard)

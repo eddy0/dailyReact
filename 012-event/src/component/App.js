@@ -8,6 +8,7 @@ import Home from './Layout/Home'
 import ModalHoc from './Modal/ModalHoc'
 import EventDetail from './Layout/EventDetail'
 import EventForm from './Layout/EventForm'
+import Setting from './Layout/Setting'
 
 
 
@@ -25,6 +26,7 @@ class App extends Component {
                             <Route exact path="/" component={Home} />
                             <Route path="/events" component={EventDashboard} />
                             <Route path="/event/:id" component={EventDetail} />
+                            <Route path="/settings" component={Setting} />
                             <Route path="/test" component={EventForm} />
                         </Switch>
                     </Container>

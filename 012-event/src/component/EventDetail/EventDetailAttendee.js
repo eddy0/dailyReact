@@ -23,10 +23,8 @@ class EventDetailAttendee extends Component {
                                 </Card>
                             )
                         })
-
                     }
 
-                    
                 </Card.Group>
             </div>
         )
