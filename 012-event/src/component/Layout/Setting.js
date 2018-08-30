@@ -2,22 +2,27 @@ import React, {Component} from 'react'
 import {Grid} from 'semantic-ui-react'
 import {Route, Switch, Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
+import SettingNav from '../Setting/SettingNav'
+import SettingBasic from '../Setting/SettingBasic'
+import SettingAbout from '../Setting/SettingAbout'
 
 
 
 
-class SettingsDashboard extends Component {
+class Setting extends Component {
     render() {
-        const {updatePassword, providerId, user, updateProfile} = this.props
+        // const {updatePassword, providerId, user, updateProfile} = this.props
         return (
             <Grid>
                 <Grid.Column width={10}>
-                    setting
+                    <Switch>
+                    <Redirect exact from='/settings' to='/settings/basic' />
+                    <Route path='/settings/basic' component={SettingBasic} />
+                    <Route path='/settings/about' component={SettingAbout} />
 
+                    </Switch>
                 </Grid.Column>
-                <Grid.Column width={6}>
-                    navbar
-                </Grid.Column>
+                    <SettingNav/>
             </Grid>
         )
     }
@@ -40,4 +45,6 @@ const mapStateToProps = (state) => {
 const actions = {
 
 }
-export default connect(mapStateToProps, actions)(SettingsDashboard)
+
+export default Setting
+// export default connect(mapStateToProps, actions)(SettingsDashboard)

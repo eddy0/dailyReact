@@ -2,7 +2,7 @@ import React from 'react'
 import {Form, Icon, Label} from 'semantic-ui-react'
 
 
-const TextArea = (props) => {
+export default function TextArea(props) {
     const {input, rows, type, placeholder, label,  required, meta: { touched, error, warning }} = props
 
     return (
@@ -23,4 +23,3 @@ const TextArea = (props) => {
 
 }
 
-export {TextArea as default}
