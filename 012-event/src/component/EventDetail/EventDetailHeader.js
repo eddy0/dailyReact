@@ -17,6 +17,7 @@ const headerText = {
 
 class EventDetailHeader extends Component {
     render() {
+        const {event}  = this.props
         return (
             <Segment.Group >
                 <Segment basic attached="top" style={{padding: '0'}}>
@@ -24,7 +25,7 @@ class EventDetailHeader extends Component {
                         borderRadius: '5px 5px 0 0',
                         filter: 'brightness(60%)',
                     }}
-                        src={`/assets/categoryImages/drinks.jpg`}
+                        src={`/assets/categoryImages/${event.category}.jpg`}
                         fluid
                     />
                     
@@ -34,12 +35,16 @@ class EventDetailHeader extends Component {
                                 <Item.Content>
                                     <Item.Header
                                         size="huge"
-                                        content='{title}'
+                                        content={event.title}
                                         style={{color: 'white'}}
                                     />
-                                    <p>format(Date(date), 'dddd Do MMMM')</p>
                                     <p>
-                                        Hosted by <strong>hostBy || hostUid</strong>
+                                        <span> { new Date(event.date.toDate()).toLocaleString('en-US',  { weekday: 'long', year: 'numeric', month: 'long', day: '2-digit' })  }</span>
+                                        <span> from { new Date(event.timeStart).toLocaleString('en-US',  { hour12: true, hour: 'numeric', minute: 'numeric' } )  }</span>
+                                        <span> to { new Date(event.timeEnd).toLocaleString('en-US',  { hour12: true, hour: 'numeric', minute: 'numeric' } )  }</span>
+                                    </p>
+                                    <p>
+                                        Hosted by <strong>{event.hostBy}</strong>
                                     </p>
                                 </Item.Content>
                             </Item>

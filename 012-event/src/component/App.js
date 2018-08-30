@@ -3,7 +3,7 @@ import {Container} from 'semantic-ui-react'
 import Loading from './Layout/Loading'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import Navbar from './Layout/Navbar'
-import Dashboard from './Layout/Dashboard'
+import EventDashboard from './Layout/EventDashboard'
 import Home from './Layout/Home'
 import ModalHoc from './Modal/ModalHoc'
 import EventDetail from './Layout/EventDetail'
@@ -23,7 +23,7 @@ class App extends Component {
                     <Container style={{marginTop: 100}}>
                         <Switch>
                             <Route exact path="/" component={Home} />
-                            <Route path="/events" component={Dashboard} />
+                            <Route path="/events" component={EventDashboard} />
                             <Route path="/event/:id" component={EventDetail} />
                             <Route path="/test" component={EventForm} />
                         </Switch>

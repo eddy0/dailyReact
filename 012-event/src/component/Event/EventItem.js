@@ -6,6 +6,8 @@ import {Link} from 'react-router-dom'
 
 const EventItem = (props) => {
     const {event} = props
+    const peopleCount = Object.keys(event.attendees).length
+    event.capacityAvaliable = Number(event.capacity) -  peopleCount
     return (
         <Segment.Group style={{boxShadow: '0 5px 15px rgba(0,0,0,0.3)'}}>
             <Segment>
@@ -28,16 +30,18 @@ const EventItem = (props) => {
                 <List>
                     <List.Item>
                         <Icon name="clock" />
-                        <List.Content>time</List.Content>
+                        <List.Content>{new Date(Date(event.date)).toLocaleString('en-US',  { weekday: 'short', year: 'numeric', month: 'long', day: '2-digit' })}</List.Content>
                     </List.Item>
                     <List.Item>
                         <Icon name="marker" />
-                        <List.Content>company name</List.Content>
+                        <List.Content>{event.company}</List.Content>
                     </List.Item>
                     <List.Item>
                         <List.Icon name='user' />
-                        <List.Content style={{color: 'lightcoral'}}>
-                            4 people is going | only 4 spot left!!
+                        <List.Content >
+                            <span>{ Object.keys(event.attendees).length } people is going</span>
+                            {' |'}
+                            <span style={{color: 'lightcoral'}}> only {event.capacityAvaliable} spot left!!</span>
                         </List.Content>
                     </List.Item>
                 </List>
@@ -50,8 +54,8 @@ const EventItem = (props) => {
                         Object.keys(event.attendees).map((id) => {
                             const attendee = event.attendees[id]
                             return (
-                                <List.Item key={id}>
-                                    <Image circular size='mini' key={id} src={attendee.photoURL} />
+                                <List.Item key={id} >
+                                    <Image as={Link} to={`people/${id}`} circular size='mini' key={id} src={attendee.photoURL} />
                                 </List.Item>
                             )
                         })

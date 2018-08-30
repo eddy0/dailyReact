@@ -66,7 +66,7 @@ class PlaceInput extends Component {
                         placeholder={placeholder}
                         type={type}
                         onFocus={this.geolocate}
-                        autoComplete={'off'}
+                        autoComplete="off"
                     />
                     {
                         touched &&

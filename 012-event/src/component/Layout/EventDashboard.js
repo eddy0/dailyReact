@@ -4,7 +4,7 @@ import EventList from '../Event/EventList'
 
 
 
-class Dashboard extends Component {
+class EventDashboard extends Component {
     render() {
         return (
             <Container>
@@ -25,4 +25,4 @@ class Dashboard extends Component {
     }
 }
 
-export default Dashboard
+export default EventDashboard

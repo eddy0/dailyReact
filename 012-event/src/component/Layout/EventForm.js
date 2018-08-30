@@ -28,13 +28,19 @@ class EventForm extends Component {
             // })
             //
         } else {
+            if (!values.geolocation) {
+                values.geolocation = {
+                    lat: 0,
+                    lng: 0,
+                }
+            }
             this.props.handleCreateEvent(values)
             // this.props.history.push('/events')
         }
     }
     
     checkChange = ({lat, lng}) => {
-        this.props.change('geocode', {
+        this.props.change('geolocation', {
             lat: lat,
             lng: lng,
         })
@@ -49,7 +55,7 @@ class EventForm extends Component {
                         <Header as='h2' textAlign='center'>
                             New Event
                         </Header>
-                        <Form onSubmit={handleSubmit(this.onFormSubmit) }>
+                        <Form onSubmit={handleSubmit(this.onFormSubmit) } autoComplete="off">
                             <Header as='h4' dividing>
                                 About Event
                             </Header>
@@ -99,6 +105,7 @@ class EventForm extends Component {
                             </Header>
                             <Field
                                 name="date"
+                                type='text'
                                 label="please enter the date of the event"
                                 component={DateInput}
                                 onFocus={e => e.preventDefault()}
@@ -161,9 +168,9 @@ class EventForm extends Component {
 
 const validate = combineValidators({
     title: isRequired({message: 'the title is required'}),
-    category: isRequired({message: 'the title is required'}),
+    category: isRequired({message: 'the category is required'}),
     description: composeValidators(
-        isRequired({message: 'the title is required'}),
+        isRequired({message: 'the description is required'}),
         hasLengthGreaterThan(4)({message: 'the description more than 4'}),
     )(),
     address: isRequired('address'),

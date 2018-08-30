@@ -29,8 +29,6 @@ class LoginForm extends Component {
         const {error, submitting, pristine, invalid, handleSubmit} = this.props
         return (
             <Segment style={{boxShadow: '0 0.3rem 1rem rgba(0,0,0,0.3)'}}>
-
-
                 <Form size="small" onSubmit={handleSubmit(handleActionLogin)} >
                     <Field
                         name="email"
