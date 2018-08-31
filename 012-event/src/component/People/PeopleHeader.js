@@ -2,10 +2,9 @@ import React, {Component} from 'react'
 import { Grid, Item, Segment} from 'semantic-ui-react'
 
 
-
 class PeopleHeader extends Component {
     render() {
-        const {photoURL, displayName } = this.props.user
+        const {photoURL, displayName,  } = this.props.user
         return (
             <Grid>
                 <Grid.Column width={16}>
@@ -16,16 +15,19 @@ class PeopleHeader extends Component {
                                 <Item.Content verticalAlign='middle'>
                                     <Item.Header >{displayName}</Item.Header>
                                     <Item.Description>
-                                        <p>Software Developer</p>
-                                        <p>DOB, </p>
-                                        <p>lives in London</p>
+                                        {
+                                            ['city', 'occupation', 'dob'].forEach((name) => {
+                                                return (
+                                                    <p>{this.props.user[name]}</p>
+                                                )
+                                            })
+                                        }
                                     </Item.Description>
                                 </Item.Content>
                             </Item>
                         </Item.Group>
                     </Segment>
                 </Grid.Column>
-            
             </Grid>
         )
     }

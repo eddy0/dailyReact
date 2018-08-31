@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Container, Grid, Segment, Image, Header, Icon} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import PeopleHeader from '../People/PeopleHeader'
-// import PeopleInfo from '../People/PeopleInfo'
+import PeopleInfo from '../People/PeopleInfo'
 // import PeoplePhoto from '../People/PeoplePhoto'
 // import PeopleEvents from '../People/PeopleEvents'
 // import PeopleSidebar from '../People/PeopleSidebar'
@@ -29,11 +29,9 @@ class PeopleDashboard extends Component {
         return (
             <div style={{marginBottom: '50px'}}>
                 <PeopleHeader user={user} />
-                
                 <Grid>
                     <Grid.Column width={12}>
-                        info
-                        {/*<PeopleInfo />*/}
+                        <PeopleInfo />
                         {/*<PeoplePhoto  photos={photos}/>*/}
                         {/*<PeopleEvents uid={uid} loading={loading} getUserEvent={getUserEvent} events={events} />*/}
                     

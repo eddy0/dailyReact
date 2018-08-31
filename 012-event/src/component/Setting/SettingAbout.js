@@ -6,7 +6,6 @@ import TextArea from '../Form/TextArea'
 import SelectInput from '../Form/SelectInput'
 
 
-
 const interests = [
     {key: 'drinks', text: 'Drinks', value: 'drinks'},
     {key: 'culture', text: 'Culture', value: 'culture'},
@@ -15,7 +14,6 @@ const interests = [
     {key: 'music', text: 'Music', value: 'music'},
     {key: 'travel', text: 'Travel', value: 'travel'},
 ]
-
 
 class SettingAbout extends Component {
     render() {
@@ -40,7 +38,11 @@ class SettingAbout extends Component {
                         multiple={true}
                         placeholder="Select your interests"
                     />
-                    <Button disabled={pristine || submitting} size='large' positive content='Update Profile' />
+                    <Button
+                        disabled={pristine || submitting}
+                        size="large"
+                        positive content="Update Profile"
+                    />
                 </Form>
             </Segment>
         )

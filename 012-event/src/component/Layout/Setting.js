@@ -44,7 +44,6 @@ class Setting extends Component {
 const mapStateToProps = (state) => {
     const providerId = state.firebase.auth.providerData[0].providerId
     const user = state.firebase.profile
-    // console.log('providerId', providerId)
     return {
         providerId,
         user,
