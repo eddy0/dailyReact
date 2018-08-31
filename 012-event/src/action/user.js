@@ -1,44 +1,39 @@
 import {setAuthUser} from './auth'
-import {getUser} from '../utils/api'
+import {actionLoadingFinish, actionLoadingStart} from './loading'
+
 
 
 const RECEIVE_USERS = 'RECEIVE_USER'
 const LOGIN_USER = 'LOGIN_USER'
 const SIGN_OUT_USER = 'SIGN_OUT_USER'
 
-
-
-
-const actionLoginUSER = (form) => {
-    return {
-        type: LOGIN_USER,
-        form,
+const actionUpdateAvatar = (image, fileName) => async (dispatch, getState, {getFirebase, getFirestore}) => {
+    let firebase = getFirebase()
+    let firestore = getFirestore()
+    const user = await firebase.auth().currentUser
+    const path = `${user.uid}/userAvatars`
+    const options = {
+        name: fileName,
     }
-}
-
-const handleLogin = (form, callback) => {
-    return (dispatch) => {
-        getUser(form).then((user) => {
-            dispatch(actionLoginUSER(user))
-            dispatch(setAuthUser(user.id))
-        }).catch(() => {
-            callback()
+    try {
+        dispatch(actionLoadingStart())
+        let uploadedFile = await firebase.uploadFile(path, image, null, options)
+        let downloadURL = await uploadedFile.uploadTaskSnapshot.ref.getDownloadURL()
+        
+        await firebase.updateProfile({
+            photoURL: downloadURL,
         })
-    }
-}
-
-const actionReceiveUsers = (users) => {
-    return {
-        type: RECEIVE_USERS,
-        users,
+        await firestore.get(`users/${user.uid}`)
+        dispatch(actionLoadingFinish())
+        
+        return downloadURL
+        
+    } catch(error) {
+        console.log('error', error)
     }
 }
 
 export {
-    RECEIVE_USERS,
-    actionReceiveUsers,
-    LOGIN_USER,
-    SIGN_OUT_USER,
-    handleLogin,
-
+    actionUpdateAvatar,
+    
 }

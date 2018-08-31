@@ -10,12 +10,12 @@ export default function TextArea(props) {
             <label>{label}</label>
             <textarea {...input} placeholder={placeholder} rows={rows} />
             {
-                touched &&
+                required && touched &&
                 ( (error && <Label color='red' pointing='left'>{error}</Label>) ||
                     (warning && <Label color='orange' pointing='left'>{warning}</Label>))
             }
             {
-                touched && !error && !warning &&
+                required && touched && !error && !warning &&
                 <Icon name='check circle' color='green'/>
             }
         </Form.Field>

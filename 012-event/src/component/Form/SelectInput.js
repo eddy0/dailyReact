@@ -17,7 +17,6 @@ const SelectInput = (props) => {
     return (
         <Form.Field required={required} error={touched && !!error}>
             <label>{label}</label>
-
             <Select
                 value={input.value || null}
                 onChange={(e, data) => input.onChange(data.value)}
