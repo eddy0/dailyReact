@@ -74,8 +74,43 @@ const handleCreateEvent = (event) => async (dispatch, getState, {getFirebase, ge
     } catch(e) {
         console.log('e', e)
     }
-   
+}
+
+const actionFetchUserEvent = (userId, activeTab) => async (dispatch, getState, {getFirebase, getFirestore}) => {
+    let today = new Date(Date.now())
+    const firestore = getFirestore()
     
+    dispatch(actionLoadingStart())
+    let ref = firestore.collection('attendees')
+    let query
+    switch(activeTab) {
+        case 'past':
+            query = ref.where('userUid', '==', userId).where('eventDate', '<=', today).orderBy('eventDate', 'desc')
+            break
+        case 'future':
+            query = ref.where('userUid', '==', userId).where('eventDate', '>=', today).orderBy('eventDate')
+            break
+        case 'host':
+            query = ref.where('userUid', '==', userId).where('host', '==', true).orderBy('eventDate', 'desc')
+            break
+        default:
+            query = ref.where('userUid', '==', userId).orderBy('eventDate', 'desc')
+    }
+    
+    try {
+        let querySnap = await query.get()
+        let events = []
+        for (let i = 0; i < querySnap.docs.length; i++) {
+            let data = querySnap.docs[i].data()
+            let event = await firestore.collection('events').doc(data.eventId).get()
+            events.push({...event.data(), id: event.id})
+        }
+        dispatch(actionLoadingFinish())
+    }
+    catch(e) {
+        console.log('e', e)
+        
+    }
 }
 
 
@@ -87,6 +122,7 @@ export {
     DELETE_EVENT,
     ALL_EVENT,
     actionInitEvent,
-    handleCreateEvent,
     actionReceiveEvents,
+    handleCreateEvent,
+    actionFetchUserEvent,
 }
