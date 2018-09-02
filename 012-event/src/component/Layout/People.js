@@ -4,8 +4,8 @@ import {Link} from 'react-router-dom'
 import PeopleHeader from '../People/PeopleHeader'
 import PeopleInfo from '../People/PeopleInfo'
 // import PeoplePhoto from '../People/PeoplePhoto'
-// import PeopleEvents from '../People/PeopleEvents'
-// import PeopleSidebar from '../People/PeopleSidebar'
+import PeopleEvents from '../People/PeopleEvents'
+import PeopleSidebar from '../People/PeopleSidebar'
 import {connect} from 'react-redux'
 import {compose} from 'redux'
 import {firestoreConnect} from 'react-redux-firebase'
@@ -23,7 +23,7 @@ class PeopleDashboard extends Component {
         if (isLoading) {
             return <Loading />
         }
-        
+
         const isCurrentUser = auth.uid === uid
         
         return (
@@ -31,14 +31,13 @@ class PeopleDashboard extends Component {
                 <PeopleHeader user={user} />
                 <Grid>
                     <Grid.Column width={12}>
-                        <PeopleInfo />
+                        <PeopleInfo user={user} />
                         {/*<PeoplePhoto  photos={photos}/>*/}
-                        {/*<PeopleEvents uid={uid} loading={loading} getUserEvent={getUserEvent} events={events} />*/}
+                        <PeopleEvents uid={uid} loading={loading} getUserEvent={actionFetchUserEvent} events={events} />
                     
                     </Grid.Column>
                     <Grid.Column width={4}>
-                        sidebar
-                        {/*<PeopleSidebar isCurrentUser={isCurrentUser} />*/}
+                        <PeopleSidebar isCurrentUser={isCurrentUser} />
                     </Grid.Column>
                 </Grid>
             </div>
@@ -51,24 +50,18 @@ class PeopleDashboard extends Component {
 const mapStateToProps = (state, props) => {
     const uid = props.match.params.id
     let user = {}
-    let events = {}
     let storeUser = state.firestore.ordered.user
-    let storeEvents = state.firestore.ordered.events
     if (storeUser && storeUser[0]) {
         user = storeUser[0]
     }
-    if (storeEvents && storeEvents[0]) {
-        events = storeEvents
-    }
     
     return {
-        user,
-        events: events,
-        photos: state.firestore.ordered.photos,
         uid,
+        user,
+        events:  state.events,
+        photos: state.firestore.ordered.photos,
         auth: state.firebase.auth,
         requesting: state.firestore.status.requesting,
-      
         loading: state.loading,
     }
 }

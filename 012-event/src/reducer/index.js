@@ -5,9 +5,10 @@ import modal from './modalReducer'
 import {reducer as formReducer} from 'redux-form'
 import auth from './authReducer'
 import loading from './loadingReducer'
-
+import events from './eventReducer'
 
 export default combineReducers({
+    events: events,
     auth: auth,
     firebase: firebaseReducer,
     firestore: firestoreReducer,

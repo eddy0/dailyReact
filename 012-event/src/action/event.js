@@ -68,7 +68,7 @@ const handleCreateEvent = (event) => async (dispatch, getState, {getFirebase, ge
             eventDate: event.date,
             host: true,
         })
-        
+
         dispatch(actionLoadingFinish())
     
     } catch(e) {
@@ -78,10 +78,10 @@ const handleCreateEvent = (event) => async (dispatch, getState, {getFirebase, ge
 
 const actionFetchUserEvent = (userId, activeTab) => async (dispatch, getState, {getFirebase, getFirestore}) => {
     let today = new Date(Date.now())
+    const firebase = getFirebase()
     const firestore = getFirestore()
-    
     dispatch(actionLoadingStart())
-    let ref = firestore.collection('attendees')
+    let ref = firebase.firestore().collection('event_user')
     let query
     switch(activeTab) {
         case 'past':
@@ -99,12 +99,14 @@ const actionFetchUserEvent = (userId, activeTab) => async (dispatch, getState, {
     
     try {
         let querySnap = await query.get()
+        console.log('querySnap', querySnap)
         let events = []
         for (let i = 0; i < querySnap.docs.length; i++) {
             let data = querySnap.docs[i].data()
-            let event = await firestore.collection('events').doc(data.eventId).get()
+            let event = await firebase.firestore().collection('events').doc(data.eventId).get()
             events.push({...event.data(), id: event.id})
         }
+        dispatch(actionReceiveEvents(events))
         dispatch(actionLoadingFinish())
     }
     catch(e) {

@@ -8,6 +8,11 @@ import Loading from '../Layout/Loading'
 
 class PeopleEvents extends Component {
     state = {activeItem: 'all'}
+
+    componentDidMount() {
+        this.props.getUserEvent(this.props.uid, 'all')
+    }
+
     
     handleItemClick = (name) => {
         this.setState({activeItem: name})
@@ -17,9 +22,7 @@ class PeopleEvents extends Component {
     render() {
         const {activeItem} = this.state
         const {events, loading} = this.props
-        if (loading) {
-            return <Loading/>
-        }
+
         return (
             <Segment>
                 <Header>
@@ -47,7 +50,6 @@ class PeopleEvents extends Component {
                         active={activeItem === 'events'}
                         onClick={() => this.handleItemClick('events')}
                     />
-                
                 </Menu>
                 <Card.Group itemsPerRow={4}>
                     {
@@ -58,8 +60,8 @@ class PeopleEvents extends Component {
                                 <Card.Content>
                                     <Card.Header>{event.title}</Card.Header>
                                     <Card.Meta>
-                                        <div className='date'>{format(event.date && event.date.toDate(), 'DD MMM YYYY')}</div>
-                                        <div className='date'>{format(event.date && event.date.toDate(), 'HH:mm')}</div>
+                                        {/*<div className='date'>{(event.date && event.date.toDate())}</div>*/}
+                                        {/*<div className='date'>{(event.date && event.date.toDate())}</div>*/}
                                     </Card.Meta>
                                 </Card.Content>
                             </Card>

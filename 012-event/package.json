@@ -17,6 +17,7 @@
     "react-cropper": "^1.0.1",
     "react-dom": "^16.4.2",
     "react-dropzone": "^5.0.1",
+    "react-lazyload": "^2.3.0",
     "react-load-script": "^0.0.6",
     "react-redux": "^5.0.7",
     "react-redux-firebase": "^2.1.8",
