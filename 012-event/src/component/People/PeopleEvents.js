@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {Header, Icon, Segment, Menu, Card, Image} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
-import format from 'date-fns/format'
 import Loading from '../Layout/Loading'
 
 
@@ -60,8 +59,7 @@ class PeopleEvents extends Component {
                                 <Card.Content>
                                     <Card.Header>{event.title}</Card.Header>
                                     <Card.Meta>
-                                        {/*<div className='date'>{(event.date && event.date.toDate())}</div>*/}
-                                        {/*<div className='date'>{(event.date && event.date.toDate())}</div>*/}
+                                        <div className='date'>{event.date && new Date(Date(event.date)).toLocaleDateString()}</div>
                                     </Card.Meta>
                                 </Card.Content>
                             </Card>

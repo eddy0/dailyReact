@@ -58,7 +58,7 @@ const mapStateToProps = (state, props) => {
     return {
         uid,
         user,
-        events:  state.events,
+        events: state.events,
         photos: state.firestore.ordered.photos,
         auth: state.firebase.auth,
         requesting: state.firestore.status.requesting,

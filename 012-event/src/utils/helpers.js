@@ -20,6 +20,28 @@ const createNewEvent = ({user, photoURL, displayName, event}) => {
     }
 }
 
+
+const formatChats = (chats) => {
+    let obj = {}
+    Object.entries(chats).map(([id, value]) => {
+        if (chats[id].parentId === 0) {
+            obj[id] = {...value, children: []}
+        }
+    })
+    
+    Object.keys(chats).map((id) => {
+        if (chats[id].parentId !== 0) {
+            let parentId = chats[id].parentId
+            if (obj[parentId]) {
+                obj[parentId].children.push({...chats[id], id: id})
+            }
+        }
+    })
+    return obj
+}
+
+
 export {
     createNewEvent,
+    formatChats,
 }
