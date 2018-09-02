@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Header, Segment, Item, Image, Button} from 'semantic-ui-react'
+import { Segment, Item, Image, Button} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 
 
@@ -17,7 +17,10 @@ const headerText = {
 
 class EventDetailHeader extends Component {
     render() {
-        const {event}  = this.props
+        const {event, uid} = this.props
+        const {actionCancelJoin, actionJoinEvent} = this.props
+        let isHost = uid === event.hostUid
+        let joined = Object.keys(event.attendees).some((id) => id === uid)
         return (
             <Segment.Group >
                 <Segment basic attached="top" style={{padding: '0'}}>
@@ -53,7 +56,29 @@ class EventDetailHeader extends Component {
                     </Segment>
                 </Segment>
                     <Segment attached="bottom">
-                        <Button compact  color="teal">Join the event</Button>
+                        {
+                            !isHost &&
+                            <div>
+                                {
+                                    joined
+                                        ? <Button onClick={() => actionCancelJoin(event)}>Cancel Reservation</Button>
+                                        : <Button color="teal" onClick={() => actionJoinEvent(event)}>Join the Event</Button>
+                                }
+
+                            </div>
+                        }
+    
+    
+                        {
+                            isHost &&
+                            <div style={{textAlign: 'right'}}>
+                                <Button as={Link} to={`/manage/${event.id}`} color="orange">
+                                    Manage Event
+                                </Button>
+                            </div>
+        
+                        }
+                        
                     </Segment>
             </Segment.Group>
         )

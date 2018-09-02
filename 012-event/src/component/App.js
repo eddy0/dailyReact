@@ -26,7 +26,9 @@ class App extends Component {
                         <Switch>
                             <Route exact path="/" component={Home} />
                             <Route path="/events" component={EventDashboard} />
+                            <Route path="/event/new" component={EventForm} />
                             <Route path="/event/:id" component={EventDetail} />
+                            <Route path="/manage/:id" component={EventForm} />
                             <Route path="/people/:id" component={PeopleDashboard} />
                             <Route path="/settings" component={Setting} />
                             <Route path="/test" component={PeopleDashboard} />

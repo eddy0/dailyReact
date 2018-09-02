@@ -179,6 +179,14 @@ const validate = combineValidators({
 
 const mapStateToProps = (state, props) => {
     let event = {}
+    const id = props.match.params.id
+    if (id) {
+        const storeEvents = state.firestore.ordered.events
+        if (storeEvents && storeEvents[0] && storeEvents[0].id === id ) {
+            event = storeEvents[0]
+        }
+    }
+  
     return {
         initialValues: event,
     }

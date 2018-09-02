@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Grid, Container, Sticky} from 'semantic-ui-react'
 import {connect} from 'react-redux'
-import {firestoreConnect, firebaseConnect, isEmpty} from 'react-redux-firebase'
+import {firestoreConnect, withFirestore, firebaseConnect, isEmpty} from 'react-redux-firebase'
 import {compose} from 'redux'
 import EventDetailHeader from '../EventDetail/EventDetailHeader'
 import EventDetailDetails from '../EventDetail/EventDetailDetails'
@@ -10,6 +10,7 @@ import EventDetailChat from '../EventDetail/EventDetailChat'
 import EventDetailAttendee from '../EventDetail/EventDetailAttendee'
 import Loading from './Loading'
 import {formatChats} from '../../utils/helpers'
+import {actionCancelJoin, actionJoinEvent} from '../../action/event'
 
 
 
@@ -17,10 +18,23 @@ class EventDetail extends Component {
     state = {}
 
     handleContextRef = contextRef => this.setState({contextRef})
+    
+    async componentDidMount() {
+        const {match, firestore} = this.props
+        let id = match.params.id
+        if (id) {
+            await firestore.setListener(`events/${match.params.id}`)
+        }
+    }
+    
+    async componentWillUnmount() {
+        const {firestore, match} = this.props
+        await firestore.unsetListener(`events/${match.params.id}`)
+    }
 
     render() {
         const {contextRef} = this.state
-        const {event, chats} = this.props
+        const {event, chats, uid} = this.props
         
         if (event === null) {
             return <Loading active={true}/>
@@ -31,7 +45,7 @@ class EventDetail extends Component {
                 <div ref={this.handleContextRef}>
                     <Grid>
                         <Grid.Column width={11}>
-                            <EventDetailHeader  event={event} />
+                            <EventDetailHeader actionCancelJoin={this.props.actionCancelJoin} actionJoinEvent={this.props.actionJoinEvent}  event={event} uid={uid} />
                             <EventDetailInfo event={event} />
                             <EventDetailDetails event={event} />
                             <EventDetailChat chats={chats} />
@@ -73,17 +87,26 @@ const mapStateToProps = (state, props) => {
         }
         chats = formatChats(firebaseChat['rHbNDGrLrbMkQSYGxmSL'])
     }
-    console.log('chats', chats)
+    let uid = state.firebase.auth.uid
     
     return {
         event: event,
         chats: chats,
+        uid,
     }
 }
 
+
+
+const actions = {
+    actionJoinEvent,
+    actionCancelJoin,
+}
+
 export default compose(
+    withFirestore,
     firestoreConnect((props) => connectToFireStore(props)),
     // firebaseConnect((props) => ([`chat/${props.match.params.id}`])),
     firebaseConnect((props) => ([`chat/rHbNDGrLrbMkQSYGxmSL`])),
-    connect(mapStateToProps)
+    connect(mapStateToProps, actions)
 )(EventDetail)

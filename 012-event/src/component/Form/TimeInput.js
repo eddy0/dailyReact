@@ -9,14 +9,17 @@ class TimeInput extends Component {
  
     render() {
         let {input: {value, onChange, onBlur,...restInput},  label, required, meta: { touched, error, warning }, ...rest} = this.props
+        console.log('value', value)
+    
         return (
             <Form.Field required={required}   >
                 <label >{label}</label>
                 <TimePicker
                     {...rest}
+                    value={value ?  moment.unix(value).format('h:mm A'): moment(value)}
                     use12Hours
                     format="h:mm A"
-                    onChange={(val) => onChange(new Date(val).getTime())} />
+                    onChange={(val) => onChange(moment.unix(val))} />
                 {
                     touched &&
                     ( (error && <Label color='red' pointing='left'>{error}</Label>) ||

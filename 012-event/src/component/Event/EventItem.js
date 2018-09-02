@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Segment, Item, Image, Icon, List} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
-
+import { Tooltip } from 'antd';
 
 
 const EventItem = (props) => {
@@ -55,7 +55,9 @@ const EventItem = (props) => {
                             const attendee = event.attendees[id]
                             return (
                                 <List.Item key={id} >
+                                    <Tooltip placement="top" title={attendee.displayName} >
                                     <Image as={Link} to={`people/${id}`} circular size='mini' key={id} src={attendee.photoURL} />
+                                    </Tooltip>
                                 </List.Item>
                             )
                         })

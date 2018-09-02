@@ -115,6 +115,51 @@ const actionFetchUserEvent = (userId, activeTab) => async (dispatch, getState, {
     }
 }
 
+const actionJoinEvent = (event) =>  async (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore()
+    const firebase = getFirebase()
+    const user = await firebase.auth().currentUser
+    const {displayName, photoURL} = getState().firebase.profile
+    const attendee = {
+        going: true,
+        joinDate: Date.now(),
+        photoURL: photoURL || '/assets/user.png',
+        displayName: displayName,
+        host: false,
+    }
+    
+    try {
+        await firestore.update(`events/${event.id}`, {
+            [`attendees.${user.uid}`]: attendee,
+        })
+        
+        await firestore.set(`event_user/${event.id}_${user.uid}`, {
+            eventId: event.id,
+            userUid: user.uid,
+            eventDate: event.date,
+            host: false,
+        })
+    } catch(e) {
+        console.log('e', e)
+    }
+}
+
+const actionCancelJoin = (event) =>
+    async (dispatch, getState, {getFirebase, getFirestore}) => {
+    
+        const firestore = getFirestore()
+        const firebase = getFirebase()
+        const user = firebase.auth().currentUser
+        try {
+            await firestore.update(`events/${event.id}`, {
+                [`attendees.${user.uid}`]: firestore.FieldValue.delete(),
+            })
+            await firestore.delete(`event_user/${event.id}_${user.uid}`)
+        } catch(e) {
+            console.log('e', e)
+        }
+    }
+
 
 
 export {
@@ -127,4 +172,6 @@ export {
     actionReceiveEvents,
     handleCreateEvent,
     actionFetchUserEvent,
+    actionJoinEvent,
+    actionCancelJoin,
 }

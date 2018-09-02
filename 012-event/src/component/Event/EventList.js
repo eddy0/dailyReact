@@ -7,6 +7,7 @@ import EventItem from './EventItem'
 
 
 
+
 class EventList extends Component {
     render() {
         const {events} = this.props
