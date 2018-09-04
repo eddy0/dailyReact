@@ -9,8 +9,6 @@ class TimeInput extends Component {
  
     render() {
         let {input: {value, onChange, onBlur,...restInput},  label, required, meta: { touched, error, warning }, ...rest} = this.props
-        console.log('value', value)
-    
         return (
             <Form.Field required={required}   >
                 <label >{label}</label>
