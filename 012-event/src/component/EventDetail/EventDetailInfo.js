@@ -1,10 +1,6 @@
-import React, {Component, Fragment} from 'react'
+import React, {Component} from 'react'
 import {Grid,  Segment, Button, Icon} from 'semantic-ui-react'
-import {Link} from 'react-router-dom'
-import moment from 'moment'
-
-// import format from "date-fns/format"
-// import Script from 'react-load-script'
+import EventDetailedMap from './EventDetailedMap'
 
 class EventDetailInfo extends Component {
     state={
@@ -20,7 +16,6 @@ class EventDetailInfo extends Component {
     }
     
     render() {
-        // let {description, date, venue, venueLatLng} = this.props.event
         const {event} = this.props
         return (
             <Segment.Group>
@@ -56,10 +51,19 @@ class EventDetailInfo extends Component {
                             <a target='_blank' href={`https://www.google.com/maps/place/@${event.geolocation.lat},${event.geolocation.lng}`} >{event.address}</a>
                         </Grid.Column>
                         <Grid.Column width={4}>
-                            <Button color="teal" size="tiny" content={this.state.showMap ? 'Hide Map' : "Show Map"} onClick={this.toggleShowMap} />
+                            {
+                                 event.geolocation &&
+                                 <Button color="teal" size="tiny" content={this.state.showMap ? 'Hide Map' : "Show Map"} onClick={this.toggleShowMap} />
+                            }
+                           
                         </Grid.Column>
                     </Grid>
                 </Segment>
+                
+                {
+                    this.state.showMap && event.geolocation &&
+                    <EventDetailedMap location={event.geolocation} />
+                }
                 
             </Segment.Group>
         )

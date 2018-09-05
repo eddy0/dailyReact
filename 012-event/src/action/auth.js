@@ -1,4 +1,5 @@
 import {actionCloseModal} from './modal'
+import { SubmissionError, reset } from 'redux-form';
 
 const LOGIN_IN = 'LOGIN_IN'
 const LOG_OUT = 'LOG_OUT'
@@ -19,11 +20,33 @@ const actionLogout = (info) => {
 
 const handleActionLogin = (form) => async (dispatch, getStatte, {getFirebase}) => {
     const firebase = getFirebase()
+    
     try {
         await firebase.auth().signInWithEmailAndPassword(form.email, form.password)
         dispatch(actionLogin(form))
         dispatch(actionCloseModal())
     } catch (error) {
+        console.log('error', error)
+        throw new SubmissionError({_error: error.message})
+    }
+}
+
+const handleRegister = (user) => async (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firebase = getFirebase()
+    const firestore = getFirestore()
+    try {
+        let createdUser = await firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
+ 
+        await createdUser.user.updateProfile({
+            displayName: user.displayName,
+        })
+        let newUser = {
+            displayName: user.displayName,
+            createAt: firestore.FieldValue.serverTimestamp()
+        }
+        await firestore.set(`users/${createdUser.user.uid}`, {...newUser} )
+        dispatch(actionCloseModal())
+    } catch(error) {
         console.log('error', error)
         throw new SubmissionError({_error: error.message})
     }
@@ -63,5 +86,6 @@ export {
     LOG_OUT,
     handleActionLogin,
     handleSocialLogin,
+    handleRegister,
 
 }

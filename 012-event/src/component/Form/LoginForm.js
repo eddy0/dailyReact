@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Form, Segment, Button, List, Message, Label, Divider, Header} from 'semantic-ui-react'
+import {Form, Segment, Button, Divider, Label} from 'semantic-ui-react'
 import {Field, reduxForm} from 'redux-form'
 import {connect} from 'react-redux'
 import TextInput from './TextInput'
@@ -26,7 +26,7 @@ const validate = values => {
 class LoginForm extends Component {
 
     render() {
-        const {error, submitting, pristine, invalid, handleSubmit} = this.props
+        const {error, submitting, pristine, invalid, handleSubmit, handleActionLogin} = this.props
         return (
             <Segment style={{boxShadow: '0 0.3rem 1rem rgba(0,0,0,0.3)'}}>
                 <Form size="small" onSubmit={handleSubmit(handleActionLogin)} >
@@ -46,6 +46,11 @@ class LoginForm extends Component {
                         type="password"
                         placeholder="password"
                     />
+                    <div style={{padding: '1rem 0', height: 55}}>
+                        { error &&
+                            <Label  color='red' content={error} />
+                        }
+                    </div>
                     <div style={{textAlign: 'center'}}>
                         <Button  size="large" color="teal" style={{marginRight: '1rem'}} disabled={invalid ||pristine || submitting }>
                             Login

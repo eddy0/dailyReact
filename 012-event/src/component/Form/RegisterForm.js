@@ -4,16 +4,18 @@ import {Field, reduxForm} from 'redux-form'
 import {connect} from 'react-redux'
 import SocialLogin from './SocialLogin'
 import TextInput from './TextInput'
-
+import {combineValidators, isRequired} from 'revalidate'
+import {handleRegister} from '../../action/auth'
 
 
 const RegisterForm = (props) => {
     
-    const {handleSubmit, handleRegister, error, invalid, submitting} = props
+    const {error, handleSubmit, handleRegister, pristine, invalid, submitting} = props
+    console.log('error', error)
     
     return (
         <div>
-            <Form size="small" >
+            <Form size="small"  onSubmit={handleSubmit(handleRegister)} >
                 <Segment>
                     <Field
                         name="displayName"
@@ -36,7 +38,12 @@ const RegisterForm = (props) => {
                         component={TextInput}
                         placeholder="Password"
                     />
-                    <Button disabled={invalid || submitting} fluid size="large" color="teal">
+                    <div style={{padding: '1rem 0', height: 55}}>
+                        { error &&
+                        <Label  color='red' content={error} />
+                        }
+                    </div>
+                    <Button disabled={invalid ||pristine || submitting} fluid size="large" color="teal">
                         Register
                     </Button>
                     <Divider horizontal>
@@ -49,4 +56,10 @@ const RegisterForm = (props) => {
     )
 }
 
-export default connect(null, {})(reduxForm({form: 'registerForm'})(RegisterForm))
+const validate = combineValidators({
+    displayName: isRequired('displayName'),
+    email: isRequired('email'),
+    password: isRequired('password'),
+})
+
+export default connect(null, {handleRegister})(reduxForm({form: 'registerForm', validate} )(RegisterForm))

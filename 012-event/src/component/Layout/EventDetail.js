@@ -16,9 +16,18 @@ import {actionAddComment} from '../../action/comment'
 
 
 class EventDetail extends Component {
+    
     state = {}
 
     handleContextRef = contextRef => this.setState({contextRef})
+    
+    componentWillMount() {
+        let url=`https://maps.googleapis.com/maps/api/js?key=AIzaSyAYVHNqmifVNgbn_Rzm1SLViGST1YOlfFg&libraries=places&language=en`
+        this.tag = document.createElement('script');
+        this.tag.src = url
+        this.tag.onload = this.initAutocomplete
+        document.body.appendChild(this.tag)
+    }
     
     async componentDidMount() {
         const {match, firestore} = this.props
@@ -29,6 +38,7 @@ class EventDetail extends Component {
     }
     
     async componentWillUnmount() {
+        this.tag.remove()
         const {firestore, match} = this.props
         await firestore.unsetListener(`events/${match.params.id}`)
     }

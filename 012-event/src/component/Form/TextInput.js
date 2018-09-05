@@ -6,7 +6,6 @@ import {Form, Input,Label, Icon} from 'semantic-ui-react'
 
 const TextInput = (props) => {
     const {input, type, placeholder, label, required, meta: { touched, error, warning }} = props
-    console.log('error', touched, error, warning)
     return (
         
         <Form.Field  required={required} >
