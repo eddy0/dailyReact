@@ -1,6 +1,12 @@
+import moment from 'moment'
+
+
 
 const createNewEvent = ({user, photoURL, displayName, event}) => {
-    event.date = new Date(event.date)
+    event.date = event.date.valueOf()
+    event.timeStart = event.timeStart.valueOf()
+    event.timeEnd = event.timeEnd.valueOf()
+    
     displayName =  displayName || user.displayName
     return {
         ...event,
@@ -25,7 +31,7 @@ const formatChats = (chats) => {
     let obj = {}
     Object.entries(chats).map(([id, value]) => {
         if (chats[id].parentId === 0) {
-            obj[id] = {...value, children: []}
+            obj[id] = {...value, id:id, children: []}
         }
     })
     

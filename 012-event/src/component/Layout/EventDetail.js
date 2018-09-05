@@ -11,6 +11,7 @@ import EventDetailAttendee from '../EventDetail/EventDetailAttendee'
 import Loading from './Loading'
 import {formatChats} from '../../utils/helpers'
 import {actionCancelJoin, actionJoinEvent} from '../../action/event'
+import {actionAddComment} from '../../action/comment'
 
 
 
@@ -34,7 +35,7 @@ class EventDetail extends Component {
 
     render() {
         const {contextRef} = this.state
-        const {event, chats, uid} = this.props
+        const {event, chats, uid, actionAddComment} = this.props
         
         if (event === null) {
             return <Loading active={true}/>
@@ -48,7 +49,7 @@ class EventDetail extends Component {
                             <EventDetailHeader actionCancelJoin={this.props.actionCancelJoin} actionJoinEvent={this.props.actionJoinEvent}  event={event} uid={uid} />
                             <EventDetailInfo event={event} />
                             <EventDetailDetails event={event} />
-                            <EventDetailChat chats={chats} />
+                            <EventDetailChat chats={chats}  actionAddComment={actionAddComment} eventId={event.id} />
 
                         </Grid.Column>
                         <Grid.Column width={5}>
@@ -85,7 +86,6 @@ const mapStateToProps = (state, props) => {
         if (!isEmpty(firebaseChat[id])) {
             chats = formatChats(firebaseChat[id])
         }
-        chats = formatChats(firebaseChat['rHbNDGrLrbMkQSYGxmSL'])
     }
     let uid = state.firebase.auth.uid
     
@@ -101,12 +101,12 @@ const mapStateToProps = (state, props) => {
 const actions = {
     actionJoinEvent,
     actionCancelJoin,
+    actionAddComment,
 }
 
 export default compose(
     withFirestore,
     firestoreConnect((props) => connectToFireStore(props)),
-    // firebaseConnect((props) => ([`chat/${props.match.params.id}`])),
-    firebaseConnect((props) => ([`chat/rHbNDGrLrbMkQSYGxmSL`])),
+    firebaseConnect((props) => ([`chat/${props.match.params.id}`])),
     connect(mapStateToProps, actions)
 )(EventDetail)

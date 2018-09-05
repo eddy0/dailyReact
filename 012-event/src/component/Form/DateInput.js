@@ -9,13 +9,14 @@ class DateInput extends Component {
     render() {
         let {input: {value, onChange, onBlur,...restInput},  label, required, meta: { touched, error, warning }, ...rest} = this.props
         if (value) {
-            value = moment(value, 'X')
+            value = moment(value)
         }
         return (
                 <Form.Field  required={required} >
                     <label>{label}</label>
                     <DatePicker
-                        onChange={(val) => onChange(new Date(val).getTime())}
+                        value={value ? value : null}
+                        onChange={onChange}
                         {...rest}
                     />
                     {

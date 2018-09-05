@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Grid, Header, Container} from 'semantic-ui-react'
 import EventList from '../Event/EventList'
+import EventActivity from './EventActivity'
 
 
 
@@ -16,6 +17,7 @@ class EventDashboard extends Component {
                 </Grid.Column>
                 <Grid.Column width={6}>
                     <Header textAlign ='center' >activities</Header>
+                    <EventActivity/>
                 </Grid.Column>
              
             </Grid>

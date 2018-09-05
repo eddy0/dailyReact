@@ -1,5 +1,6 @@
-const actionAddComment = (eventId, values, parentId, replyToId) =>
-    async (dispatch, getState, {getFirebase}) => {
+import {message} from 'antd'
+
+const actionAddComment = (eventId, values, parentId, replyTo) => async (dispatch, getState, {getFirebase}) => {
         const firebase = getFirebase()
         const profile = getState().firebase.profile
         const user = firebase.auth().currentUser
@@ -10,13 +11,14 @@ const actionAddComment = (eventId, values, parentId, replyToId) =>
             uid: user.uid,
             text: values.comment,
             date: Date.now(),
-            replyTo: replyToId || 0,
+            replyTo: replyTo ? {displayName: replyTo.displayName, replyToId: replyTo.id } : null,
         }
-        try {
+    console.log('newComment', newComment)
+    
+    try {
             await firebase.push(`chat/${eventId}`, newComment)
         } catch(e) {
             console.log('e', e)
-            toastr.error('oops', 'something wrong')
         }
     }
 

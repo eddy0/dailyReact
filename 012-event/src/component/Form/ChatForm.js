@@ -7,12 +7,11 @@ import TextArea from './TextArea'
 class ChatForm extends Component {
     
     handleSubmit = (values) => {
-        const {eventId, parentId, addEventComment ,handleCancelReplyForm, reset} = this.props
-        addEventComment(eventId, values, parentId)
+        const {eventId, parentId, actionAddComment ,handleCancelReplyForm, replyTo, reset} = this.props
+        actionAddComment(eventId, values, parentId, replyTo)
         if (parentId !== 0) {
             handleCancelReplyForm()
         }
-        
         reset()
     }
     
