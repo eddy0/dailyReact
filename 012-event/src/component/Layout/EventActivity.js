@@ -4,19 +4,24 @@ import EventActivityItem from '../Activity/EventActivityItem'
 import {firestoreConnect} from 'react-redux-firebase'
 import {connect} from 'react-redux'
 import {compose} from 'redux'
+import Loading from './Loading'
 
 
 
 class EventActivity extends Component {
     render() {
-        const {activites} = this.props
+        const {activities} = this.props
+        
+        if (!activities) {
+            return <Loading/>
+        }
         return (
             <div>
                     <Segment>
                         <Feed>
                             {
-                                activites &&
-                                activites.map((activity) => (
+                                activities &&
+                                activities.map((activity) => (
                                     <EventActivityItem key={activity.id} activity={activity} />
                                 ))
                             }
@@ -33,13 +38,13 @@ class EventActivity extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        activities: state.firestore.ordered.activity
+        activities: state.firestore.ordered.activities
     }
 }
 
 const query = [
     {
-        collection: 'activity',
+        collection: 'activities',
         orderBy: ['timestamp', 'desc'],
         limit: 5
     },

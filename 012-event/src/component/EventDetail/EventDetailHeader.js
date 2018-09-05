@@ -42,7 +42,7 @@ class EventDetailHeader extends Component {
                                         style={{color: 'white'}}
                                     />
                                     <p>
-                                        <span> { new Date(event.date.toDate()).toLocaleString('en-US',  { weekday: 'long', year: 'numeric', month: 'long', day: '2-digit' })  }</span>
+                                        <span> { new Date(event.date).toLocaleString('en-US',  { weekday: 'long', year: 'numeric', month: 'long', day: '2-digit' })  }</span>
                                         <span> from { new Date(event.timeStart).toLocaleString('en-US',  { hour12: true, hour: 'numeric', minute: 'numeric' } )  }</span>
                                         <span> to { new Date(event.timeEnd).toLocaleString('en-US',  { hour12: true, hour: 'numeric', minute: 'numeric' } )  }</span>
                                     </p>

@@ -41,7 +41,7 @@ class EventDetailInfo extends Component {
                             <Icon name="calendar" size="large" color="teal" />
                         </Grid.Column>
                         <Grid.Column width={15}>
-                            <span> { new Date(event.date.toDate()).toLocaleString('en-US',  { weekday: 'short', month: 'long', day: '2-digit' })  }</span>
+                            <span> { new Date(event.date).toLocaleString('en-US',  { weekday: 'short', month: 'long', day: '2-digit' })  }</span>
                             <span> from { new Date(event.timeStart).toLocaleString('en-US',  { hour12: true, hour: 'numeric', minute: 'numeric' } )  }</span>
                             <span> to { new Date(event.timeEnd).toLocaleString('en-US',  { hour12: true, hour: 'numeric', minute: 'numeric' } )  }</span>
                         </Grid.Column>

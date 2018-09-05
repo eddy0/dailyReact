@@ -30,11 +30,15 @@ class Navbar extends Component {
                         to='/events'
                         name='Events'
                     />
-                    <Menu.Item
-                        as={NavLink}
-                        to='/test'
-                        name='Test'
-                    />
+                    {
+                        authed &&
+                        <Menu.Item
+                            as={NavLink}
+                            to='/event/new'
+                            name='Create Event'
+                        />
+                    }
+                  
                     
                     {
                         authed
