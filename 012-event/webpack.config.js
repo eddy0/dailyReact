@@ -1,12 +1,14 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
-module.exports = () => {
+const miniCssExtractPlugin = require('mini-css-extract-plugin')
+
+module.exports = (env) => {
     return {
-        mode: 'development',
+        mode: env || 'development',
         entry: './src/index.js',
         output: {
-            filename: 'bundle.js',
+            filename: '[name].bundle.js',
             path: path.resolve(__dirname, 'dist'),
             publicPath: '/',
         },
@@ -19,7 +21,7 @@ module.exports = () => {
         module: {
             rules: [
                 {test: /\.js$/, use: 'babel-loader', exclude: /node_modules/},
-                {test: /\.css$/, use: ['style-loader', 'css-loader']},
+                {test: /\.css$/, use: [miniCssExtractPlugin.loader, 'css-loader']},
                 {test: /\.(png|jpg|jpeg)/, use: 'url-loader'},
                 {
                     test: [/\.eot$/, /\.ttf$/, /\.svg$/, /\.woff$/, /\.woff2$/],
@@ -31,6 +33,7 @@ module.exports = () => {
             new HtmlWebpackPlugin({
                 template: './src/index.html',
             }),
+            new miniCssExtractPlugin(),
             new webpack.NamedModulesPlugin(),
             new webpack.HotModuleReplacementPlugin(),
         ],

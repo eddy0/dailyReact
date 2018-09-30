@@ -1,5 +1,5 @@
 import {actionCloseModal} from './modal'
-import { SubmissionError, reset } from 'redux-form';
+import { SubmissionError } from 'redux-form';
 
 const LOGIN_IN = 'LOGIN_IN'
 const LOG_OUT = 'LOG_OUT'
@@ -51,7 +51,6 @@ const handleRegister = (user) => async (dispatch, getState, {getFirebase, getFir
         throw new SubmissionError({_error: error.message})
     }
 }
-
 
 const handleSocialLogin = (provider) => async (dispatch, getState, {getFirebase, getFirestore}) => {
     const firebase = getFirebase()
