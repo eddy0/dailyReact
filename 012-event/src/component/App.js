@@ -1,7 +1,7 @@
-import React, {Component, Fragment} from 'react'
-import {Container} from 'semantic-ui-react'
+import React, { Component, Fragment } from 'react'
+import { Container } from 'semantic-ui-react'
 import Loading from './Layout/Loading'
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Navbar from './Layout/Navbar'
 import EventDashboard from './Layout/EventDashboard'
 import Home from './Layout/Home'
@@ -11,9 +11,6 @@ import EventForm from './Layout/EventForm'
 import Setting from './Layout/Setting'
 import PeopleDashboard from './Layout/People'
 
-
-
-
 class App extends Component {
     render() {
         return (
@@ -22,7 +19,7 @@ class App extends Component {
                     <ModalHoc />
                     <Loading />
                     <Navbar />
-                    <Container style={{marginTop: 100}}>
+                    <Container style={{ marginTop: 100 }}>
                         <Switch>
                             <Route exact path="/" component={Home} />
                             <Route path="/events" component={EventDashboard} />
@@ -37,9 +34,7 @@ class App extends Component {
                 </Fragment>
             </Router>
         )
-
     }
 }
 
-
-export default (App)
+export default App
