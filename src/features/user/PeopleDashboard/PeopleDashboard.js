@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
-import {Container, Grid, Segment, Image, Header, Icon} from 'semantic-ui-react'
-import {Link} from 'react-router-dom'
+import { Grid } from 'semantic-ui-react'
 import UserDetailedHeader from './UserDetailedHeader'
 import UserDetailedInfo from './UserDetailedInfo'
 import UserDetailedPhoto from './UserDetailedPhoto'
